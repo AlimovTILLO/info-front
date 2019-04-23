@@ -1,9 +1,10 @@
-# info-front
+# services
+
+> A Vue.js project
+
+## Build Setup
 
 ``` bash
-# move to project
-cd service
-
 # install dependencies
 npm install
 
