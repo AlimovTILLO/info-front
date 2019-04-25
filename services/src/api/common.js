@@ -1,4 +1,4 @@
 import axios from 'axios'
 export const HTTP = axios.create({
-  baseURL: 'http://ishu.info/api/v1/'
+  baseURL: 'http://www.ishu.info/api/v1/'
 })

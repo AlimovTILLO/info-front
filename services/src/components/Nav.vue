@@ -64,9 +64,6 @@ export default {
   name: 'nav-menu',
   computed: mapGetters(['categories']),
   beforeMount () {
-    // Перед тем как загрузить страницу, нам нужно получить список всех
-    // имеющихся заметок. Для этого мы вызываем действие `getNotes` из
-    // нашего хранилища
     this.$store.dispatch('getCategories')
   },
   components: {
