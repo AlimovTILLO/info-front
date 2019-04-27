@@ -15,7 +15,8 @@
           </div>
           <div class="col-lg-3 col-sm-6 order-lg-last">
             <div class="autorization">
-              <a href="#" class="autorization__link registration-js" @click="showModal">Войти</a>
+              <a href="#signIn" class="autorization__link registration-js" @click="showModal">Войти</a>
+              <router-link to="/logout">Logout</router-link>
               <a href="#" class="autorization__profile registration-js" @click="showModal">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -42,7 +43,7 @@
                   Еще
                   <i class="fal fa-angle-down"></i>
                   <ul class="header__mnuSecondLvl dropMnu-js">
-                    <li v-for="category in categories.slice(5)" v-bind:key="category.id">
+                    <li v-for="category in categories.slice(5, 50)" v-bind:key="category.id">
                       <a v-bind:href="category.slug">{{ category.name.ru }}</a>
                     </li>
                   </ul>
@@ -59,12 +60,19 @@
 
 <script>
 import modal from './Modal.vue'
-import { mapGetters } from 'vuex'
+import { mapState, mapActions } from 'vuex'
+
 export default {
   name: 'nav-menu',
-  computed: mapGetters(['categories']),
-  beforeMount () {
-    this.$store.dispatch('getCategories')
+  computed: {
+    ...mapState({
+      status: state => state.account.status,
+      account: state => state.account,
+      categories: state => state.items.all.categories
+    })
+  },
+  created () {
+    this.getAlldata()
   },
   components: {
     modal
@@ -75,6 +83,9 @@ export default {
     }
   },
   methods: {
+    ...mapActions('items', {
+      getAlldata: 'getAll'
+    }),
     showModal () {
       this.isModalVisible = true
     },
@@ -83,4 +94,5 @@ export default {
     }
   }
 }
+
 </script>

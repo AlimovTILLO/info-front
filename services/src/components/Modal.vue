@@ -48,7 +48,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('account', ['login', 'logout']),
+    ...mapActions('account', ['login']),
     close () {
       this.$emit('close')
     },

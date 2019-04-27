@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Index from '@/components/Index'
+import Logout from '@/components/Logout'
 
 Vue.use(Router)
 
@@ -8,6 +9,7 @@ export const router = new Router({
   mode: 'history',
   routes: [
     { path: '/', component: Index },
+    { path: '/logout', component: Logout },
 
     // otherwise redirect to home
     { path: '*', redirect: '/' }
@@ -21,7 +23,7 @@ router.beforeEach((to, from, next) => {
   const loggedIn = localStorage.getItem('user')
 
   if (authRequired && !loggedIn) {
-    return next('/login')
+    return next('/#signIn')
   }
 
   next()
