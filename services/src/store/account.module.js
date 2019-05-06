@@ -4,7 +4,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  REGISTER_USER,
+  REGISTER_REQUEST,
+  REGISTER_SUCCESS,
+  REGISTER_FAILURE,
   LOGOUT
 } from './mutation-types.js'
 
@@ -16,11 +18,11 @@ const state = user
 const mutations = {
   [LOGIN_REQUEST] (state, user) {
     state.status = { loggedIn: true }
-    state.user = user.data
+    state.user = user
   },
   [LOGIN_SUCCESS] (state, user) {
     state.status = { loggedIn: true }
-    state.user = user.data
+    state.user = user
   },
   [LOGIN_FAILURE] (state) {
     state.status = { loggedIn: false }
@@ -29,6 +31,15 @@ const mutations = {
   [LOGOUT] (state) {
     state.status = { loggedIn: false }
     state.user = null
+  },
+  [REGISTER_REQUEST] (state, user) {
+    state.status = { registering: true }
+  },
+  [REGISTER_SUCCESS] (state, user) {
+    state.status = {}
+  },
+  [REGISTER_FAILURE] (state, error) {
+    state.status = {}
   }
 }
 const actions = {
@@ -50,10 +61,22 @@ const actions = {
     User.logout()
     commit('LOGOUT')
   },
-  registerUser ({ commit }, userData) {
-    User.register(userData).then(user => {
-      commit(REGISTER_USER, user)
-    })
+  register ({ dispatch, commit }, user) {
+    commit('REGISTER_REQUEST', user)
+
+    User.register(user)
+      .then(
+        user => {
+          commit('REGISTER_SUCCESS', user)
+          setTimeout(() => {
+            dispatch('alert/success', 'Registration successful', { root: true })
+          })
+        },
+        error => {
+          commit('REGISTER_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
+      )
   }
 }
 

@@ -5,7 +5,13 @@ export const Main = {
     // let config = {
     //   headers: authHeader()
     // }
-    return HTTP.get('/ru/').then(response => {
+    return HTTP.get('/').then(response => {
+      return response.data
+    })
+  },
+  addItem (config) {
+    return HTTP.post('/announcement/store/', config).then(response => {
+      console.log(response)
       return response.data
     })
   }

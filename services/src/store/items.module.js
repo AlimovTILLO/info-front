@@ -2,7 +2,10 @@ import { Main } from '../api/main'
 import {
   GET_ALL_REQUEST,
   GET_ALL_SUCCESS,
-  GET_ALL_FAILURE
+  GET_ALL_FAILURE,
+  ADD_ITEM_REQUEST,
+  ADD_ITEM_SUCCESS,
+  ADD_ITEM_FAILURE
 } from './mutation-types.js'
 
 const state = {
@@ -10,7 +13,7 @@ const state = {
 }
 // Геттеры
 const getters = {
-//   categories: state => state.all.categories,
+  categories: state => state.all.categories
 //   menu: state => state.all.menu
 }
 // Действия
@@ -20,7 +23,26 @@ const actions = {
     Main.getAll()
       .then(
         categories => commit('GET_ALL_SUCCESS', categories),
+        cities => commit('GET_ALL_SUCCESS', cities),
+        menu => commit('GET_ALL_SUCCESS', menu),
         error => commit('GET_ALL_FAILURE', error)
+      )
+  },
+  addItem ({ dispatch, commit }, item) {
+    commit('ADD_ITEM_REQUEST', item)
+
+    Main.addItem(item)
+      .then(
+        item => {
+          commit('ADD_ITEM_SUCCESS', item)
+          setTimeout(() => {
+            dispatch('alert/success', 'Successful added', { root: true })
+          })
+        },
+        error => {
+          commit('ADD_ITEM_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
       )
   }
 }
@@ -29,12 +51,20 @@ const mutations = {
   [GET_ALL_REQUEST] (state) {
     state.all = { loading: true }
   },
-  [GET_ALL_SUCCESS] (state, { categories, menu }) {
-    state.all = { categories: categories }
-    // state.all = { menu: menu }
+  [GET_ALL_SUCCESS] (state, { categories, cities, menu }) {
+    state.all = { categories: categories, cities: cities, menu: menu }
   },
   [GET_ALL_FAILURE] (state, error) {
     state.all = { error }
+  },
+  [ADD_ITEM_REQUEST] (state) {
+    state.status = {}
+  },
+  [ADD_ITEM_SUCCESS] (state) {
+    state.status = {}
+  },
+  [ADD_ITEM_FAILURE] (state) {
+    state.status = {}
   }
 }
 

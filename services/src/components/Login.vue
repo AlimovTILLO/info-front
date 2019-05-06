@@ -48,10 +48,6 @@ export default {
   computed: {
     ...mapState('account', ['status'])
   },
-  created () {
-    // reset login status
-    // this.logout()
-  },
   methods: {
     ...mapActions('account', ['loginUser']),
     submitForm (e) {
