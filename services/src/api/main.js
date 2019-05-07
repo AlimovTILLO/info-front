@@ -11,7 +11,11 @@ export const Main = {
   },
   addItem (config) {
     return HTTP.post('/announcement/store/', config).then(response => {
-      console.log(response)
+      return response.data
+    })
+  },
+  addService (config) {
+    return HTTP.post('/service/store/', config).then(response => {
       return response.data
     })
   }

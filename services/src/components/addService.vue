@@ -3,16 +3,24 @@
         <div class="container">
           <div class="breadCrumbs">
             <ul>
-              <li><a href="#">Главная</a></li>
-              <li><a href="#">Личный кабинет</a></li>
+              <li><router-link to="/" >Главная</router-link></li>
+              <li><router-link to="/services" >Мои услуги</router-link></li>
               <li>Добавить услугу</li>
             </ul>
           </div>
           <div class="filter__form filter__form--addService">
             <h3 class="inner__caption">Добавление услуги</h3>
-            <form action=""><input type="text" class="filter__input" placeholder="Название услуги. Например: Пилю дрова" required=""
-                autocomplete="off"> <textarea class="filter__textarea"
-                placeholder="Опишите вашу услугу. Укажите самое важное,"></textarea>
+            <form @submit.prevent="handleSubmit">
+              <input type="text" v-model="title" name="title" class="filter__input" placeholder="Название услуги. Например: Пилю дрова" required v-validate="'required'" autocomplete="off">
+                <textarea
+                  name="textarea"
+                  rows="2"
+                  v-model="textarea"
+                  v-validate="'required'"
+                  class="filter__textarea"
+                  required
+                  placeholder="Опишите вашу услугу. Укажите самое важное,"
+                ></textarea>
               <div class="filter__selectWrap">
                 <div class="row">
                   <div class="col-md-7">
@@ -25,24 +33,29 @@
                     <multiselect v-model="city_value" name="city_value" :options="city" v-validate="'required'" :searchable="false" :show-labels="false" label="name" track-by="id" placeholder="Выберите город" required></multiselect>
                   </div>
                 </div>
-              </div><input type="tel" class="filter__input phone-js" id="phone"
-                placeholder="Укажите свой номер телефона" required autocomplete="off">
+              </div>
+              <input
+                name="phone"
+                v-model="phone"
+                v-validate="'required|numeric'" :class="{'input': true, 'is-danger': errors.has('phone') }"
+                type="text"
+                class="filter__input phone-js"
+                placeholder="Укажите свой номер телефона"
+                required
+                autocomplete="off"
+              >
               <div class="row">
-                <div class="col-md-5"><input type="tel" class="filter__input" placeholder="Стоимость услуги" required=""
-                    autocomplete="off"></div>
+                <div class="col-md-5">
+                  <input type="tel" v-model="price" name="price" v-validate="'required|numeric'" class="filter__input" placeholder="Стоимость услуги" required="" autocomplete="off">
+                </div>
                 <div class="col-md-3">
-                  <multiselect v-model="currency" :options="currency_options" track-by="name" label="name" :allow-empty="false" :searchable="false" :close-on-select="false" :show-labels="false" placeholder="Pick a value"></multiselect>
-                  <!-- <div class="filter__select filter__select--city"><select name="sources" id="sources"
-                      class="custom-select sources" placeholder="сом">
-                      <option value="сом">сом</option>
-                      <option value="руб">руб</option>
-                    </select></div> -->
+                  <multiselect name="currency" v-model="currency" :options="currency_options" track-by="name" label="name" :allow-empty="false" :searchable="false" :close-on-select="false" :show-labels="false" placeholder="Pick a value"></multiselect>
                 </div>
               </div>
               <div class="filter__inputFile">
                 <div class="uploadbutton">
-                  <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div><input
-                    class="input-file" type="file" title="Выбрать фото" multiple="multiple">
+                  <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div>
+                  <input name="files" class="input-file" type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
                 </div>
               </div>
               <div class="filter__buttonWrap"><button type="submit" class="btn">Предварительный просмотр</button>
@@ -64,8 +77,13 @@ export default {
   },
   data () {
     return {
-      value: null,
+      title: null,
+      textarea: null,
+      phone: null,
+      value: [],
       city_value: null,
+      files: '',
+      price: null,
       city: [
         { name: 'Бишкек', id: '10' },
         { name: 'Ош', id: '7' },
@@ -78,10 +96,10 @@ export default {
         { name: 'Балыкчи', id: '3' },
         { name: 'Баткен', id: '1' }
       ],
-      currency: [ { name: 'Сом', id: '1' } ],
+      currency: [ { name: 'Сом', id: 'Сом' } ],
       currency_options: [
-        { name: 'Сом', id: '1' },
-        { name: 'Доллар', id: '2' }
+        { name: 'Сом', id: 'Сом' },
+        { name: 'Доллар', id: 'Доллар' }
       ]
     }
   },
@@ -91,14 +109,33 @@ export default {
     })
   },
   methods: {
-    ...mapActions('items', ['addItem']),
-    handleSubmit (e) {
+    ...mapActions('items', ['addService']),
+    handleSubmit (e, formData) {
       this.submitted = true
       this.$validator.validate().then(valid => {
         if (valid) {
-          this.addItem({ desc: this.textarea, user_id: '1', phone: this.phone, city_id: this.city_value.id, category_id: this.value.id })
+          let formData = new FormData()
+          formData.append('title', this.title)
+          formData.append('desc', this.textarea)
+          formData.append('user_id', '1')
+          formData.append('phone', this.phone)
+          formData.append('city_id', this.city_value.id)
+          formData.append('price', this.price)
+          let id = 0
+          for (let value of this.value) {
+            formData.append('category[' + id + ']', value.id)
+            id++
+          }
+          for (var i = 0; i < this.files.length; i++) {
+            let file = this.files[i]
+            formData.append('image[' + i + ']', file)
+          }
+          this.addService(formData)
         }
       })
+    },
+    handleFilesUpload () {
+      this.files = this.$refs.files.files
     }
   }
 }

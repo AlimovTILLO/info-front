@@ -5,7 +5,10 @@ import {
   GET_ALL_FAILURE,
   ADD_ITEM_REQUEST,
   ADD_ITEM_SUCCESS,
-  ADD_ITEM_FAILURE
+  ADD_ITEM_FAILURE,
+  ADD_SERVICE_REQUEST,
+  ADD_SERVICE_SUCCESS,
+  ADD_SERVICE_FAILURE
 } from './mutation-types.js'
 
 const state = {
@@ -44,6 +47,23 @@ const actions = {
           dispatch('alert/error', error, { root: true })
         }
       )
+  },
+  addService ({ dispatch, commit }, service) {
+    commit('ADD_SERVICE_REQUEST', service)
+
+    Main.addService(service)
+      .then(
+        service => {
+          commit('ADD_SERVICE_SUCCESS', service)
+          setTimeout(() => {
+            dispatch('alert/success', 'Successful added', { root: true })
+          })
+        },
+        error => {
+          commit('ADD_SERVICE_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
+      )
   }
 }
 // Мутации
@@ -64,6 +84,15 @@ const mutations = {
     state.status = {}
   },
   [ADD_ITEM_FAILURE] (state) {
+    state.status = {}
+  },
+  [ADD_SERVICE_REQUEST] (state) {
+    state.status = {}
+  },
+  [ADD_SERVICE_SUCCESS] (state) {
+    state.status = {}
+  },
+  [ADD_SERVICE_FAILURE] (state) {
     state.status = {}
   }
 }

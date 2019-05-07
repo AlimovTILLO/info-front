@@ -49,16 +49,6 @@
                   <multiselect v-model="city_value" name="city_value" :options="city" v-validate="'required'" :searchable="false" :show-labels="false" label="name" track-by="id" placeholder="Выберите город" required></multiselect>
                 </div>
               </div>
-              <!-- <div class="filter__sections">
-                <div class="filter__sectionsItem" data-value="Медицина">
-                  <div class="filter__iconWrap">
-                    <div class="filter__icon">
-                      <img src="fonts/icon/svg icon/first-aid-kit.svg" alt>
-                    </div>
-                  </div>
-                  <p class="filter__sectionName">Медицина</p>
-                </div>
-              </div> -->
             </div>
             <input
               name="phone"
@@ -74,12 +64,8 @@
             <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
             <div class="filter__inputFile">
               <div class="uploadbutton">
-                <div class="input-file-text">
-                  <i class="fal fa-paperclip"></i>
-                  Прикрепить фото
-                </div>
-                <input class="input-file" name="myfile" v-validate data-vv-rules="image|size:3072" type="file" title="Выбрать фото" multiple>
-                <span v-show="errors.has('myfile')">{{ errors.first('myfile') }}</span>
+                <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div>
+                <input  class="input-file" type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
               </div>
             </div>
             <div class="filter__buttonWrap">
@@ -91,7 +77,7 @@
       </div>
     </div>
     <div class="ad">
-      <div class="container">
+      <!-- <div class="container">
         <div class="captionWrap">
           <h2 class="caption">VIP обьявления</h2>
         </div>
@@ -233,7 +219,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -241,35 +227,6 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import Multiselect from 'vue-multiselect'
-
-const maxDimensionsRule = {
-  getMessage (field, [width, height], data) {
-    return (data && data.message) || `The ${field} field must be UP TO ${width} pixels by ${height} pixels.`
-  },
-  validate (files, [width, height]) {
-    const validateImage = (file, width, height) => {
-      const URL = window.URL || window.webkitURL
-      return new Promise(resolve => {
-        const image = new Image()
-        image.onerror = () => resolve({ valid: false })
-        image.onload = () => resolve({
-          valid: image.width <= Number(width) && image.height <= Number(height) // only change from official rule
-        })
-
-        image.src = URL.createObjectURL(file)
-      })
-    }
-    const list = []
-    for (let i = 0; i < files.length; i++) {
-      // if file is not an image, reject.
-      if (!/\.(jpg|svg|jpeg|png|bmp|gif)$/i.test(files[i].name)) {
-        return false
-      }
-      list.push(files[i])
-    }
-    return Promise.all(list.map(file => validateImage(file, width, height)))
-  }
-}
 
 export default {
   name: 'Index',
@@ -285,7 +242,7 @@ export default {
         password: ''
       },
       submitted: false,
-      images: [],
+      files: '',
       value: [],
       city: [
         { name: 'Бишкек', id: '10' },
@@ -304,31 +261,38 @@ export default {
       phone: null
     }
   },
-  created () {
-    this.$validator.extend('maxdimensions', maxDimensionsRule)
-  },
   computed: {
     ...mapState({
-      status: state => state.account.status,
       account: state => state.account,
       categories: state => state.items.all.categories || []
     })
   },
   methods: {
     ...mapActions('items', ['addItem']),
-    handleSubmit (e) {
+    handleSubmit (e, formData) {
       this.submitted = true
       this.$validator.validate().then(valid => {
         if (valid) {
+          let formData = new FormData()
+          formData.append('desc', this.textarea)
+          formData.append('user_id', '1')
+          formData.append('phone', this.phone)
+          formData.append('city_id', this.city_value.id)
           let id = 0
-          let category = []
           for (let value of this.value) {
-            category[id] = (value.id)
+            formData.append('category[' + id + ']', value.id)
             id++
           }
-          this.addItem({ desc: this.textarea, user_id: '1', phone: this.phone, city_id: this.city_value.id, category: category, image: this.myfile })
+          for (var i = 0; i < this.files.length; i++) {
+            let file = this.files[i]
+            formData.append('image[' + i + ']', file)
+          }
+          this.addItem(formData)
         }
       })
+    },
+    handleFilesUpload () {
+      this.files = this.$refs.files.files
     }
   }
 }
