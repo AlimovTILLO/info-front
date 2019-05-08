@@ -3,7 +3,7 @@
     <div class="registration__inputWrap">
       <label for="email">E-mail</label>
       <input
-        type="text"
+        type="email"
         v-model="email"
         v-validate="'required'"
         class="registration__input"

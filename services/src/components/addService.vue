@@ -57,6 +57,9 @@
                   <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div>
                   <input name="files" class="input-file" type="file" id="files" ref="files" multiple v-on:change="handleFilesUpload()"/>
                 </div>
+                <div class="large-12 medium-12 small-12 cell">
+                  <div v-for="(file, key) in files" v-bind:key="key" class="file-listing">{{ file.name }} <span class="remove-file" v-on:click="removeFile( key )">Удалить</span></div>
+                </div>
               </div>
               <div class="filter__buttonWrap"><button type="submit" class="btn">Предварительный просмотр</button>
                 <button class="btn">Добавить услугу</button></div>
@@ -82,7 +85,7 @@ export default {
       phone: null,
       value: [],
       city_value: null,
-      files: '',
+      files: [],
       price: null,
       city: [
         { name: 'Бишкек', id: '10' },
@@ -96,10 +99,10 @@ export default {
         { name: 'Балыкчи', id: '3' },
         { name: 'Баткен', id: '1' }
       ],
-      currency: [ { name: 'Сом', id: 'Сом' } ],
+      currency: [ { name: 'Сом', id: 'сом' } ],
       currency_options: [
-        { name: 'Сом', id: 'Сом' },
-        { name: 'Доллар', id: 'Доллар' }
+        { name: 'Сом', id: 'сом' },
+        { name: 'Доллар', id: 'usd' }
       ]
     }
   },
@@ -110,6 +113,9 @@ export default {
   },
   methods: {
     ...mapActions('items', ['addService']),
+    addFiles () {
+      this.$refs.files.click()
+    },
     handleSubmit (e, formData) {
       this.submitted = true
       this.$validator.validate().then(valid => {
@@ -121,6 +127,7 @@ export default {
           formData.append('phone', this.phone)
           formData.append('city_id', this.city_value.id)
           formData.append('price', this.price)
+          formData.append('currency', this.currency.id)
           let id = 0
           for (let value of this.value) {
             formData.append('category[' + id + ']', value.id)
@@ -135,8 +142,30 @@ export default {
       })
     },
     handleFilesUpload () {
-      this.files = this.$refs.files.files
+      let uploadedFiles = this.$refs.files.files
+      for (var i = 0; i < uploadedFiles.length; i++) {
+        this.files.push(uploadedFiles[i])
+      }
+    },
+    removeFile (key) {
+      this.files.splice(key, 1)
     }
   }
 }
 </script>
+<style>
+  input[type="file"]{
+    position: absolute;
+    top: -500px;
+  }
+
+  div.file-listing{
+    width: 200px;
+  }
+
+  span.remove-file{
+    color: red;
+    cursor: pointer;
+    float: right;
+  }
+</style>

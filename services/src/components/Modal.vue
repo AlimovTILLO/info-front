@@ -10,12 +10,10 @@
             <div class="registration__registrationSide" id="block2">
                 <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                      <a class="nav-item nav-link" v-on:click="makeActive('signIn')"
-                            id="signIn-tab" data-toggle="tab" href="#signIn" role="tab" aria-controls="signIn"
-                            aria-selected="true">Вход</a>
-                            <a class="nav-item nav-link" v-on:click="makeActive('registration')" id="registration-tab"
-                            data-toggle="tab" href="#registration" role="tab" aria-controls="registration"
-                            aria-selected="false">Регистрация</a></div>
+                      <a class="nav-item nav-link" v-bind:class="{ active: isActiveTab('signIn')}" v-on:click="makeActive('signIn')" id="signIn-tab" data-toggle="tab"
+                      href="#signIn" role="tab" aria-controls="signIn" aria-selected="false">Вход</a>
+                      <a class="nav-item nav-link" v-bind:class="{ active: isActiveTab('registration')}" v-on:click="makeActive('registration')" id="registration-tab" data-toggle="tab"
+                      href="#registration" role="tab" aria-controls="registration"  aria-selected="true">Регистрация</a></div>
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" v-show="isActiveTab('signIn')" id="signIn" role="tabpanel" aria-labelledby="signIn-tab">

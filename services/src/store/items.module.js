@@ -39,7 +39,7 @@ const actions = {
         item => {
           commit('ADD_ITEM_SUCCESS', item)
           setTimeout(() => {
-            dispatch('alert/success', 'Successful added', { root: true })
+            dispatch('alert/success', 'Успешно добавлено', { root: true })
           })
         },
         error => {
@@ -56,7 +56,7 @@ const actions = {
         service => {
           commit('ADD_SERVICE_SUCCESS', service)
           setTimeout(() => {
-            dispatch('alert/success', 'Successful added', { root: true })
+            dispatch('alert/success', 'Успешно добавлено', { root: true })
           })
         },
         error => {
