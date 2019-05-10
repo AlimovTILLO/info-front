@@ -5,7 +5,6 @@ export const User = {
     return HTTP.post('/auth/login/', config)
       .then(handleResponse)
       .then(response => {
-        console.log(response.data.api_token)
         if (response.data.api_token) {
           localStorage.setItem('user', JSON.stringify(response.data))
         }

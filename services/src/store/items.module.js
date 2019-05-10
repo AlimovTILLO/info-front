@@ -12,7 +12,8 @@ import {
 } from './mutation-types.js'
 
 const state = {
-  all: {}
+  all: {},
+  isModalVisible: false
 }
 // Геттеры
 const getters = {

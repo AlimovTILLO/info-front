@@ -71,7 +71,7 @@
           </div>
         </div>
       </div>
-    <modal v-show="isModalVisible" @close="closeModal"/>
+    <modal v-show="items.isModalVisible" @close="closeModal"/>
     </div>
 </template>
 
@@ -87,6 +87,7 @@ export default {
     ...mapState({
       status: state => state.account.status,
       account: state => state.account,
+      items: state => state.items,
       categories: state => state.items.all.categories || []
     })
   },
@@ -98,7 +99,6 @@ export default {
   },
   data () {
     return {
-      isModalVisible: false,
       isUserDropdownActive: false,
       isCatDropdownActive: false
     }
@@ -108,10 +108,10 @@ export default {
       getAlldata: 'getAll'
     }),
     showModal () {
-      this.isModalVisible = true
+      this.items.isModalVisible = true
     },
     closeModal () {
-      this.isModalVisible = false
+      this.items.isModalVisible = false
     },
     isUserDropdown () {
       this.isDropdownActive = false

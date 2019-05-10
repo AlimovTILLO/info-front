@@ -32,7 +32,7 @@
 <script>
 import Login from './Login'
 import Registration from './Registration'
-import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 
 export default {
   name: 'Modal',
@@ -45,8 +45,12 @@ export default {
       choice: 'signIn'
     }
   },
+  computed: {
+    ...mapState({
+      status: state => state.account.status
+    })
+  },
   methods: {
-    ...mapActions('account', ['login']),
     close () {
       this.$emit('close')
     },

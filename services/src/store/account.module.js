@@ -1,5 +1,6 @@
 import { User } from '../api/user'
-import { router } from '../router'
+// import { router } from '../router'
+import { items } from './items.module'
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -49,7 +50,8 @@ const actions = {
       .then(
         user => {
           commit('LOGIN_SUCCESS', user)
-          router.push('/')
+          items.state.isModalVisible = false
+          // router.push('/')
         },
         error => {
           commit('LOGIN_FAILURE', error)
