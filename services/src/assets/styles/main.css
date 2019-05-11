@@ -2757,7 +2757,7 @@ button {
 .filter__select {
   background-color: #fff;
   border-radius: 5px;
-  min-height: 30px;
+  min-height: 40px;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-align: center;

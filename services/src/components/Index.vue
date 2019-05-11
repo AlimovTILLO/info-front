@@ -38,16 +38,34 @@
             <div class="filter__selectWrap">
               <div class="row">
                 <div class="col-md-7">
-                  <multiselect v-model="value" selectLabel="Нажмите Enter, чтобы выбрать" deselectLabel="Нажмите Enter, чтобы удалить" name="value" :max="3" :options="categories" v-validate="'required'" :searchable="false" :multiple="true" :close-on-select="false" placeholder="Выберите раздел" track-by="id" label="slug" required>
-                    <span slot="noResult">Уппс! Элементы не найдены. Рассмотрите возможность изменения поискового запроса..</span>
-                    <span slot="maxElements">Максимум из 3 выбранных параметров. Сначала удалите выбранную опцию, чтобы выбрать другую.</span>
-                    </multiselect>
-                  <i v-show="errors.has('value')"></i>
-                  <span v-show="errors.has('value')" class="help is-danger">{{ errors.first('value') }}</span>
+                  <div class="filter__select addCategory-js" @click="isSectionsItemActive=true" v-on-clickaway="isSectionDropdown">
+                      <div v-if="!section.length" class="chooseSection select-js">
+                        <p>Выберите раздел <i class="fal fa-angle-down"></i></p>
+                      </div>
+                      <div v-for="category in section" v-bind:key="category.id" class="privat__categoryItem">{{ category.name.ru }} <i v-on:click="removeSectionItem(category)" class="fal fa-times deleteCategory-js"></i></div>
+                    </div>
+                    <div v-for="category in categories.slice(0, 4)" v-bind:key="category.id" class="privat__categoryItem privat__categoryItem--popularCategory">
+                      <p v-on:click="AddSectionItem(category)">{{ category.name.ru }}</p>
+                    </div>
                 </div>
                 <div class="col-md-5">
+                  <!-- <div class="filter__select filter__select--city">
+                    <select v-model="city_value" name="sources" id="sources" class="custom-select sources" placeholder="Выберите город">
+                        <option v-for="s in city" v-bind:key="s.id" :selected="city_value === s" placeholder="Выберите город" value="s.name">{{ s.name }}</option>
+                    </select>
+                  </div> -->
                   <multiselect v-model="city_value" name="city_value" :options="city" v-validate="'required'" :searchable="false" :show-labels="false" label="name" track-by="id" placeholder="Выберите город" required></multiselect>
                 </div>
+              </div>
+              <div class="filter__sections" v-bind:style= "isSectionsItemActive ? 'display: block;' : 'display: none;'">
+                <div v-for="category in categories" v-bind:key="category.id" class="filter__sectionsItem" data-value="category.name.ru">
+                    <div v-on:click="AddSectionItem(category)" class="filter__iconWrap">
+                      <div class="filter__icon">
+                        <img v-if="category.medias" :src="category.medias.thumb_128" alt="category.name.ru">
+                      </div>
+                    </div>
+                    <p class="filter__sectionName">{{ category.name.ru }}</p>
+                  </div>
               </div>
             </div>
             <input
@@ -230,9 +248,11 @@
 <script>
 import { mapState, mapActions } from 'vuex'
 import Multiselect from 'vue-multiselect'
+import { mixin as clickaway } from 'vue-clickaway'
 
 export default {
   name: 'Index',
+  mixins: [ clickaway ],
   components: {
     Multiselect
   },
@@ -244,9 +264,10 @@ export default {
         username: '',
         password: ''
       },
+      isSectionsItemActive: false,
       submitted: false,
       files: [],
-      value: [],
+      section: [],
       city: [
         { name: 'Бишкек', id: '10' },
         { name: 'Ош', id: '7' },
@@ -275,6 +296,15 @@ export default {
     addFiles () {
       this.$refs.files.click()
     },
+    AddSectionItem (category) {
+      this.section.push(category)
+    },
+    removeSectionItem (category) {
+      this.section.splice(category, 1)
+    },
+    isSectionDropdown () {
+      this.isSectionsItemActive = false
+    },
     handleSubmit (e, formData) {
       this.submitted = true
       this.$validator.validate().then(valid => {
@@ -285,7 +315,7 @@ export default {
           formData.append('phone', this.phone)
           formData.append('city_id', this.city_value.id)
           let id = 0
-          for (let value of this.value) {
+          for (let value of this.section) {
             formData.append('category[' + id + ']', value.id)
             id++
           }
