@@ -55,14 +55,14 @@
             <div class="header__mnu">
               <ul class="header__mnuFirstLvl">
                 <li v-for="category in categories.slice(0, 5)" v-bind:key="category.id">
-                  <a v-bind:href="category.slug">{{ category.name.ru }}</a>
+                  <router-link :to="{name: 'cat', params: {cat_slug: category.slug, id: category.id}}">{{ category.name.ru }}</router-link>
                 </li>
                 <li class="arrowTrigger-js" @click="isCatDropdownActive=!isCatDropdownActive" v-on-clickaway="isCatDropdown">
                   Еще
                   <i class="fal fa-angle-down"></i>
                   <ul class="header__mnuSecondLvl dropMnu-js" v-bind:style= "isCatDropdownActive ? 'display: block;' : 'display: none;'">
                     <li v-for="category in categories.slice(5, 50)" v-bind:key="category.id">
-                      <a v-bind:href="category.slug">{{ category.name.ru }}</a>
+                      <router-link :to="{name: 'cat', params: {cat_slug: category.slug, id: category.id}}">{{ category.name.ru }}</router-link>
                     </li>
                   </ul>
                 </li>

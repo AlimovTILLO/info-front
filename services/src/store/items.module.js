@@ -3,6 +3,9 @@ import {
   GET_ALL_REQUEST,
   GET_ALL_SUCCESS,
   GET_ALL_FAILURE,
+  GET_SERVICE_BY_CAT_ID_REQUEST,
+  GET_SERVICE_BY_CAT_ID_SUCCESS,
+  GET_SERVICE_BY_CAT_ID_FAILURE,
   ADD_ITEM_REQUEST,
   ADD_ITEM_SUCCESS,
   ADD_ITEM_FAILURE,
@@ -13,12 +16,13 @@ import {
 
 const state = {
   all: {},
+  services: {},
   isModalVisible: false
 }
 // Геттеры
 const getters = {
-  categories: state => state.all.categories
-//   menu: state => state.all.menu
+  categories: state => state.all.categories,
+  services: state => state.services.categoryServices
 }
 // Действия
 const actions = {
@@ -30,6 +34,14 @@ const actions = {
         cities => commit('GET_ALL_SUCCESS', cities),
         menu => commit('GET_ALL_SUCCESS', menu),
         error => commit('GET_ALL_FAILURE', error)
+      )
+  },
+  getServiceByCatId ({ commit }, id) {
+    commit('GET_SERVICE_BY_CAT_ID_REQUEST')
+    Main.getServiceByCatId(id)
+      .then(
+        services => commit('GET_SERVICE_BY_CAT_ID_SUCCESS', services),
+        error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
       )
   },
   addItem ({ dispatch, commit }, item) {
@@ -77,6 +89,15 @@ const mutations = {
   },
   [GET_ALL_FAILURE] (state, error) {
     state.all = { error }
+  },
+  [GET_SERVICE_BY_CAT_ID_REQUEST] (state) {
+    state.services = { loading: true }
+  },
+  [GET_SERVICE_BY_CAT_ID_SUCCESS] (state, services) {
+    state.services = { categoryServices: services }
+  },
+  [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
+    state.services = { error }
   },
   [ADD_ITEM_REQUEST] (state) {
     state.status = {}

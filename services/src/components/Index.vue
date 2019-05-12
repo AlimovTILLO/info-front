@@ -90,7 +90,7 @@
               </div>
             </div>
             <div class="filter__buttonWrap">
-              <button type="submit" class="btn">Предварительный просмотр</button>
+              <!-- <button type="submit" class="btn">Предварительный просмотр</button> -->
               <button class="btn">Оставить заявку</button>
             </div>
           </form>

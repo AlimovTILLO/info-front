@@ -18,5 +18,10 @@ export const Main = {
     return HTTP.post('/service/store/', config).then(response => {
       return response.data
     })
+  },
+  getServiceByCatId (id) {
+    return HTTP.get(`service/${id}/category`).then(response => {
+      return response.data.categoryServices
+    })
   }
 }
