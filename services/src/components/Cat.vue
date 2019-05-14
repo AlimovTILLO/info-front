@@ -20,55 +20,55 @@
               <div class="odnoklassniki"><i class="fab fa-odnoklassniki"></i></div>
             </div>
           </div>
-          <div class="captionWrap">
-            <h2 class="caption caption--secondCap">VIP обьявления</h2>
-          </div>
+          <!--<div class="captionWrap">-->
+            <!--<h2 class="caption caption&#45;&#45;secondCap">VIP обьявления</h2>-->
+          <!--</div>-->
           <div class="row">
             <div class="col-lg-10 col-md-9">
-              <div class="mainAdv">
-                <div class="row">
-                  <div class="col-md-4">
-                    <div class="ad__items ad__items--indentItem"><a href="#" class="ad__img">
-                        <div class="ad__tagged"><img src="images/bookmark.png" alt=""></div><img
-                          src="images/category/Malish.jpg" alt="">
-                        <div class="ad__discount">
-                          <h3>СКИДКА</h3>
-                          <p>30%</p>
-                        </div>
-                      </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">Медицинский Центр “Малыш”<br>Полный цикл
-                          лечения детей от рождения до 14 лет.</a>
-                        <p class="ad__price">Цена не указана</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="ad__items"><a href="#" class="ad__img"><img src="images/category/Surkis.jpg" alt="">
-                        <div class="ad__discount">
-                          <h3>СКИДКА</h3>
-                          <p>25%</p>
-                        </div>
-                      </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">Гинеколог Суркис И.В.<br>Лечение
-                          репродуктивной системы, ведение беременности...</a>
-                        <p class="ad__price">500 с.</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-md-4">
-                    <div class="ad__items"><a href="#" class="ad__img"><img src="images/category/Malish.jpg" alt="">
-                        <div class="ad__discount">
-                          <h3>СКИДКА</h3>
-                          <p>25%</p>
-                        </div>
-                      </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">Остеопат</a>
-                        <p class="ad__price">600 c.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <!--<div class="mainAdv">-->
+                <!--<div class="row">-->
+                  <!--<div class="col-md-4">-->
+                    <!--<div class="ad__items ad__items&#45;&#45;indentItem"><a href="#" class="ad__img">-->
+                        <!--<div class="ad__tagged"><img src="images/bookmark.png" alt=""></div><img-->
+                          <!--src="images/category/Malish.jpg" alt="">-->
+                        <!--<div class="ad__discount">-->
+                          <!--<h3>СКИДКА</h3>-->
+                          <!--<p>30%</p>-->
+                        <!--</div>-->
+                      <!--</a>-->
+                      <!--<div class="ad__desc"><a href="#" class="ad__itemCaption">Медицинский Центр “Малыш”<br>Полный цикл-->
+                          <!--лечения детей от рождения до 14 лет.</a>-->
+                        <!--<p class="ad__price">Цена не указана</p>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col-md-4">-->
+                    <!--<div class="ad__items"><a href="#" class="ad__img"><img src="images/category/Surkis.jpg" alt="">-->
+                        <!--<div class="ad__discount">-->
+                          <!--<h3>СКИДКА</h3>-->
+                          <!--<p>25%</p>-->
+                        <!--</div>-->
+                      <!--</a>-->
+                      <!--<div class="ad__desc"><a href="#" class="ad__itemCaption">Гинеколог Суркис И.В.<br>Лечение-->
+                          <!--репродуктивной системы, ведение беременности...</a>-->
+                        <!--<p class="ad__price">500 с.</p>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="col-md-4">-->
+                    <!--<div class="ad__items"><a href="#" class="ad__img"><img src="images/category/Malish.jpg" alt="">-->
+                        <!--<div class="ad__discount">-->
+                          <!--<h3>СКИДКА</h3>-->
+                          <!--<p>25%</p>-->
+                        <!--</div>-->
+                      <!--</a>-->
+                      <!--<div class="ad__desc"><a href="#" class="ad__itemCaption">Остеопат</a>-->
+                        <!--<p class="ad__price">600 c.</p>-->
+                      <!--</div>-->
+                    <!--</div>-->
+                  <!--</div>-->
+                <!--</div>-->
+              <!--</div>-->
               <div class="captionWrap">
                 <h2 class="caption caption--secondCap">Новые объявления</h2>
               </div>
