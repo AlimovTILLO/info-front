@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="privat">
+    <div class="privat contentWrap--atherBgc">
         <div class="container">
           <div class="request">
             <div class="row">

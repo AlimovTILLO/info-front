@@ -3,7 +3,7 @@
     <div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div>
     <div class="mmenu-nav"></div>
     <div class="mainWrap">
-      <div class="contentWrap contentWrap--atherBgc">
+      <div class="contentWrap <!--contentWrap&#45;&#45;atherBgc-->">
         <div class="hamburger">
           <span class="hamburger__line"></span>
           <span class="hamburger__line"></span>

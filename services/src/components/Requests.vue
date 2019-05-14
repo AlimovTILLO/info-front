@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="privat">
+    <div class="privat contentWrap--atherBgc">
         <div class="container">
           <div class="request">
             <h3 class="inner__caption">Запросы на мои услуги (2)</h3>

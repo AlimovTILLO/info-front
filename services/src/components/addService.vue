@@ -1,5 +1,5 @@
 <template>
-  <div class="addService">
+  <div class="addService contentWrap--atherBgc">
         <div class="container">
           <div class="breadCrumbs">
             <ul>
