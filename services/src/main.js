@@ -6,7 +6,8 @@ import Notifications from 'vue-notification'
 import VeeValidate from 'vee-validate'
 import { router } from './router'
 import { store } from './store'
-
+// import '../src/assets/scripts/vendor'
+// import '../src/assets/scripts/vendor/modernizr'
 Vue.use(Notifications)
 Vue.use(VeeValidate)
 

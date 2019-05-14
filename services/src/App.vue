@@ -1,16 +1,19 @@
 <template>
-  <div class="mainWrap">
-    <div class="contentWrap contentWrap--atherBgc">
-      <div class="hamburger">
-        <span class="hamburger__line"></span>
-        <span class="hamburger__line"></span>
-        <span class="hamburger__line"></span>
+  <div>
+    <div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div>
+    <div class="mmenu-nav"></div>
+    <div class="mainWrap">
+      <div class="contentWrap contentWrap--atherBgc">
+        <div class="hamburger">
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+          <span class="hamburger__line"></span>
+        </div>
+        <nav-menu/>
+        <router-view/>
       </div>
-      <div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div>
-      <nav-menu/>
-      <router-view/>
+      <footer-menu/>
     </div>
-    <footer-menu/>
   </div>
 </template>
 

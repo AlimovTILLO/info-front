@@ -88,6 +88,7 @@
               <div class="large-12 medium-12 small-12 cell">
                 <div v-for="(file, key) in files" v-bind:key="key" class="file-listing">{{ file.name }} <span class="remove-file" v-on:click="removeFile( key )">Удалить</span></div>
               </div>
+              <br>
             </div>
             <div class="filter__buttonWrap">
               <!-- <button type="submit" class="btn">Предварительный просмотр</button> -->
@@ -311,7 +312,7 @@ export default {
         if (valid) {
           let formData = new FormData()
           formData.append('desc', this.textarea)
-          formData.append('user_id', '1')
+          formData.append('user_id', this.account.user.user_id)
           formData.append('phone', this.phone)
           formData.append('city_id', this.city_value.id)
           let id = 0

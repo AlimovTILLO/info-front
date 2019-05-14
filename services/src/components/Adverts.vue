@@ -33,7 +33,7 @@
                     <li><a href="#">Отклоненные</a></li>
                   </ul>
                 </div>
-                <div class="privat__adInfoWrap">
+                <div v-for="ad in uads.data" v-bind:key="ad.id" class="privat__adInfoWrap">
                   <div class="privat__adInfo">
                     <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
                     <div class="privat__category">
@@ -46,25 +46,6 @@
                     </div>
                     <p class="privat__categoryDesc">Нужен сантехник для ремонта водопровода, заменить 2 смесителя,
                       прочистить сливы, подключить стиральную машинку-автомат...</p>
-                  </div>
-                  <ul class="privat__adInfoControlBtns">
-                    <li><i class="fal fa-pause"></i></li>
-                    <li><i class="fal fa-undo-alt"></i></li>
-                    <li><i class="fal fa-times"></i></li>
-                  </ul>
-                </div>
-                <div class="privat__adInfoWrap">
-                  <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
-                    <div class="privat__category">
-                      <div class="privat__categoryItem">
-                        <p>Авто</p>
-                      </div>
-                      <div class="privat__categoryItem privat__categoryItem--active">
-                        <p>Ремонт ходовой части</p>
-                      </div>
-                    </div>
-                    <p class="privat__categoryDesc">Ниссан Мурано, 2005, V2,5 ремонт ходовки. СРОЧНО!</p>
                   </div>
                   <ul class="privat__adInfoControlBtns">
                     <li><i class="fal fa-pause"></i></li>
@@ -92,7 +73,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  name: 'Adverts'
+  name: 'Adverts',
+  computed: {
+    ...mapState({
+      account: state => state.account,
+      uads: state => state.items.uads.userAds || []
+    })
+  },
+  beforeMount () {
+    this.getAdsByUserId(this.account.user.user_id)
+  },
+  watch: {
+    $route (to, from) {
+      this.getAdsByUserId(this.account.user.user_id)
+    }
+  },
+  methods: {
+    ...mapActions('items', {
+      getAdsByUserId: 'getAdsByUserId'
+    })
+  }
 }
 </script>

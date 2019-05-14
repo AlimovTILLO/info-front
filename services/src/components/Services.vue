@@ -28,65 +28,20 @@
                 <div class="privat__statusItems">
                   <ul>
                     <li><a class="active" href="#">Активные</a></li>
-                    <li><a href="#">Закрытые</a></li>
+                    <li><a href="#">Нективные</a></li>
+                    <li><a href="#">В ожидании</a></li>
                   </ul>
                 </div>
-                <div class="privat__adInfoWrap">
+                <div v-for="service in uservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
                   <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
+                    <p class="privat__adInfoDate">{{ service.created_at }}</p>
                     <div class="privat__category">
-                      <div class="privat__categoryItem">
-                        <p>Медицина</p>
-                      </div>
-                      <div class="privat__categoryItem privat__categoryItem--active">
-                        <p>Стоматология</p>
+                      <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
+                        <p>{{ category.name.ru}}</p>
                       </div>
                     </div>
-                    <p class="privat__categoryDesc">Детский стоматолог. Лечение кариеса, терапия корневых каналов,
-                      протезирование, установка брекетов и скоб. Тел.: +996 555 77 21 09</p><img
-                      src="images/Mask Group-2.jpg" alt="" width="55" style="margin-top:7px">
-                  </div>
-                  <ul class="privat__adInfoControlBtns">
-                    <li><i class="fal fa-pause"></i></li>
-                    <li><i class="fal fa-edit"></i></li>
-                    <li><i class="fal fa-times"></i></li>
-                  </ul>
-                </div>
-                <div class="privat__adInfoWrap">
-                  <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
-                    <div class="privat__category">
-                      <div class="privat__categoryItem">
-                        <p>Медицина</p>
-                      </div>
-                      <div class="privat__categoryItem privat__categoryItem--active">
-                        <p>Стоматология</p>
-                      </div>
-                    </div>
-                    <p class="privat__categoryDesc">Детский стоматолог. Лечение кариеса, терапия корневых каналов,
-                      протезирование, установка брекетов и скоб. Тел.: +996 555 77 21 09</p><img
-                      src="images/Mask Group-2.jpg" alt="" width="55" style="margin-top:7px">
-                  </div>
-                  <ul class="privat__adInfoControlBtns">
-                    <li><i class="fal fa-pause"></i></li>
-                    <li><i class="fal fa-edit"></i></li>
-                    <li><i class="fal fa-times"></i></li>
-                  </ul>
-                </div>
-                <div class="privat__adInfoWrap">
-                  <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
-                    <div class="privat__category">
-                      <div class="privat__categoryItem">
-                        <p>Медицина</p>
-                      </div>
-                      <div class="privat__categoryItem privat__categoryItem--active">
-                        <p>Стоматология</p>
-                      </div>
-                    </div>
-                    <p class="privat__categoryDesc">Детский стоматолог. Лечение кариеса, терапия корневых каналов,
-                      протезирование, установка брекетов и скоб. Тел.: +996 555 77 21 09</p><img
-                      src="images/Mask Group-2.jpg" alt="" width="55" style="margin-top:7px">
+                    <p class="privat__categoryDesc">{{ service.desc.ru }} Тел.: {{ service.phone }}</p>
+                    <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                   </div>
                   <ul class="privat__adInfoControlBtns">
                     <li><i class="fal fa-pause"></i></li>
@@ -114,7 +69,28 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  name: 'Services'
+  name: 'Services',
+  computed: {
+    ...mapState({
+      account: state => state.account,
+      uservices: state => state.items.uservices.userServices || []
+    })
+  },
+  beforeMount () {
+    this.getServiceByUserId(this.account.user.user_id)
+  },
+  watch: {
+    $route (to, from) {
+      this.getServiceByUserId(this.account.user.user_id)
+    }
+  },
+  methods: {
+    ...mapActions('items', {
+      getServiceByUserId: 'getServiceByUserId'
+    })
+  }
 }
 </script>

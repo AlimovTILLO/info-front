@@ -125,6 +125,7 @@ export default {
   },
   computed: {
     ...mapState({
+      account: state => state.account,
       categories: state => state.items.all.categories || []
     })
   },
@@ -140,7 +141,7 @@ export default {
           let formData = new FormData()
           formData.append('title', this.title)
           formData.append('desc', this.textarea)
-          formData.append('user_id', '1')
+          formData.append('user_id', this.account.user.user_id)
           formData.append('phone', this.phone)
           formData.append('city_id', this.city_value.id)
           formData.append('price', this.price)

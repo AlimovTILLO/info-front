@@ -20,8 +20,18 @@ export const Main = {
     })
   },
   getServiceByCatId (id) {
-    return HTTP.get(`service/${id}/category`).then(response => {
-      return response.data.categoryServices
+    return HTTP.get(`/service/${id}/category`).then(response => {
+      return response.data
+    })
+  },
+  getServiceByUserId (id) {
+    return HTTP.get(`/service/${id}/user`).then(response => {
+      return response.data
+    })
+  },
+  getAdsByUserId (id) {
+    return HTTP.get(`/announcement/${id}/user`).then(response => {
+      return response.data
     })
   }
 }

@@ -3,7 +3,7 @@
         <div class="container">
           <form action="" class="search">
             <div class="search__result">
-              <h2>Медицинские услуги <span>{{ $route.params.id }}</span></h2>
+              <h2>Услуги в категории {{ services.categoryName}} <span>{{ services.categoryServices.data.length }}</span></h2>
             </div>
             <div class="search__input"><input type="text" placeholder="Поиск"> <button><i
                   class="fal fa-search"></i></button></div>
@@ -74,14 +74,14 @@
               </div>
               <div class="secondaryAdv">
                 <div class="row">
-                  <div v-for="service in services.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
+                  <div v-for="service in services.categoryServices.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
                     <div class="ad__items ad__items--indentItem">
                         <a href="#" class="ad__img">
                         <div class="ad__tagged">
                         <img src="../assets/images/bookmark.png" alt="">
                         </div>
                         <img v-if="service.main_image" :src="service.main_image.thumb_256" alt=""/>
-                        <div class="ad__discount">
+                        <div class="ad__discount" v-if="service.discount > 0">
                           <h3>СКИДКА</h3>
                           <p>30%</p>
                         </div>
@@ -112,30 +112,33 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Cat',
   computed: {
-    ...mapGetters('items', {
-      services: 'services'
+    ...mapState({
+      services: state => state.items.catservices.services || [],
+      data: state => state.items.catservices.services.categoryServices.data
     })
+    // ...mapGetters('items', {
+    //   services: 'services'
+    // })
   },
   beforeMount () {
     this.getServiceById(this.$route.params.id)
   },
-  /* beforeUpdate: {
-    ...mapState({
-      data: state => state.items.services.categoryServices.data
-    })
+  watch: {
+    $route (to, from) {
+      const id = to.params.id
+      this.getServiceById(id)
+    }
   },
-  updated () {
-    this.getServiceById(this.$route.params.id)
-  }, */
   methods: {
     ...mapActions('items', {
       getServiceById: 'getServiceByCatId'
     })
   }
 }
+
 </script>

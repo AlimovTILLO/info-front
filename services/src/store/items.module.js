@@ -6,6 +6,12 @@ import {
   GET_SERVICE_BY_CAT_ID_REQUEST,
   GET_SERVICE_BY_CAT_ID_SUCCESS,
   GET_SERVICE_BY_CAT_ID_FAILURE,
+  GET_SERVICE_BY_USER_ID_REQUEST,
+  GET_SERVICE_BY_USER_ID_SUCCESS,
+  GET_SERVICE_BY_USER_ID_FAILURE,
+  GET_ADS_BY_USER_ID_REQUEST,
+  GET_ADS_BY_USER_ID_SUCCESS,
+  GET_ADS_BY_USER_ID_FAILURE,
   ADD_ITEM_REQUEST,
   ADD_ITEM_SUCCESS,
   ADD_ITEM_FAILURE,
@@ -16,13 +22,15 @@ import {
 
 const state = {
   all: {},
-  services: {},
+  catservices: [],
+  uservices: {},
+  uads: {},
   isModalVisible: false
 }
 // Геттеры
 const getters = {
   categories: state => state.all.categories,
-  services: state => state.services.categoryServices
+  services: state => state.catservices.services
 }
 // Действия
 const actions = {
@@ -42,6 +50,22 @@ const actions = {
       .then(
         services => commit('GET_SERVICE_BY_CAT_ID_SUCCESS', services),
         error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
+      )
+  },
+  getServiceByUserId ({ commit }, id) {
+    commit('GET_SERVICE_BY_USER_ID_REQUEST')
+    Main.getServiceByUserId(id)
+      .then(
+        uservices => commit('GET_SERVICE_BY_USER_ID_SUCCESS', uservices),
+        error => commit('GET_SERVICE_BY_USER_ID_FAILURE', error)
+      )
+  },
+  getAdsByUserId ({ commit }, id) {
+    commit('GET_ADS_BY_USER_ID_REQUEST')
+    Main.getAdsByUserId(id)
+      .then(
+        uads => commit('GET_ADS_BY_USER_ID_SUCCESS', uads),
+        error => commit('GET_ADS_BY_USER_ID_FAILURE', error)
       )
   },
   addItem ({ dispatch, commit }, item) {
@@ -91,13 +115,31 @@ const mutations = {
     state.all = { error }
   },
   [GET_SERVICE_BY_CAT_ID_REQUEST] (state) {
-    state.services = { loading: true }
+    state.catservices = { loading: true }
   },
   [GET_SERVICE_BY_CAT_ID_SUCCESS] (state, services) {
-    state.services = { categoryServices: services }
+    state.catservices = { services: services }
   },
   [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
-    state.services = { error }
+    state.catservices = { error }
+  },
+  [GET_SERVICE_BY_USER_ID_REQUEST] (state) {
+    state.uservices = { loading: true }
+  },
+  [GET_SERVICE_BY_USER_ID_SUCCESS] (state, uservices) {
+    state.uservices = { userServices: uservices.userServices }
+  },
+  [GET_SERVICE_BY_USER_ID_FAILURE] (state, error) {
+    state.uservices = { error }
+  },
+  [GET_ADS_BY_USER_ID_REQUEST] (state) {
+    state.uads = { loading: true }
+  },
+  [GET_ADS_BY_USER_ID_SUCCESS] (state, uads) {
+    state.uads = { userAds: uads.userAds }
+  },
+  [GET_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.uads = { error }
   },
   [ADD_ITEM_REQUEST] (state) {
     state.status = {}
