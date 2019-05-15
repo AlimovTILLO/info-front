@@ -1,5 +1,8 @@
 import { Main } from '../api/main'
 import {
+  GET_MAIN_REQUEST,
+  GET_MAIN_SUCCESS,
+  GET_MAIN_FAILURE,
   GET_ALL_REQUEST,
   GET_ALL_SUCCESS,
   GET_ALL_FAILURE,
@@ -45,6 +48,7 @@ import {
 } from './mutation-types.js'
 
 const state = {
+  main: {},
   all: {},
   catservices: [],
   activeservices: {},
@@ -60,6 +64,14 @@ const getters = {
 }
 // Действия
 const actions = {
+  getMain ({ commit }) {
+    commit('GET_MAIN_REQUEST')
+    Main.getMain()
+      .then(
+        items => commit('GET_MAIN_SUCCESS', items),
+        error => commit('GET_MAIN_FAILURE', error)
+      )
+  },
   getAll ({ commit }) {
     commit('GET_ALL_REQUEST')
     Main.getAll()
@@ -198,6 +210,15 @@ const actions = {
 }
 // Мутации
 const mutations = {
+  [GET_MAIN_REQUEST] (state) {
+    state.main = { loading: true }
+  },
+  [GET_MAIN_SUCCESS] (state, items) {
+    state.main = { items: items }
+  },
+  [GET_MAIN_FAILURE] (state, error) {
+    state.main = { error }
+  },
   [GET_ALL_REQUEST] (state) {
     state.all = { loading: true }
   },

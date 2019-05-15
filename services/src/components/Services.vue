@@ -28,7 +28,7 @@
                 <div class="privat__statusItems">
                   <ul>
                     <li><a v-bind:class="{ active: isActiveTab('active')}" v-on:click="makeActive('active')" href="#">Активные</a></li>
-                    <li><a v-bind:class="{ active: isActiveTab('inactive')}" v-on:click="makeActive('inactive')" href="#">Нективные</a></li>
+                    <li><a v-bind:class="{ active: isActiveTab('inactive')}" v-on:click="makeActive('inactive')" href="#">Неактивные</a></li>
                     <li><a v-bind:class="{ active: isActiveTab('awaiting')}" v-on:click="makeActive('awaiting')" href="#">В ожидании</a></li>
                   </ul>
                 </div>

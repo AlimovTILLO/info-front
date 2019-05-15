@@ -11,6 +11,7 @@ import Services from '@/components/Services'
 import addService from '@/components/addService'
 import Adverts from '@/components/Adverts'
 import Cat from '@/components/Cat'
+import NotFoundComponent from '@/components/NotFoundComponent'
 
 Vue.use(Router)
 
@@ -28,9 +29,7 @@ export const router = new Router({
     { path: '/add_service', component: addService },
     { path: '/adverts', component: Adverts },
     { path: '/cat/:cat_slug', component: Cat, name: 'cat' },
-
-    // otherwise redirect to home
-    { path: '*', redirect: '/' }
+    { path: '*', component: NotFoundComponent }
   ]
 })
 
@@ -40,7 +39,7 @@ router.beforeEach((to, from, next) => {
   const privatePages = ['/services', '/adverts', '/requests', '/settings', '/add_service']
   const authRequired = privatePages.includes(to.path)
   const loggedIn = localStorage.getItem('user')
-
+  // otherwise redirect to home
   if (authRequired && !loggedIn) {
     return next('/')
   }

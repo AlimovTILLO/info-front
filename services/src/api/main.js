@@ -1,6 +1,14 @@
 // import { authHeader } from '../helpers'
 import { HTTP } from './common'
 export const Main = {
+  getMain () {
+    // let config = {
+    //   headers: authHeader()
+    // }
+    return HTTP.get('/main').then(response => {
+      return response.data
+    })
+  },
   getAll () {
     // let config = {
     //   headers: authHeader()
