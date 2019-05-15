@@ -24,9 +24,15 @@ import {
   ADD_SERVICE_REQUEST,
   ADD_SERVICE_SUCCESS,
   ADD_SERVICE_FAILURE,
-  DELETE_SERVICE_REQUEST,
-  DELETE_SERVICE_SUCCESS,
-  DELETE_SERVICE_FAILURE,
+  DELETE_ACTIVE_SERVICE_REQUEST,
+  DELETE_ACTIVE_SERVICE_SUCCESS,
+  DELETE_ACTIVE_SERVICE_FAILURE,
+  DELETE_INACTIVE_SERVICE_REQUEST,
+  DELETE_INACTIVE_SERVICE_SUCCESS,
+  DELETE_INACTIVE_SERVICE_FAILURE,
+  DELETE_AWAITING_SERVICE_REQUEST,
+  DELETE_AWAITING_SERVICE_SUCCESS,
+  DELETE_AWAITING_SERVICE_FAILURE,
   DELETE_ITEM_REQUEST,
   DELETE_ITEM_SUCCESS,
   DELETE_ITEM_FAILURE,
@@ -138,13 +144,28 @@ const actions = {
         }
       )
   },
-  deleteService ({ commit }, id) {
-    commit('DELETE_SERVICE_REQUEST', id)
-
+  deleteActiveService ({ commit }, id) {
+    commit('DELETE_ACTIVE_SERVICE_REQUEST', id)
     Main.deleteService(id)
       .then(
-        service => commit('DELETE_SERVICE_SUCCESS', id),
-        error => commit('DELETE_SERVICE_FAILURE', { id, error: error.toString() })
+        activeservice => commit('DELETE_ACTIVE_SERVICE_SUCCESS', id),
+        error => commit('DELETE_ACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+      )
+  },
+  deleteInactiveService ({ commit }, id) {
+    commit('DELETE_INACTIVE_SERVICE_REQUEST', id)
+    Main.deleteService(id)
+      .then(
+        inactiveservice => commit('DELETE_INACTIVE_SERVICE_SUCCESS', id),
+        error => commit('DELETE_INACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+      )
+  },
+  deleteAwaitingService ({ commit }, id) {
+    commit('DELETE_AWAITING_SERVICE_REQUEST', id)
+    Main.deleteService(id)
+      .then(
+        awaitingservice => commit('DELETE_AWAITING_SERVICE_SUCCESS', id),
+        error => commit('DELETE_AWAITING_SERVICE_FAILURE', { id, error: error.toString() })
       )
   },
   deleteItem ({ commit }, id) {
@@ -249,23 +270,61 @@ const mutations = {
   [ADD_SERVICE_FAILURE] (state) {
     state.status = {}
   },
-  [DELETE_SERVICE_REQUEST] (state, id) {
-    state.uservices.userServices.data = state.uservices.userServices.data.map(service =>
-      service.id === id
-        ? { ...service, deleting: true }
-        : service
+  [DELETE_ACTIVE_SERVICE_REQUEST] (state, id) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice =>
+      activeservice.id === id
+        ? { ...activeservice, deleting: true }
+        : activeservice
     )
   },
-  [DELETE_SERVICE_SUCCESS] (state, id) {
-    state.uservices.userServices.data = state.uservices.userServices.data.filter(service => service.id !== id)
+  [DELETE_ACTIVE_SERVICE_SUCCESS] (state, id) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.filter(activeservice => activeservice.id !== id)
   },
-  [DELETE_SERVICE_FAILURE] (state, { id, error }) {
-    state.uservices.userServices.data = state.uservices.userServices.data.map(service => {
-      if (service.id === id) {
-        const { deleting, ...serviceCopy } = service
+  [DELETE_ACTIVE_SERVICE_FAILURE] (state, { id, error }) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice => {
+      if (activeservice.id === id) {
+        const { deleting, ...serviceCopy } = activeservice
         return { ...serviceCopy, deleteError: error }
       }
-      return service
+      return activeservice
+    })
+  },
+  [DELETE_INACTIVE_SERVICE_REQUEST] (state, id) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(inactiveservice =>
+      inactiveservice.id === id
+        ? { ...inactiveservice, deleting: true }
+        : inactiveservice
+    )
+  },
+  [DELETE_INACTIVE_SERVICE_SUCCESS] (state, id) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.filter(inactiveservice => inactiveservice.id !== id)
+  },
+  [DELETE_INACTIVE_SERVICE_FAILURE] (state, { id, error }) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(inactiveservice => {
+      if (inactiveservice.id === id) {
+        const { deleting, ...serviceCopy } = inactiveservice
+        return { ...serviceCopy, deleteError: error }
+      }
+      return inactiveservice
+    })
+  },
+  [DELETE_AWAITING_SERVICE_REQUEST] (state, id) {
+    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.map(awaitingservice =>
+      awaitingservice.id === id
+        ? { ...awaitingservice, deleting: true }
+        : awaitingservice
+    )
+  },
+  [DELETE_AWAITING_SERVICE_SUCCESS] (state, id) {
+    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.filter(awaitingservice => awaitingservice.id !== id)
+  },
+  [DELETE_AWAITING_SERVICE_FAILURE] (state, { id, error }) {
+    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.map(awaitingservice => {
+      if (awaitingservice.id === id) {
+        const { deleting, ...serviceCopy } = awaitingservice
+        return { ...serviceCopy, deleteError: error }
+      }
+      return awaitingservice
     })
   },
   [DELETE_ITEM_REQUEST] (state, id) {

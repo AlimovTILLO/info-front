@@ -15,7 +15,7 @@
               <div class="col-md-2">
                 <div class="privat__statusBar">
                   <div class="privat__statusBarItem">
-                    <p class="privat__statusItem">Активные объявления</p>
+                    <p class="privat__statusItem">Активные услугии</p>
                     <p class="privat__statusItemCount">{{ activeservices.total }}</p>
                   </div>
                   <div class="privat__statusBarItem">
@@ -47,7 +47,7 @@
                     <ul class="privat__adInfoControlBtns">
                       <li><i @click="pauseService(service.id)" class="fal fa-pause"></i></li>
                       <li><i class="fal fa-edit"></i></li>
-                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                      <li><i @click="deleteActiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
                 </div>
@@ -66,7 +66,7 @@
                     <ul class="privat__adInfoControlBtns">
                       <li><i @click="playService(service.id)" class="fal fa-play"></i></li>
                       <li><i class="fal fa-edit"></i></li>
-                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                      <li><i @click="deleteInactiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
                 </div>
@@ -83,9 +83,8 @@
                       <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                     </div>
                     <ul class="privat__adInfoControlBtns">
-                      <li><i @click="playPauseService(service.id)" class="fal fa-pause"></i></li>
                       <li><i class="fal fa-edit"></i></li>
-                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                      <li><i @click="deleteAwaitingService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
                 </div>
@@ -139,7 +138,9 @@ export default {
       getActiveServiceByUserId: 'getActiveServiceByUserId',
       getInactiveServiceByUserId: 'getInactiveServiceByUserId',
       getAwaitingServiceByUserId: 'getAwaitingServiceByUserId',
-      deleteService: 'deleteService',
+      deleteActiveService: 'deleteActiveService',
+      deleteInactiveService: 'deleteInactiveService',
+      deleteAwaitingService: 'deleteAwaitingService',
       pauseService: 'pauseService',
       playService: 'playService'
     }),

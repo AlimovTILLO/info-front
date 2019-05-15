@@ -90,7 +90,7 @@
               </div>
               <br>
             </div>
-            <div class="filter__buttonWrap">
+            <div ref="nav" class="filter__buttonWrap">
               <!-- <button type="submit" class="btn">Предварительный просмотр</button> -->
               <button class="btn">Оставить заявку</button>
             </div>
@@ -289,7 +289,8 @@ export default {
   computed: {
     ...mapState({
       account: state => state.account,
-      categories: state => state.items.all.categories || []
+      categories: state => state.items.all.categories || [],
+      isModalVisible: state => state.items.isModalVisible
     })
   },
   methods: {
@@ -307,24 +308,28 @@ export default {
       this.isSectionsItemActive = false
     },
     handleSubmit (e, formData) {
-      this.submitted = true
       this.$validator.validate().then(valid => {
-        if (valid) {
-          let formData = new FormData()
-          formData.append('desc', this.textarea)
-          formData.append('user_id', this.account.user.user_id)
-          formData.append('phone', this.phone)
-          formData.append('city_id', this.city_value.id)
-          let id = 0
-          for (let value of this.section) {
-            formData.append('category[' + id + ']', value.id)
-            id++
+        if (this.account.status.loggedIn === false) {
+          this.$refs.nav.showModal()
+        } else {
+          this.submitted = true
+          if (valid) {
+            let formData = new FormData()
+            formData.append('desc', this.textarea)
+            formData.append('user_id', this.account.user.user_id)
+            formData.append('phone', this.phone)
+            formData.append('city_id', this.city_value.id)
+            let id = 0
+            for (let value of this.section) {
+              formData.append('category[' + id + ']', value.id)
+              id++
+            }
+            for (var i = 0; i < this.files.length; i++) {
+              let file = this.files[i]
+              formData.append('image[' + i + ']', file)
+            }
+            this.addItem(formData)
           }
-          for (var i = 0; i < this.files.length; i++) {
-            let file = this.files[i]
-            formData.append('image[' + i + ']', file)
-          }
-          this.addItem(formData)
         }
       })
     },
