@@ -24,8 +24,18 @@ export const Main = {
       return response.data
     })
   },
-  getServiceByUserId (id) {
-    return HTTP.get(`/service/${id}/user`).then(response => {
+  getActiveServiceByUserId (id) {
+    return HTTP.get(`/service/${id}/user/active`).then(response => {
+      return response.data
+    })
+  },
+  getInactiveServiceByUserId (id) {
+    return HTTP.get(`/service/${id}/user/inactive`).then(response => {
+      return response.data
+    })
+  },
+  getAwaitingServiceByUserId (id) {
+    return HTTP.get(`/service/${id}/user/awaiting`).then(response => {
       return response.data
     })
   },
@@ -44,7 +54,7 @@ export const Main = {
       return response.data
     })
   },
-  stopService (id) {
+  playPauseService (id) {
     return HTTP.get(`/service/${id}/stop`).then(response => {
       return response.data
     })

@@ -16,7 +16,7 @@
                 <div class="privat__statusBar">
                   <div class="privat__statusBarItem">
                     <p class="privat__statusItem">Активные объявления</p>
-                    <p class="privat__statusItemCount">1</p>
+                    <p class="privat__statusItemCount">{{ activeservices.total }}</p>
                   </div>
                   <div class="privat__statusBarItem">
                     <p class="privat__statusItem">Просмотров</p>
@@ -27,27 +27,67 @@
               <div class="col-md-10">
                 <div class="privat__statusItems">
                   <ul>
-                    <li><a class="active" href="#">Активные</a></li>
-                    <li><a href="#">Нективные</a></li>
-                    <li><a href="#">В ожидании</a></li>
+                    <li><a v-bind:class="{ active: isActiveTab('active')}" v-on:click="makeActive('active')" href="#">Активные</a></li>
+                    <li><a v-bind:class="{ active: isActiveTab('inactive')}" v-on:click="makeActive('inactive')" href="#">Нективные</a></li>
+                    <li><a v-bind:class="{ active: isActiveTab('awaiting')}" v-on:click="makeActive('awaiting')" href="#">В ожидании</a></li>
                   </ul>
                 </div>
-                <div v-for="service in uservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
-                  <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">{{ service.created_at }}</p>
-                    <div class="privat__category">
-                      <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
-                        <p>{{ category.name.ru}}</p>
+                <div v-show="isActiveTab('active')">
+                  <div v-for="service in activeservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
+                    <div class="privat__adInfo">
+                      <p class="privat__adInfoDate">{{ service.created_at }}</p>
+                      <div class="privat__category">
+                        <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
+                          <p>{{ category.name.ru}}</p>
+                        </div>
                       </div>
+                      <p class="privat__categoryDesc">{{ service.desc.ru }} Тел.: {{ service.phone }}</p>
+                      <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                     </div>
-                    <p class="privat__categoryDesc">{{ service.desc.ru }} Тел.: {{ service.phone }}</p>
-                    <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
+                    <ul class="privat__adInfoControlBtns">
+                      <li><i @click="pauseService(service.id)" class="fal fa-pause"></i></li>
+                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                    </ul>
                   </div>
-                  <ul class="privat__adInfoControlBtns">
-                    <li><i @click="stopService(service.id)" class="fal fa-pause"></i></li>
-                    <li><i class="fal fa-edit"></i></li>
-                    <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
-                  </ul>
+                </div>
+                <div v-show="isActiveTab('inactive')">
+                  <div v-for="service in inactiveservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
+                    <div class="privat__adInfo">
+                      <p class="privat__adInfoDate">{{ service.created_at }}</p>
+                      <div class="privat__category">
+                        <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
+                          <p>{{ category.name.ru}}</p>
+                        </div>
+                      </div>
+                      <p class="privat__categoryDesc">{{ service.desc.ru }} Тел.: {{ service.phone }}</p>
+                      <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
+                    </div>
+                    <ul class="privat__adInfoControlBtns">
+                      <li><i @click="playService(service.id)" class="fal fa-play"></i></li>
+                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                    </ul>
+                  </div>
+                </div>
+                <div v-show="isActiveTab('awaiting')">
+                  <div v-for="service in awaitingservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
+                    <div class="privat__adInfo">
+                      <p class="privat__adInfoDate">{{ service.created_at }}</p>
+                      <div class="privat__category">
+                        <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
+                          <p>{{ category.name.ru}}</p>
+                        </div>
+                      </div>
+                      <p class="privat__categoryDesc">{{ service.desc.ru }} Тел.: {{ service.phone }}</p>
+                      <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
+                    </div>
+                    <ul class="privat__adInfoControlBtns">
+                      <li><i @click="playPauseService(service.id)" class="fal fa-pause"></i></li>
+                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
+                    </ul>
+                  </div>
                 </div>
               </div>
             </div>
@@ -75,18 +115,19 @@ export default {
   name: 'Services',
   data () {
     return {
-      activeservices: [],
-      inactiveservices: []
+      choice: 'active'
     }
   },
   computed: {
     ...mapState({
       account: state => state.account,
-      uservices: state => state.items.uservices.userServices || []
+      activeservices: state => state.items.activeservices.userServices || [],
+      inactiveservices: state => state.items.inactiveservices.userServices || [],
+      awaitingservices: state => state.items.awaitingservices.userServices || []
     })
   },
   created () {
-    this.getServiceByUserId(this.account.user.user_id)
+    this.getActiveServiceByUserId(this.account.user.user_id)
   },
   // watch: {
   //   $route (to, from) {
@@ -95,10 +136,27 @@ export default {
   // },
   methods: {
     ...mapActions('items', {
-      getServiceByUserId: 'getServiceByUserId',
+      getActiveServiceByUserId: 'getActiveServiceByUserId',
+      getInactiveServiceByUserId: 'getInactiveServiceByUserId',
+      getAwaitingServiceByUserId: 'getAwaitingServiceByUserId',
       deleteService: 'deleteService',
-      stopService: 'stopService'
-    })
+      pauseService: 'pauseService',
+      playService: 'playService'
+    }),
+    makeActive (val) {
+      this.choice = val
+      const id = this.account.user.user_id
+      if (val === 'active') {
+        this.getActiveServiceByUserId(id)
+      } else if (val === 'inactive') {
+        this.getInactiveServiceByUserId(id)
+      } else if (val === 'awaiting') {
+        this.getAwaitingServiceByUserId(id)
+      }
+    },
+    isActiveTab (val) {
+      return this.choice === val
+    }
   }
 }
 </script>

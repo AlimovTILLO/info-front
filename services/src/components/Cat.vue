@@ -119,13 +119,13 @@ export default {
   computed: {
     ...mapState({
       services: state => state.items.catservices.services || [],
-      data: state => state.items.catservices.services.categoryServices.data
+      data: state => state.items.catservices.services.categoryServices.data || []
     })
     // ...mapGetters('items', {
     //   services: 'services'
     // })
   },
-  created () {
+  beforeMount () {
     this.getServiceById(this.$route.params.id)
   },
   watch: {

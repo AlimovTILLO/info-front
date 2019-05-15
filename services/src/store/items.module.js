@@ -6,9 +6,15 @@ import {
   GET_SERVICE_BY_CAT_ID_REQUEST,
   GET_SERVICE_BY_CAT_ID_SUCCESS,
   GET_SERVICE_BY_CAT_ID_FAILURE,
-  GET_SERVICE_BY_USER_ID_REQUEST,
-  GET_SERVICE_BY_USER_ID_SUCCESS,
-  GET_SERVICE_BY_USER_ID_FAILURE,
+  GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST,
+  GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS,
+  GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE,
+  GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST,
+  GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS,
+  GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE,
+  GET_AWAITING_SERVICE_BY_USER_ID_REQUEST,
+  GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS,
+  GET_AWAITING_SERVICE_BY_USER_ID_FAILURE,
   GET_ADS_BY_USER_ID_REQUEST,
   GET_ADS_BY_USER_ID_SUCCESS,
   GET_ADS_BY_USER_ID_FAILURE,
@@ -24,15 +30,20 @@ import {
   DELETE_ITEM_REQUEST,
   DELETE_ITEM_SUCCESS,
   DELETE_ITEM_FAILURE,
-  STOP_SERVICE_REQUEST,
-  STOP_SERVICE_SUCCESS,
-  STOP_SERVICE_FAILURE
+  PAUSE_SERVICE_REQUEST,
+  PAUSE_SERVICE_SUCCESS,
+  PAUSE_SERVICE_FAILURE,
+  PLAY_SERVICE_REQUEST,
+  PLAY_SERVICE_SUCCESS,
+  PLAY_SERVICE_FAILURE
 } from './mutation-types.js'
 
 const state = {
   all: {},
   catservices: [],
-  uservices: {},
+  activeservices: {},
+  inactiveservices: {},
+  awaitingservices: {},
   uads: {},
   isModalVisible: false
 }
@@ -61,12 +72,28 @@ const actions = {
         error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
       )
   },
-  getServiceByUserId ({ commit }, id) {
-    commit('GET_SERVICE_BY_USER_ID_REQUEST')
-    Main.getServiceByUserId(id)
+  getActiveServiceByUserId ({ commit }, id) {
+    commit('GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST')
+    Main.getActiveServiceByUserId(id)
       .then(
-        uservices => commit('GET_SERVICE_BY_USER_ID_SUCCESS', uservices),
-        error => commit('GET_SERVICE_BY_USER_ID_FAILURE', error)
+        activeservices => commit('GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS', activeservices),
+        error => commit('GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
+      )
+  },
+  getInactiveServiceByUserId ({ commit }, id) {
+    commit('GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST')
+    Main.getInactiveServiceByUserId(id)
+      .then(
+        inactiveservices => commit('GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS', inactiveservices),
+        error => commit('GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
+      )
+  },
+  getAwaitingServiceByUserId ({ commit }, id) {
+    commit('GET_AWAITING_SERVICE_BY_USER_ID_REQUEST')
+    Main.getAwaitingServiceByUserId(id)
+      .then(
+        awaitingservices => commit('GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS', awaitingservices),
+        error => commit('GET_AWAITING_SERVICE_BY_USER_ID_FAILURE', error)
       )
   },
   getAdsByUserId ({ commit }, id) {
@@ -129,13 +156,22 @@ const actions = {
         error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
       )
   },
-  stopService ({ commit }, id) {
-    commit('STOP_SERVICE_REQUEST', id)
+  pauseService ({ commit }, id) {
+    commit('PAUSE_SERVICE_REQUEST', id)
 
-    Main.stopService(id)
+    Main.playPauseService(id)
       .then(
-        service => commit('STOP_SERVICE_SUCCESS', id),
-        error => commit('STOP_SERVICE_FAILURE', { id, error: error.toString() })
+        service => commit('PAUSE_SERVICE_SUCCESS', id),
+        error => commit('PAUSE_SERVICE_FAILURE', { id, error: error.toString() })
+      )
+  },
+  playService ({ commit }, id) {
+    commit('PLAY_SERVICE_REQUEST', id)
+
+    Main.playPauseService(id)
+      .then(
+        service => commit('PLAY_SERVICE_SUCCESS', id),
+        error => commit('PLAY_SERVICE_FAILURE', { id, error: error.toString() })
       )
   }
 }
@@ -159,14 +195,32 @@ const mutations = {
   [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
     state.catservices = { error }
   },
-  [GET_SERVICE_BY_USER_ID_REQUEST] (state) {
-    state.uservices = { loading: true }
+  [GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
+    state.activeservices = { loading: true }
   },
-  [GET_SERVICE_BY_USER_ID_SUCCESS] (state, uservices) {
-    state.uservices = { userServices: uservices.userServices }
+  [GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS] (state, activeservices) {
+    state.activeservices = { userServices: activeservices.userServices }
   },
-  [GET_SERVICE_BY_USER_ID_FAILURE] (state, error) {
-    state.uservices = { error }
+  [GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE] (state, error) {
+    state.activeservices = { error }
+  },
+  [GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
+    state.inactiveservices = { loading: true }
+  },
+  [GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS] (state, inactiveservices) {
+    state.inactiveservices = { userServices: inactiveservices.userServices }
+  },
+  [GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE] (state, error) {
+    state.inactiveservices = { error }
+  },
+  [GET_AWAITING_SERVICE_BY_USER_ID_REQUEST] (state) {
+    state.awaitingservices = { loading: true }
+  },
+  [GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS] (state, awaitingservices) {
+    state.awaitingservices = { userServices: awaitingservices.userServices }
+  },
+  [GET_AWAITING_SERVICE_BY_USER_ID_FAILURE] (state, error) {
+    state.awaitingservices = { error }
   },
   [GET_ADS_BY_USER_ID_REQUEST] (state) {
     state.uads = { loading: true }
@@ -233,18 +287,37 @@ const mutations = {
       return item
     })
   },
-  [STOP_SERVICE_REQUEST] (state, id) {
-    state.uservices.userServices.data = state.uservices.userServices.data.map(service =>
+  [PAUSE_SERVICE_REQUEST] (state, id) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(service =>
       service.id === id
-        ? { ...service, active: false }
+        ? { ...service, is_view: 0 }
         : service
     )
   },
-  [STOP_SERVICE_SUCCESS] (state, id) {
-    state.uservices.userServices.data = state.uservices.userServices.data.filter(service => service.id !== id)
+  [PAUSE_SERVICE_SUCCESS] (state, id) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.filter(service => service.id !== id)
   },
-  [STOP_SERVICE_FAILURE] (state, { id, error }) {
-    state.uservices.userServices.data = state.uservices.userServices.data.map(service => {
+  [PAUSE_SERVICE_FAILURE] (state, { id, error }) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(service => {
+      if (service.id === id) {
+        const { deleting, ...serviceCopy } = service
+        return { ...serviceCopy, deleteError: error }
+      }
+      return service
+    })
+  },
+  [PLAY_SERVICE_REQUEST] (state, id) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(service =>
+      service.id === id
+        ? { ...service, is_view: 0 }
+        : service
+    )
+  },
+  [PLAY_SERVICE_SUCCESS] (state, id) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.filter(service => service.id !== id)
+  },
+  [PLAY_SERVICE_FAILURE] (state, { id, error }) {
+    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(service => {
       if (service.id === id) {
         const { deleting, ...serviceCopy } = service
         return { ...serviceCopy, deleteError: error }
