@@ -44,9 +44,9 @@
                     <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                   </div>
                   <ul class="privat__adInfoControlBtns">
-                    <li><i class="fal fa-pause"></i></li>
+                    <li><i @click="stopService(service.id)" class="fal fa-pause"></i></li>
                     <li><i class="fal fa-edit"></i></li>
-                    <li><i class="fal fa-times"></i></li>
+                    <li><i @click="deleteService(service.id)" class="fal fa-times"></i></li>
                   </ul>
                 </div>
               </div>
@@ -73,23 +73,31 @@ import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Services',
+  data () {
+    return {
+      activeservices: [],
+      inactiveservices: []
+    }
+  },
   computed: {
     ...mapState({
       account: state => state.account,
       uservices: state => state.items.uservices.userServices || []
     })
   },
-  beforeMount () {
+  created () {
     this.getServiceByUserId(this.account.user.user_id)
   },
-  watch: {
-    $route (to, from) {
-      this.getServiceByUserId(this.account.user.user_id)
-    }
-  },
+  // watch: {
+  //   $route (to, from) {
+  //     this.getServiceByUserId(this.account.user.user_id)
+  //   }
+  // },
   methods: {
     ...mapActions('items', {
-      getServiceByUserId: 'getServiceByUserId'
+      getServiceByUserId: 'getServiceByUserId',
+      deleteService: 'deleteService',
+      stopService: 'stopService'
     })
   }
 }

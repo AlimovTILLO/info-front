@@ -125,7 +125,7 @@ export default {
     //   services: 'services'
     // })
   },
-  beforeMount () {
+  created () {
     this.getServiceById(this.$route.params.id)
   },
   watch: {

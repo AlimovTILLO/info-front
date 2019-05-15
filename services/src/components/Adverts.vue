@@ -35,22 +35,18 @@
                 </div>
                 <div v-for="ad in uads.data" v-bind:key="ad.id" class="privat__adInfoWrap">
                   <div class="privat__adInfo">
-                    <p class="privat__adInfoDate">20 фев. 2019 | 12:30</p>
+                    <p class="privat__adInfoDate">{{ ad.created_at }}</p>
                     <div class="privat__category">
-                      <div class="privat__categoryItem">
-                        <p>Обустройство и ремонт</p>
-                      </div>
-                      <div class="privat__categoryItem privat__categoryItem--active">
-                        <p>Сантехник</p>
+                      <div v-for="category in ad.categories" v-bind:key="category.id" class="privat__categoryItem">
+                        <p>{{ category.name.ru}}</p>
                       </div>
                     </div>
-                    <p class="privat__categoryDesc">Нужен сантехник для ремонта водопровода, заменить 2 смесителя,
-                      прочистить сливы, подключить стиральную машинку-автомат...</p>
+                    <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                   </div>
                   <ul class="privat__adInfoControlBtns">
                     <li><i class="fal fa-pause"></i></li>
                     <li><i class="fal fa-undo-alt"></i></li>
-                    <li><i class="fal fa-times"></i></li>
+                    <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
                   </ul>
                 </div>
               </div>
@@ -93,7 +89,8 @@ export default {
   },
   methods: {
     ...mapActions('items', {
-      getAdsByUserId: 'getAdsByUserId'
+      getAdsByUserId: 'getAdsByUserId',
+      deleteItem: 'deleteItem'
     })
   }
 }

@@ -17,7 +17,16 @@ import {
   ADD_ITEM_FAILURE,
   ADD_SERVICE_REQUEST,
   ADD_SERVICE_SUCCESS,
-  ADD_SERVICE_FAILURE
+  ADD_SERVICE_FAILURE,
+  DELETE_SERVICE_REQUEST,
+  DELETE_SERVICE_SUCCESS,
+  DELETE_SERVICE_FAILURE,
+  DELETE_ITEM_REQUEST,
+  DELETE_ITEM_SUCCESS,
+  DELETE_ITEM_FAILURE,
+  STOP_SERVICE_REQUEST,
+  STOP_SERVICE_SUCCESS,
+  STOP_SERVICE_FAILURE
 } from './mutation-types.js'
 
 const state = {
@@ -101,6 +110,33 @@ const actions = {
           dispatch('alert/error', error, { root: true })
         }
       )
+  },
+  deleteService ({ commit }, id) {
+    commit('DELETE_SERVICE_REQUEST', id)
+
+    Main.deleteService(id)
+      .then(
+        service => commit('DELETE_SERVICE_SUCCESS', id),
+        error => commit('DELETE_SERVICE_FAILURE', { id, error: error.toString() })
+      )
+  },
+  deleteItem ({ commit }, id) {
+    commit('DELETE_ITEM_REQUEST', id)
+
+    Main.deleteItem(id)
+      .then(
+        item => commit('DELETE_ITEM_SUCCESS', id),
+        error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
+      )
+  },
+  stopService ({ commit }, id) {
+    commit('STOP_SERVICE_REQUEST', id)
+
+    Main.stopService(id)
+      .then(
+        service => commit('STOP_SERVICE_SUCCESS', id),
+        error => commit('STOP_SERVICE_FAILURE', { id, error: error.toString() })
+      )
   }
 }
 // Мутации
@@ -158,6 +194,63 @@ const mutations = {
   },
   [ADD_SERVICE_FAILURE] (state) {
     state.status = {}
+  },
+  [DELETE_SERVICE_REQUEST] (state, id) {
+    state.uservices.userServices.data = state.uservices.userServices.data.map(service =>
+      service.id === id
+        ? { ...service, deleting: true }
+        : service
+    )
+  },
+  [DELETE_SERVICE_SUCCESS] (state, id) {
+    state.uservices.userServices.data = state.uservices.userServices.data.filter(service => service.id !== id)
+  },
+  [DELETE_SERVICE_FAILURE] (state, { id, error }) {
+    state.uservices.userServices.data = state.uservices.userServices.data.map(service => {
+      if (service.id === id) {
+        const { deleting, ...serviceCopy } = service
+        return { ...serviceCopy, deleteError: error }
+      }
+      return service
+    })
+  },
+  [DELETE_ITEM_REQUEST] (state, id) {
+    state.uads.userAds.data = state.uads.userAds.data.map(item =>
+      item.id === id
+        ? { ...item, deleting: true }
+        : item
+    )
+  },
+  [DELETE_ITEM_SUCCESS] (state, id) {
+    state.uads.userAds.data = state.uads.userAds.data.filter(item => item.id !== id)
+  },
+  [DELETE_ITEM_FAILURE] (state, { id, error }) {
+    state.uads.userAds.data = state.uads.userAds.data.map(item => {
+      if (item.id === id) {
+        const { deleting, ...itemCopy } = item
+        return { ...itemCopy, deleteError: error }
+      }
+      return item
+    })
+  },
+  [STOP_SERVICE_REQUEST] (state, id) {
+    state.uservices.userServices.data = state.uservices.userServices.data.map(service =>
+      service.id === id
+        ? { ...service, active: false }
+        : service
+    )
+  },
+  [STOP_SERVICE_SUCCESS] (state, id) {
+    state.uservices.userServices.data = state.uservices.userServices.data.filter(service => service.id !== id)
+  },
+  [STOP_SERVICE_FAILURE] (state, { id, error }) {
+    state.uservices.userServices.data = state.uservices.userServices.data.map(service => {
+      if (service.id === id) {
+        const { deleting, ...serviceCopy } = service
+        return { ...serviceCopy, deleteError: error }
+      }
+      return service
+    })
   }
 }
 

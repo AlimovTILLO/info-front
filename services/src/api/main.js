@@ -33,5 +33,20 @@ export const Main = {
     return HTTP.get(`/announcement/${id}/user`).then(response => {
       return response.data
     })
+  },
+  deleteItem (id) {
+    return HTTP.get(`/announcement/${id}/delete`).then(response => {
+      return response.data
+    })
+  },
+  deleteService (id) {
+    return HTTP.get(`/service/${id}/delete`).then(response => {
+      return response.data
+    })
+  },
+  stopService (id) {
+    return HTTP.get(`/service/${id}/stop`).then(response => {
+      return response.data
+    })
   }
 }
