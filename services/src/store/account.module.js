@@ -20,11 +20,11 @@ const state = user
   : { status: { loggedIn: false }, user: null }
 
 const actions = {
-  getUser ({ commit }) {
+  getUser ({ commit }, id) {
     commit('GET_USER_REQUEST')
-    User.getUser()
+    User.getUser(id)
       .then(
-        profile => commit('GET_USER_SUCCESS', profile),
+        profile => commit('GET_USER_SUCCESS', profile.user),
         error => commit('GET_USER_FAILURE', error)
       )
   },
@@ -71,7 +71,7 @@ const mutations = {
     state.user.profile = { loading: true }
   },
   [GET_USER_SUCCESS] (state, profile) {
-    state.user.profile = { profile: profile }
+    state.user.profile = profile
   },
   [GET_USER_FAILURE] (state, error) {
     state.user.profile = { error }

@@ -1,9 +1,8 @@
 import { HTTP } from './common'
 export const User = {
-  getUser (id) {
-    return HTTP.get(`/user/${id}/profile/`).then(response => {
-      return response.data
-    })
+  async getUser (id) {
+    const response = await HTTP.get(`/user/${id}/profile/`)
+    return response.data
   },
   login (email, password) {
     let config = { email: email, password: password }

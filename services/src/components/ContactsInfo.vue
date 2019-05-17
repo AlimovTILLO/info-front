@@ -18,13 +18,14 @@
               <div class="col-md-5">
                 <div class="contactsInfo__detail">
                   <div class="contactsInfo__inputWrap"><i class="icon-user"></i>
-                  <input type="text" v-model="user.full_name" class="registration__input registration__input--registrationInput" name="Имя" placeholder="Имя">
+                    <input type="text" v-model="user.full_name" class="registration__input registration__input--registrationInput" name="Имя" placeholder="Имя">
                   </div>
                   <div class="contactsInfo__inputWrap"><i class="icon-envelope"></i>
                   <input type="text" v-model="user.email" class="registration__input registration__input--registrationInput" name="Email"
-                      placeholder="Email"></div>
-                  <div class="contactsInfo__inputWrap"><i class="icon-phone"></i> <input type="text"
-                      class="registration__input registration__input--registrationInput phone-js"
+                      placeholder="Email">
+                  </div>
+                  <div class="contactsInfo__inputWrap"><i class="icon-phone"></i>
+                    <input type="text" class="registration__input registration__input--registrationInput phone-js"
                       placeholder="+996 999 999" name="Телефон">
                   </div>
                   <button type="submit" class="btn">Сохранить</button>
@@ -43,27 +44,29 @@ export default {
   name: 'ContactsInfo',
   computed: {
     ...mapState({
-      user: state => state.account.user
+      account: state => state.account.user,
+      profile: state => state.account.user.profile
     })
   },
   data () {
     return {
-      user: {
-        email: this.user.email,
-        full_name: this.user.full_name,
-        main_image: this.user.main_image,
-        password: '',
-        re_password: ''
-      },
+      loading: false,
+      user: [],
       submitted: false
     }
   },
+  async created () {
+    this.refreshUser()
+  },
   methods: {
-    ...mapActions('items', {
-      getAlldata: 'getAll'
+    ...mapActions('account', {
+      getUser: 'getUser'
     }),
-    showModal () {
-      this.getAlldata()
+    refreshUser () {
+      this.getUser(this.account.user_id)
+      this.loading = true
+      this.user = this.profile || {}
+      this.loading = false
     }
   }
 }

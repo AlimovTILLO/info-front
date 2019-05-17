@@ -55,7 +55,7 @@ export const Main = {
     })
   },
   getCloseAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user/close`).then(response => {
+    return HTTP.get(`/announcement/${id}/user/closed`).then(response => {
       return response.data
     })
   },

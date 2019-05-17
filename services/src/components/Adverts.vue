@@ -16,7 +16,7 @@
                 <div class="privat__statusBar">
                   <div class="privat__statusBarItem">
                     <p class="privat__statusItem">Активные объявления</p>
-                    <p class="privat__statusItemCount">2</p>
+                    <p class="privat__statusItemCount"> {{ activeads.total }}</p>
                   </div>
                   <div class="privat__statusBarItem">
                     <p class="privat__statusItem">Просмотров</p>
@@ -62,11 +62,6 @@
                       </div>
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
-                    <ul class="privat__adInfoControlBtns">
-                      <li><i class="fal fa-pause"></i></li>
-                      <li><i class="fal fa-undo-alt"></i></li>
-                      <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
-                    </ul>
                   </div>
                 </div>
                 <div v-show="isActiveTab('close')">
@@ -80,11 +75,6 @@
                       </div>
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
-                    <ul class="privat__adInfoControlBtns">
-                      <li><i class="fal fa-pause"></i></li>
-                      <li><i class="fal fa-undo-alt"></i></li>
-                      <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
-                    </ul>
                   </div>
                 </div>
                 <div v-show="isActiveTab('rejected')">
@@ -98,11 +88,6 @@
                       </div>
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
-                    <ul class="privat__adInfoControlBtns">
-                      <li><i class="fal fa-pause"></i></li>
-                      <li><i class="fal fa-undo-alt"></i></li>
-                      <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
-                    </ul>
                   </div>
                 </div>
               </div>
