@@ -4,6 +4,11 @@ export const User = {
     const response = await HTTP.get(`/user/${id}/profile/`)
     return response.data
   },
+  confirmEmail (code) {
+    return HTTP.get(`/auth/confirm/${code}`).then(response => {
+      return response.data
+    })
+  },
   login (email, password) {
     let config = { email: email, password: password }
     return HTTP.post('/auth/login/', config)

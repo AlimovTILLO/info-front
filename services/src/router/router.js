@@ -10,6 +10,7 @@ import Requests from '@/components/Requests'
 import Services from '@/components/Services'
 import addService from '@/components/addService'
 import Adverts from '@/components/Adverts'
+import ConfirmationEmail from '@/components/ConfirmationEmail'
 import Cat from '@/components/Cat'
 import NotFoundComponent from '@/components/NotFoundComponent'
 
@@ -28,6 +29,7 @@ export const router = new Router({
     { path: '/services', component: Services },
     { path: '/add_service', component: addService },
     { path: '/adverts', component: Adverts },
+    { path: '/auth/confirm/:email_code', component: ConfirmationEmail },
     { path: '/cat/:cat_slug', component: Cat, name: 'cat' },
     { path: '*', component: NotFoundComponent }
   ]

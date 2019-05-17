@@ -5,6 +5,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  CONFIRM_EMAIL_REQUEST,
+  CONFIRM_EMAIL_SUCCESS,
+  CONFIRM_EMAIL_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
@@ -26,6 +29,14 @@ const actions = {
       .then(
         profile => commit('GET_USER_SUCCESS', profile.user),
         error => commit('GET_USER_FAILURE', error)
+      )
+  },
+  confirmEmail ({ commit }, code) {
+    commit('CONFIRM_EMAIL_REQUEST')
+    User.confirmEmail(code)
+      .then(
+        сonfirm => commit('CONFIRM_EMAIL_SUCCESS', сonfirm),
+        error => commit('CONFIRM_EMAIL_FAILURE', error)
       )
   },
   loginUser ({ dispatch, commit }, { email, password }) {
@@ -75,6 +86,15 @@ const mutations = {
   },
   [GET_USER_FAILURE] (state, error) {
     state.user.profile = { error }
+  },
+  [CONFIRM_EMAIL_REQUEST] (state) {
+    state.сonfirm = { loading: true }
+  },
+  [CONFIRM_EMAIL_SUCCESS] (state, сonfirm) {
+    state.сonfirm = сonfirm
+  },
+  [CONFIRM_EMAIL_FAILURE] (state, error) {
+    state.сonfirm = { error }
   },
   [LOGIN_REQUEST] (state, user) {
     state.status = { loggedIn: true }
