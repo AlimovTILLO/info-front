@@ -10,9 +10,6 @@ export const Main = {
     })
   },
   getAll () {
-    // let config = {
-    //   headers: authHeader()
-    // }
     return HTTP.get('/').then(response => {
       return response.data
     })
@@ -47,8 +44,23 @@ export const Main = {
       return response.data
     })
   },
-  getAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user`).then(response => {
+  getActiveAdsByUserId (id) {
+    return HTTP.get(`/announcement/${id}/user/active`).then(response => {
+      return response.data
+    })
+  },
+  getAwaitingAdsByUserId (id) {
+    return HTTP.get(`/announcement/${id}/user/awaiting`).then(response => {
+      return response.data
+    })
+  },
+  getCloseAdsByUserId (id) {
+    return HTTP.get(`/announcement/${id}/user/close`).then(response => {
+      return response.data
+    })
+  },
+  getRejectedAdsByUserId (id) {
+    return HTTP.get(`/announcement/${id}/user/rejected`).then(response => {
       return response.data
     })
   },

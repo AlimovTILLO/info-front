@@ -141,10 +141,10 @@
                         <img src="images/bookmark.png" alt>
                       </div>
                       <img v-if="service.main_image" :src="service.main_image.thumb_256" alt>
-                      <div class="ad__discount">
+                      <!-- <div class="ad__discount">
                         <h3>СКИДКА</h3>
                         <p>30%</p>
-                      </div>
+                      </div> -->
                     </a>
                     <div class="ad__desc">
                       <a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>

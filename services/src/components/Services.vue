@@ -120,9 +120,9 @@ export default {
   computed: {
     ...mapState({
       account: state => state.account,
-      activeservices: state => state.items.activeservices.userServices || [],
-      inactiveservices: state => state.items.inactiveservices.userServices || [],
-      awaitingservices: state => state.items.awaitingservices.userServices || []
+      activeservices: state => state.services.activeservices.userServices || [],
+      inactiveservices: state => state.services.inactiveservices.userServices || [],
+      awaitingservices: state => state.services.awaitingservices.userServices || []
     })
   },
   created () {
@@ -134,7 +134,7 @@ export default {
   //   }
   // },
   methods: {
-    ...mapActions('items', {
+    ...mapActions('services', {
       getActiveServiceByUserId: 'getActiveServiceByUserId',
       getInactiveServiceByUserId: 'getInactiveServiceByUserId',
       getAwaitingServiceByUserId: 'getAwaitingServiceByUserId',

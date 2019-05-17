@@ -130,7 +130,7 @@ export default {
     })
   },
   methods: {
-    ...mapActions('items', ['addService']),
+    ...mapActions('services', ['addService']),
     addFiles () {
       this.$refs.files.click()
     },

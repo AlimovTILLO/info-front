@@ -1,5 +1,10 @@
 import { HTTP } from './common'
 export const User = {
+  getUser (id) {
+    return HTTP.get(`/user/${id}/profile/`).then(response => {
+      return response.data
+    })
+  },
   login (email, password) {
     let config = { email: email, password: password }
     return HTTP.post('/auth/login/', config)

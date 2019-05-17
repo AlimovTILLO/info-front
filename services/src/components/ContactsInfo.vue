@@ -23,10 +23,10 @@
                   <div class="contactsInfo__inputWrap"><i class="icon-envelope"></i>
                   <input type="text" v-model="user.email" class="registration__input registration__input--registrationInput" name="Email"
                       placeholder="Email"></div>
-                  <!-- <div class="contactsInfo__inputWrap"><i class="icon-phone"></i> <input type="text"
+                  <div class="contactsInfo__inputWrap"><i class="icon-phone"></i> <input type="text"
                       class="registration__input registration__input--registrationInput phone-js"
                       placeholder="+996 999 999" name="Телефон">
-                  </div> -->
+                  </div>
                   <button type="submit" class="btn">Сохранить</button>
                 </div>
               </div>

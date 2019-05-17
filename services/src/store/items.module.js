@@ -6,61 +6,38 @@ import {
   GET_ALL_REQUEST,
   GET_ALL_SUCCESS,
   GET_ALL_FAILURE,
-  GET_SERVICE_BY_CAT_ID_REQUEST,
-  GET_SERVICE_BY_CAT_ID_SUCCESS,
-  GET_SERVICE_BY_CAT_ID_FAILURE,
-  GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST,
-  GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS,
-  GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE,
-  GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST,
-  GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS,
-  GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE,
-  GET_AWAITING_SERVICE_BY_USER_ID_REQUEST,
-  GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS,
-  GET_AWAITING_SERVICE_BY_USER_ID_FAILURE,
-  GET_ADS_BY_USER_ID_REQUEST,
-  GET_ADS_BY_USER_ID_SUCCESS,
-  GET_ADS_BY_USER_ID_FAILURE,
+  GET_ACTIVE_ADS_BY_USER_ID_REQUEST,
+  GET_ACTIVE_ADS_BY_USER_ID_SUCCESS,
+  GET_ACTIVE_ADS_BY_USER_ID_FAILURE,
+  GET_AWAITING_ADS_BY_USER_ID_REQUEST,
+  GET_AWAITING_ADS_BY_USER_ID_SUCCESS,
+  GET_AWAITING_ADS_BY_USER_ID_FAILURE,
+  GET_CLOSE_ADS_BY_USER_ID_REQUEST,
+  GET_CLOSE_ADS_BY_USER_ID_SUCCESS,
+  GET_CLOSE_ADS_BY_USER_ID_FAILURE,
+  GET_REJECTED_ADS_BY_USER_ID_REQUEST,
+  GET_REJECTED_ADS_BY_USER_ID_SUCCESS,
+  GET_REJECTED_ADS_BY_USER_ID_FAILURE,
   ADD_ITEM_REQUEST,
   ADD_ITEM_SUCCESS,
   ADD_ITEM_FAILURE,
-  ADD_SERVICE_REQUEST,
-  ADD_SERVICE_SUCCESS,
-  ADD_SERVICE_FAILURE,
-  DELETE_ACTIVE_SERVICE_REQUEST,
-  DELETE_ACTIVE_SERVICE_SUCCESS,
-  DELETE_ACTIVE_SERVICE_FAILURE,
-  DELETE_INACTIVE_SERVICE_REQUEST,
-  DELETE_INACTIVE_SERVICE_SUCCESS,
-  DELETE_INACTIVE_SERVICE_FAILURE,
-  DELETE_AWAITING_SERVICE_REQUEST,
-  DELETE_AWAITING_SERVICE_SUCCESS,
-  DELETE_AWAITING_SERVICE_FAILURE,
   DELETE_ITEM_REQUEST,
   DELETE_ITEM_SUCCESS,
-  DELETE_ITEM_FAILURE,
-  PAUSE_SERVICE_REQUEST,
-  PAUSE_SERVICE_SUCCESS,
-  PAUSE_SERVICE_FAILURE,
-  PLAY_SERVICE_REQUEST,
-  PLAY_SERVICE_SUCCESS,
-  PLAY_SERVICE_FAILURE
+  DELETE_ITEM_FAILURE
 } from './mutation-types.js'
 
 const state = {
   main: {},
   all: {},
-  catservices: [],
-  activeservices: {},
-  inactiveservices: {},
-  awaitingservices: {},
-  uads: {},
+  activeads: {},
+  awaitingads: {},
+  closeads: {},
+  rejectedads: {},
   isModalVisible: false
 }
 // Геттеры
 const getters = {
-  categories: state => state.all.categories,
-  services: state => state.catservices.services
+  categories: state => state.all.categories
 }
 // Действия
 const actions = {
@@ -82,44 +59,36 @@ const actions = {
         error => commit('GET_ALL_FAILURE', error)
       )
   },
-  getServiceByCatId ({ commit }, id) {
-    commit('GET_SERVICE_BY_CAT_ID_REQUEST')
-    Main.getServiceByCatId(id)
+  getActiveAdsByUserId ({ commit }, id) {
+    commit('GET_ACTIVE_ADS_BY_USER_ID_REQUEST')
+    Main.getActiveAdsByUserId(id)
       .then(
-        services => commit('GET_SERVICE_BY_CAT_ID_SUCCESS', services),
-        error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
+        activeads => commit('GET_ACTIVE_ADS_BY_USER_ID_SUCCESS', activeads),
+        error => commit('GET_ACTIVE_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getActiveServiceByUserId ({ commit }, id) {
-    commit('GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST')
-    Main.getActiveServiceByUserId(id)
+  getAwaitingAdsByUserId ({ commit }, id) {
+    commit('GET_AWAITING_ADS_BY_USER_ID_REQUEST')
+    Main.getAwaitingAdsByUserId(id)
       .then(
-        activeservices => commit('GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS', activeservices),
-        error => commit('GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
+        awaitingads => commit('GET_AWAITING_ADS_BY_USER_ID_SUCCESS', awaitingads),
+        error => commit('GET_AWAITING_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getInactiveServiceByUserId ({ commit }, id) {
-    commit('GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST')
-    Main.getInactiveServiceByUserId(id)
+  getCloseAdsByUserId ({ commit }, id) {
+    commit('GET_CLOSE_ADS_BY_USER_ID_REQUEST')
+    Main.getCloseAdsByUserId(id)
       .then(
-        inactiveservices => commit('GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS', inactiveservices),
-        error => commit('GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
+        closeads => commit('GET_CLOSE_ADS_BY_USER_ID_SUCCESS', closeads),
+        error => commit('GET_CLOSE_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getAwaitingServiceByUserId ({ commit }, id) {
-    commit('GET_AWAITING_SERVICE_BY_USER_ID_REQUEST')
-    Main.getAwaitingServiceByUserId(id)
+  getRejectedAdsByUserId ({ commit }, id) {
+    commit('GET_REJECTED_ADS_BY_USER_ID_REQUEST')
+    Main.getRejectedAdsByUserId(id)
       .then(
-        awaitingservices => commit('GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS', awaitingservices),
-        error => commit('GET_AWAITING_SERVICE_BY_USER_ID_FAILURE', error)
-      )
-  },
-  getAdsByUserId ({ commit }, id) {
-    commit('GET_ADS_BY_USER_ID_REQUEST')
-    Main.getAdsByUserId(id)
-      .then(
-        uads => commit('GET_ADS_BY_USER_ID_SUCCESS', uads),
-        error => commit('GET_ADS_BY_USER_ID_FAILURE', error)
+        rejectedads => commit('GET_REJECTED_ADS_BY_USER_ID_SUCCESS', rejectedads),
+        error => commit('GET_REJECTED_ADS_BY_USER_ID_FAILURE', error)
       )
   },
   addItem ({ dispatch, commit }, item) {
@@ -139,47 +108,6 @@ const actions = {
         }
       )
   },
-  addService ({ dispatch, commit }, service) {
-    commit('ADD_SERVICE_REQUEST', service)
-
-    Main.addService(service)
-      .then(
-        service => {
-          commit('ADD_SERVICE_SUCCESS', service)
-          setTimeout(() => {
-            dispatch('alert/success', 'Успешно добавлено', { root: true })
-          })
-        },
-        error => {
-          commit('ADD_SERVICE_FAILURE', error)
-          dispatch('alert/error', error, { root: true })
-        }
-      )
-  },
-  deleteActiveService ({ commit }, id) {
-    commit('DELETE_ACTIVE_SERVICE_REQUEST', id)
-    Main.deleteService(id)
-      .then(
-        activeservice => commit('DELETE_ACTIVE_SERVICE_SUCCESS', id),
-        error => commit('DELETE_ACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
-      )
-  },
-  deleteInactiveService ({ commit }, id) {
-    commit('DELETE_INACTIVE_SERVICE_REQUEST', id)
-    Main.deleteService(id)
-      .then(
-        inactiveservice => commit('DELETE_INACTIVE_SERVICE_SUCCESS', id),
-        error => commit('DELETE_INACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
-      )
-  },
-  deleteAwaitingService ({ commit }, id) {
-    commit('DELETE_AWAITING_SERVICE_REQUEST', id)
-    Main.deleteService(id)
-      .then(
-        awaitingservice => commit('DELETE_AWAITING_SERVICE_SUCCESS', id),
-        error => commit('DELETE_AWAITING_SERVICE_FAILURE', { id, error: error.toString() })
-      )
-  },
   deleteItem ({ commit }, id) {
     commit('DELETE_ITEM_REQUEST', id)
 
@@ -187,24 +115,6 @@ const actions = {
       .then(
         item => commit('DELETE_ITEM_SUCCESS', id),
         error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
-      )
-  },
-  pauseService ({ commit }, id) {
-    commit('PAUSE_SERVICE_REQUEST', id)
-
-    Main.playPauseService(id)
-      .then(
-        service => commit('PAUSE_SERVICE_SUCCESS', id),
-        error => commit('PAUSE_SERVICE_FAILURE', { id, error: error.toString() })
-      )
-  },
-  playService ({ commit }, id) {
-    commit('PLAY_SERVICE_REQUEST', id)
-
-    Main.playPauseService(id)
-      .then(
-        service => commit('PLAY_SERVICE_SUCCESS', id),
-        error => commit('PLAY_SERVICE_FAILURE', { id, error: error.toString() })
       )
   }
 }
@@ -228,50 +138,41 @@ const mutations = {
   [GET_ALL_FAILURE] (state, error) {
     state.all = { error }
   },
-  [GET_SERVICE_BY_CAT_ID_REQUEST] (state) {
-    state.catservices = { loading: true }
+  [GET_ACTIVE_ADS_BY_USER_ID_REQUEST] (state) {
+    state.activeads = { loading: true }
   },
-  [GET_SERVICE_BY_CAT_ID_SUCCESS] (state, services) {
-    state.catservices = { services: services }
+  [GET_ACTIVE_ADS_BY_USER_ID_SUCCESS] (state, activeads) {
+    state.activeads = { userAds: activeads.userAds }
   },
-  [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
-    state.catservices = { error }
+  [GET_ACTIVE_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.activeads = { error }
   },
-  [GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
-    state.activeservices = { loading: true }
+  [GET_AWAITING_ADS_BY_USER_ID_REQUEST] (state) {
+    state.awaitingads = { loading: true }
   },
-  [GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS] (state, activeservices) {
-    state.activeservices = { userServices: activeservices.userServices }
+  [GET_AWAITING_ADS_BY_USER_ID_SUCCESS] (state, awaitingads) {
+    state.awaitingads = { userAds: awaitingads.userAds }
   },
-  [GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE] (state, error) {
-    state.activeservices = { error }
+  [GET_AWAITING_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.awaitingads = { error }
   },
-  [GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
-    state.inactiveservices = { loading: true }
+  [GET_CLOSE_ADS_BY_USER_ID_REQUEST] (state) {
+    state.closeads = { loading: true }
   },
-  [GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS] (state, inactiveservices) {
-    state.inactiveservices = { userServices: inactiveservices.userServices }
+  [GET_CLOSE_ADS_BY_USER_ID_SUCCESS] (state, closeads) {
+    state.closeads = { userAds: closeads.userAds }
   },
-  [GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE] (state, error) {
-    state.inactiveservices = { error }
+  [GET_CLOSE_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.closeads = { error }
   },
-  [GET_AWAITING_SERVICE_BY_USER_ID_REQUEST] (state) {
-    state.awaitingservices = { loading: true }
+  [GET_REJECTED_ADS_BY_USER_ID_REQUEST] (state) {
+    state.rejectedads = { loading: true }
   },
-  [GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS] (state, awaitingservices) {
-    state.awaitingservices = { userServices: awaitingservices.userServices }
+  [GET_REJECTED_ADS_BY_USER_ID_SUCCESS] (state, rejectedads) {
+    state.rejectedads = { userAds: rejectedads.userAds }
   },
-  [GET_AWAITING_SERVICE_BY_USER_ID_FAILURE] (state, error) {
-    state.awaitingservices = { error }
-  },
-  [GET_ADS_BY_USER_ID_REQUEST] (state) {
-    state.uads = { loading: true }
-  },
-  [GET_ADS_BY_USER_ID_SUCCESS] (state, uads) {
-    state.uads = { userAds: uads.userAds }
-  },
-  [GET_ADS_BY_USER_ID_FAILURE] (state, error) {
-    state.uads = { error }
+  [GET_REJECTED_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.rejectedads = { error }
   },
   [ADD_ITEM_REQUEST] (state) {
     state.status = {}
@@ -282,127 +183,23 @@ const mutations = {
   [ADD_ITEM_FAILURE] (state) {
     state.status = {}
   },
-  [ADD_SERVICE_REQUEST] (state) {
-    state.status = {}
-  },
-  [ADD_SERVICE_SUCCESS] (state) {
-    state.status = {}
-  },
-  [ADD_SERVICE_FAILURE] (state) {
-    state.status = {}
-  },
-  [DELETE_ACTIVE_SERVICE_REQUEST] (state, id) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice =>
-      activeservice.id === id
-        ? { ...activeservice, deleting: true }
-        : activeservice
-    )
-  },
-  [DELETE_ACTIVE_SERVICE_SUCCESS] (state, id) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.filter(activeservice => activeservice.id !== id)
-  },
-  [DELETE_ACTIVE_SERVICE_FAILURE] (state, { id, error }) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice => {
-      if (activeservice.id === id) {
-        const { deleting, ...serviceCopy } = activeservice
-        return { ...serviceCopy, deleteError: error }
-      }
-      return activeservice
-    })
-  },
-  [DELETE_INACTIVE_SERVICE_REQUEST] (state, id) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(inactiveservice =>
-      inactiveservice.id === id
-        ? { ...inactiveservice, deleting: true }
-        : inactiveservice
-    )
-  },
-  [DELETE_INACTIVE_SERVICE_SUCCESS] (state, id) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.filter(inactiveservice => inactiveservice.id !== id)
-  },
-  [DELETE_INACTIVE_SERVICE_FAILURE] (state, { id, error }) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(inactiveservice => {
-      if (inactiveservice.id === id) {
-        const { deleting, ...serviceCopy } = inactiveservice
-        return { ...serviceCopy, deleteError: error }
-      }
-      return inactiveservice
-    })
-  },
-  [DELETE_AWAITING_SERVICE_REQUEST] (state, id) {
-    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.map(awaitingservice =>
-      awaitingservice.id === id
-        ? { ...awaitingservice, deleting: true }
-        : awaitingservice
-    )
-  },
-  [DELETE_AWAITING_SERVICE_SUCCESS] (state, id) {
-    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.filter(awaitingservice => awaitingservice.id !== id)
-  },
-  [DELETE_AWAITING_SERVICE_FAILURE] (state, { id, error }) {
-    state.awaitingservices.userServices.data = state.awaitingservices.userServices.data.map(awaitingservice => {
-      if (awaitingservice.id === id) {
-        const { deleting, ...serviceCopy } = awaitingservice
-        return { ...serviceCopy, deleteError: error }
-      }
-      return awaitingservice
-    })
-  },
   [DELETE_ITEM_REQUEST] (state, id) {
-    state.uads.userAds.data = state.uads.userAds.data.map(item =>
+    state.activeads.userAds.data = state.activeads.userAds.data.map(item =>
       item.id === id
         ? { ...item, deleting: true }
         : item
     )
   },
   [DELETE_ITEM_SUCCESS] (state, id) {
-    state.uads.userAds.data = state.uads.userAds.data.filter(item => item.id !== id)
+    state.activeads.userAds.data = state.activeads.userAds.data.filter(item => item.id !== id)
   },
   [DELETE_ITEM_FAILURE] (state, { id, error }) {
-    state.uads.userAds.data = state.uads.userAds.data.map(item => {
+    state.activeads.userAds.data = state.activeads.userAds.data.map(item => {
       if (item.id === id) {
         const { deleting, ...itemCopy } = item
         return { ...itemCopy, deleteError: error }
       }
       return item
-    })
-  },
-  [PAUSE_SERVICE_REQUEST] (state, id) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.map(service =>
-      service.id === id
-        ? { ...service, is_view: 0 }
-        : service
-    )
-  },
-  [PAUSE_SERVICE_SUCCESS] (state, id) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.filter(service => service.id !== id)
-  },
-  [PAUSE_SERVICE_FAILURE] (state, { id, error }) {
-    state.activeservices.userServices.data = state.activeservices.userServices.data.map(service => {
-      if (service.id === id) {
-        const { deleting, ...serviceCopy } = service
-        return { ...serviceCopy, deleteError: error }
-      }
-      return service
-    })
-  },
-  [PLAY_SERVICE_REQUEST] (state, id) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(service =>
-      service.id === id
-        ? { ...service, is_view: 0 }
-        : service
-    )
-  },
-  [PLAY_SERVICE_SUCCESS] (state, id) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.filter(service => service.id !== id)
-  },
-  [PLAY_SERVICE_FAILURE] (state, { id, error }) {
-    state.inactiveservices.userServices.data = state.inactiveservices.userServices.data.map(service => {
-      if (service.id === id) {
-        const { deleting, ...serviceCopy } = service
-        return { ...serviceCopy, deleteError: error }
-      }
-      return service
     })
   }
 }

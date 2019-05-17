@@ -78,7 +78,7 @@
                     <div class="ad__items ad__items--indentItem">
                         <a href="#" class="ad__img">
                         <div class="ad__tagged">
-                        <img src="../assets/images/bookmark.png" alt="">
+                        <img v-if="service.is_vip === 1" src="../assets/images/bookmark.png" alt="">
                         </div>
                         <img v-if="service.main_image" :src="service.main_image.thumb_256" alt=""/>
                         <div class="ad__discount" v-if="service.discount > 0">
@@ -118,8 +118,8 @@ export default {
   name: 'Cat',
   computed: {
     ...mapState({
-      services: state => state.items.catservices.services || [],
-      data: state => state.items.catservices.services.categoryServices.data || []
+      services: state => state.services.catservices.services || [],
+      data: state => state.services.catservices.services.categoryServices.data || []
     })
     // ...mapGetters('items', {
     //   services: 'services'
@@ -135,7 +135,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('items', {
+    ...mapActions('services', {
       getServiceById: 'getServiceByCatId'
     })
   }
