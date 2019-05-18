@@ -6,6 +6,9 @@ import {
   GET_ALL_REQUEST,
   GET_ALL_SUCCESS,
   GET_ALL_FAILURE,
+  GET_ADS_BY_USER_ID_REQUEST,
+  GET_ADS_BY_USER_ID_SUCCESS,
+  GET_ADS_BY_USER_ID_FAILURE,
   GET_ACTIVE_ADS_BY_USER_ID_REQUEST,
   GET_ACTIVE_ADS_BY_USER_ID_SUCCESS,
   GET_ACTIVE_ADS_BY_USER_ID_FAILURE,
@@ -29,6 +32,7 @@ import {
 const state = {
   main: {},
   all: {},
+  ads: {},
   activeads: {},
   awaitingads: {},
   closeads: {},
@@ -57,6 +61,14 @@ const actions = {
         cities => commit('GET_ALL_SUCCESS', cities),
         menu => commit('GET_ALL_SUCCESS', menu),
         error => commit('GET_ALL_FAILURE', error)
+      )
+  },
+  getAdsByUserId ({ commit }, id) {
+    commit('GET_ADS_BY_USER_ID_REQUEST')
+    Main.getAdsByUserId(id)
+      .then(
+        ads => commit('GET_ADS_BY_USER_ID_SUCCESS', ads),
+        error => commit('GET_ADS_BY_USER_ID_FAILURE', error)
       )
   },
   getActiveAdsByUserId ({ commit }, id) {
@@ -137,6 +149,15 @@ const mutations = {
   },
   [GET_ALL_FAILURE] (state, error) {
     state.all = { error }
+  },
+  [GET_ADS_BY_USER_ID_REQUEST] (state) {
+    state.ads = { loading: true }
+  },
+  [GET_ADS_BY_USER_ID_SUCCESS] (state, ads) {
+    state.ads = { userAds: ads.userAds }
+  },
+  [GET_ADS_BY_USER_ID_FAILURE] (state, error) {
+    state.ads = { error }
   },
   [GET_ACTIVE_ADS_BY_USER_ID_REQUEST] (state) {
     state.activeads = { loading: true }

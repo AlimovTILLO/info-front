@@ -3,31 +3,15 @@
     <div class="privat contentWrap--atherBgc">
         <div class="container">
           <div class="request">
-            <h3 class="inner__caption">Запросы на мои услуги (2)</h3>
-            <div class="request__itemWrap">
+            <h3 class="inner__caption">Запросы на мои услуги ({{ ads.total }})</h3>
+            <div v-for="ad in ads.data" v-bind:key="ad.id" class="request__itemWrap">
               <div class="request__item">
                 <div class="privat__category privat__category--request">
-                  <div class="privat__categoryItem">
-                    <p>Медицина</p>
-                  </div>
-                  <div class="privat__categoryItem privat__categoryItem--active">
-                    <p>Стоматология</p>
+                  <div v-for="category in ad.categories" v-bind:key="category.id" class="privat__categoryItem">
+                    <p>{{ category.name.ru}}</p>
                   </div>
                 </div>
-                <p class="privat__categoryDesc">Нужно установить брекеты. Ребенок, 14 лет. Тел. 0555 33 14 15</p>
-              </div>
-            </div>
-            <div class="request__itemWrap">
-              <div class="request__item">
-                <div class="privat__category privat__category--request">
-                  <div class="privat__categoryItem">
-                    <p>Медицина</p>
-                  </div>
-                  <div class="privat__categoryItem privat__categoryItem--active">
-                    <p>Стоматология</p>
-                  </div>
-                </div>
-                <p class="privat__categoryDesc">можем приехать на лечение. Тел. 0700 02 03 19</p>
+                <p class="privat__categoryDesc"> {{ ad.desc.ru }} Тел. {{ ad.phone}}</p>
               </div>
             </div>
           </div>
@@ -48,7 +32,23 @@
 </template>
 
 <script>
+import { mapState, mapActions } from 'vuex'
+
 export default {
-  name: 'Requests'
+  name: 'Requests',
+  computed: {
+    ...mapState({
+      user: state => state.account.user,
+      ads: state => state.items.ads.userAds || []
+    })
+  },
+  created () {
+    this.getAdsByUserId(this.user.user_id)
+  },
+  methods: {
+    ...mapActions('items', {
+      getAdsByUserId: 'getAdsByUserId'
+    })
+  }
 }
 </script>

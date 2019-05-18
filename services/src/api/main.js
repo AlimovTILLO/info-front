@@ -24,6 +24,11 @@ export const Main = {
       return response.data
     })
   },
+  getAdsByUserId (id) {
+    return HTTP.get(`/ads/${id}/user`).then(response => {
+      return response.data
+    })
+  },
   getServiceByCatId (id) {
     return HTTP.get(`/service/${id}/category`).then(response => {
       return response.data
