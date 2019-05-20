@@ -3631,7 +3631,7 @@ button {
 
 .privat__statusBlock {
   padding: 25px 0;
-  border-bottom: 1px solid #c4c4c4
+  /*border-bottom: 1px solid #c4c4c4*/
 }
 
 .privat .btnWrap {
