@@ -1,7 +1,7 @@
 <template>
     <div class="header">
       <div class="container">
-        <div class="row header__navWrap">
+        <div class="row header__navWrap header__navWrap--inner">
           <div class="col-lg-2 col-sm-6">
             <div class="header__logo">
               <a href="/">Ishu Info</a>

@@ -9,19 +9,16 @@ export default {
   name: 'ConfirmationEmail',
   computed: {
     ...mapState({
-      сonfirm: state => state.account.сonfirm
+      сonfirm: state => state.items.сonfirm
     })
   },
   created () {
-    this.ConfirmationEmail()
+    this.confirmEmail(this.$route.params.email_code)
   },
   methods: {
-    ...mapActions('account', {
+    ...mapActions('items', {
       confirmEmail: 'confirmEmail'
-    }),
-    ConfirmationEmail () {
-      this.confirmEmail(this.$route.params.email_code)
-    }
+    })
   }
 }
 </script>
