@@ -3,7 +3,7 @@
         <div class="container">
           <form action="" class="search">
             <div class="search__result">
-              <h2>Услуги в категории {{ services.categoryName}} <span>{{ services.categoryServices.data.length }}</span></h2>
+              <h2 v-if="services.categoryServices.data">Услуги в категории {{ services.categoryName}} <span>{{ services.categoryServices.data.length }}</span></h2>
             </div>
             <div class="search__input"><input type="text" placeholder="Поиск"> <button><i
                   class="fal fa-search"></i></button></div>
@@ -76,7 +76,7 @@
                 <div class="row">
                   <div v-for="service in services.categoryServices.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
                     <div class="ad__items ad__items--indentItem">
-                        <a href="#" class="ad__img">
+                        <router-link class="ad__img" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">
                         <div class="ad__tagged">
                         <img v-if="service.is_vip === 1" src="../assets/images/bookmark.png" alt="">
                         </div>
@@ -85,8 +85,9 @@
                           <h3>СКИДКА</h3>
                           <p>30%</p>
                         </div>
-                      </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
+                      </router-link>
+                      <div class="ad__desc">
+                        <router-link class="ad__itemCaption" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">{{ service.title.ru }}</router-link>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
                           <ul class="rating">

@@ -1,5 +1,8 @@
 import { Main } from '../api/main'
 import {
+  GET_SERVICE_BY_ID_REQUEST,
+  GET_SERVICE_BY_ID_SUCCESS,
+  GET_SERVICE_BY_ID_FAILURE,
   GET_SERVICE_BY_CAT_ID_REQUEST,
   GET_SERVICE_BY_CAT_ID_SUCCESS,
   GET_SERVICE_BY_CAT_ID_FAILURE,
@@ -44,6 +47,14 @@ const getters = {
 }
 // Действия
 const actions = {
+  getServiceById ({ commit }, id) {
+    commit('GET_SERVICE_BY_ID_REQUEST')
+    Main.getServiceById(id)
+      .then(
+        service => commit('GET_SERVICE_BY_ID_SUCCESS', service),
+        error => commit('GET_SERVICE_BY_ID_FAILURE', error)
+      )
+  },
   getServiceByCatId ({ commit }, id) {
     commit('GET_SERVICE_BY_CAT_ID_REQUEST')
     Main.getServiceByCatId(id)
@@ -195,6 +206,15 @@ const mutations = {
     state.catservices = { services: services }
   },
   [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
+    state.catservices = { error }
+  },
+  [GET_SERVICE_BY_ID_REQUEST] (state) {
+    state.catservices = { loading: true }
+  },
+  [GET_SERVICE_BY_ID_SUCCESS] (state, service) {
+    state.service = { service: service.service }
+  },
+  [GET_SERVICE_BY_ID_FAILURE] (state, error) {
     state.catservices = { error }
   },
   [GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
