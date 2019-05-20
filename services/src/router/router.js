@@ -8,6 +8,7 @@ import ContactsInfo from '@/components/ContactsInfo'
 import FAQ from '@/components/FAQ'
 import Requests from '@/components/Requests'
 import Services from '@/components/Services'
+import Service from '@/components/Service'
 import addService from '@/components/addService'
 import Adverts from '@/components/Adverts'
 import ConfirmationEmail from '@/components/ConfirmationEmail'
@@ -31,6 +32,7 @@ export const router = new Router({
     { path: '/adverts', component: Adverts },
     { path: '/auth/confirm/:email_code', component: ConfirmationEmail },
     { path: '/cat/:cat_slug', component: Cat, name: 'cat' },
+    { path: '/service/:slug', component: Service, name: 'service' },
     { path: '*', component: NotFoundComponent }
   ]
 })

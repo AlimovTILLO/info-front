@@ -24,6 +24,11 @@ export const User = {
     // remove user from local storage to log user out
     localStorage.removeItem('user')
   },
+  updateProfile (config, id) {
+    return HTTP.post(`/user/${id}/profile/update/`, config).then(response => {
+      return response.data
+    })
+  },
   register (config) {
     return HTTP.post('/auth/register/', config).then(response => {
       return response.data

@@ -2,15 +2,12 @@ import { User } from '../api/user'
 // import { router } from '../router'
 import { items } from './items.module'
 import {
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  GET_USER_FAILURE,
-  CONFIRM_EMAIL_REQUEST,
-  CONFIRM_EMAIL_SUCCESS,
-  CONFIRM_EMAIL_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
@@ -23,22 +20,6 @@ const state = user
   : { status: { loggedIn: false }, user: null }
 
 const actions = {
-  getUser ({ commit }, id) {
-    commit('GET_USER_REQUEST')
-    User.getUser(id)
-      .then(
-        profile => commit('GET_USER_SUCCESS', profile.user),
-        error => commit('GET_USER_FAILURE', error)
-      )
-  },
-  confirmEmail ({ commit }, code) {
-    commit('CONFIRM_EMAIL_REQUEST')
-    User.confirmEmail(code)
-      .then(
-        сonfirm => commit('CONFIRM_EMAIL_SUCCESS', сonfirm),
-        error => commit('CONFIRM_EMAIL_FAILURE', error)
-      )
-  },
   loginUser ({ dispatch, commit }, { email, password }) {
     commit('LOGIN_REQUEST', { email })
     User.login(email, password)
@@ -50,6 +31,23 @@ const actions = {
         },
         error => {
           commit('LOGIN_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
+      )
+  },
+  updateProfile ({ dispatch, commit }, { profile, id }) {
+    commit('UPDATE_PROFILE_REQUEST', profile)
+
+    User.updateProfile(profile, id)
+      .then(
+        profile => {
+          commit('UPDATE_PROFILE_SUCCESS', profile)
+          setTimeout(() => {
+            dispatch('alert/success', 'Update successful', { root: true })
+          })
+        },
+        error => {
+          commit('UPDATE_PROFILE_FAILURE', error)
           dispatch('alert/error', error, { root: true })
         }
       )
@@ -78,24 +76,6 @@ const actions = {
 }
 
 const mutations = {
-  [GET_USER_REQUEST] (state) {
-    state.user.profile = { loading: true }
-  },
-  [GET_USER_SUCCESS] (state, profile) {
-    state.user.profile = profile
-  },
-  [GET_USER_FAILURE] (state, error) {
-    state.user.profile = { error }
-  },
-  [CONFIRM_EMAIL_REQUEST] (state) {
-    state.сonfirm = { loading: true }
-  },
-  [CONFIRM_EMAIL_SUCCESS] (state, сonfirm) {
-    state.сonfirm = сonfirm
-  },
-  [CONFIRM_EMAIL_FAILURE] (state, error) {
-    state.сonfirm = { error }
-  },
   [LOGIN_REQUEST] (state, user) {
     state.status = { loggedIn: true }
     state.user = user
@@ -111,6 +91,15 @@ const mutations = {
   [LOGOUT] (state) {
     state.status = { loggedIn: false }
     state.user = null
+  },
+  [UPDATE_PROFILE_REQUEST] (state, profile) {
+    state.status = { registering: true }
+  },
+  [UPDATE_PROFILE_SUCCESS] (state, profile) {
+    state.status = {}
+  },
+  [UPDATE_PROFILE_FAILURE] (state, error) {
+    state.status = {}
   },
   [REGISTER_REQUEST] (state, user) {
     state.status = { registering: true }

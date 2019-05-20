@@ -1,5 +1,12 @@
 import { Main } from '../api/main'
+import { User } from '../api/user'
 import {
+  CONFIRM_EMAIL_REQUEST,
+  CONFIRM_EMAIL_SUCCESS,
+  CONFIRM_EMAIL_FAILURE,
+  GET_USER_REQUEST,
+  GET_USER_SUCCESS,
+  GET_USER_FAILURE,
   GET_MAIN_REQUEST,
   GET_MAIN_SUCCESS,
   GET_MAIN_FAILURE,
@@ -30,6 +37,8 @@ import {
 } from './mutation-types.js'
 
 const state = {
+  сonfirm: '',
+  profile: [],
   main: {},
   all: {},
   ads: {},
@@ -45,6 +54,22 @@ const getters = {
 }
 // Действия
 const actions = {
+  confirmEmail ({ commit }, code) {
+    commit('CONFIRM_EMAIL_REQUEST')
+    User.confirmEmail(code)
+      .then(
+        сonfirm => commit('CONFIRM_EMAIL_SUCCESS', сonfirm),
+        error => commit('CONFIRM_EMAIL_FAILURE', error)
+      )
+  },
+  getUser ({ commit }, id) {
+    commit('GET_USER_REQUEST')
+    User.getUser(id)
+      .then(
+        profile => commit('GET_USER_SUCCESS', profile.user),
+        error => commit('GET_USER_FAILURE', error)
+      )
+  },
   getMain ({ commit }) {
     commit('GET_MAIN_REQUEST')
     Main.getMain()
@@ -63,9 +88,9 @@ const actions = {
         error => commit('GET_ALL_FAILURE', error)
       )
   },
-  getAdsByUserId ({ commit }, id) {
+  getAdsByUserId ({ commit }, { id, page }) {
     commit('GET_ADS_BY_USER_ID_REQUEST')
-    Main.getAdsByUserId(id)
+    Main.getAdsByUserId(id, page)
       .then(
         ads => commit('GET_ADS_BY_USER_ID_SUCCESS', ads),
         error => commit('GET_ADS_BY_USER_ID_FAILURE', error)
@@ -132,6 +157,24 @@ const actions = {
 }
 // Мутации
 const mutations = {
+  [CONFIRM_EMAIL_REQUEST] (state, сonfirm) {
+    state.сonfirm = сonfirm
+  },
+  [CONFIRM_EMAIL_SUCCESS] (state, сonfirm) {
+    state.сonfirm = сonfirm
+  },
+  [CONFIRM_EMAIL_FAILURE] (state, error) {
+    state.сonfirm = { error }
+  },
+  [GET_USER_REQUEST] (state, profile) {
+    state.profile = profile
+  },
+  [GET_USER_SUCCESS] (state, profile) {
+    state.profile = profile
+  },
+  [GET_USER_FAILURE] (state, error) {
+    state.profile = { error }
+  },
   [GET_MAIN_REQUEST] (state) {
     state.main = { loading: true }
   },

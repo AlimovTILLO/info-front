@@ -24,8 +24,14 @@ export const Main = {
       return response.data
     })
   },
-  getAdsByUserId (id) {
-    return HTTP.get(`/ads/${id}/user`).then(response => {
+  getServiceById (id) {
+    return HTTP.get(`/service/${id}/`).then(response => {
+      return response.data
+    })
+  },
+  getAdsByUserId (id, page) {
+    console.log(id, page)
+    return HTTP.get(`/ads/${id}/user?page=${page}`).then(response => {
       return response.data
     })
   },
