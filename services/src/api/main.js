@@ -40,18 +40,18 @@ export const Main = {
       return response.data
     })
   },
-  getActiveServiceByUserId (id) {
-    return HTTP.get(`/service/${id}/user/active`).then(response => {
+  getActiveServiceByUserId (id, page) {
+    return HTTP.get(`/service/${id}/user/active?page=${page}`).then(response => {
       return response.data
     })
   },
-  getInactiveServiceByUserId (id) {
-    return HTTP.get(`/service/${id}/user/inactive`).then(response => {
+  getInactiveServiceByUserId (id, page) {
+    return HTTP.get(`/service/${id}/user/inactive?page=${page}`).then(response => {
       return response.data
     })
   },
-  getAwaitingServiceByUserId (id) {
-    return HTTP.get(`/service/${id}/user/awaiting`).then(response => {
+  getAwaitingServiceByUserId (id, page) {
+    return HTTP.get(`/service/${id}/user/awaiting?page=${page}`).then(response => {
       return response.data
     })
   },

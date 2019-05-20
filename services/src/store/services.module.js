@@ -36,6 +36,7 @@ import {
 } from './mutation-types.js'
 
 const state = {
+  service: '',
   catservices: [],
   activeservices: {},
   inactiveservices: {},
@@ -63,25 +64,25 @@ const actions = {
         error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
       )
   },
-  getActiveServiceByUserId ({ commit }, id) {
+  getActiveServiceByUserId ({ commit }, { id, page }) {
     commit('GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST')
-    Main.getActiveServiceByUserId(id)
+    Main.getActiveServiceByUserId(id, page)
       .then(
         activeservices => commit('GET_ACTIVE_SERVICE_BY_USER_ID_SUCCESS', activeservices),
         error => commit('GET_ACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
       )
   },
-  getInactiveServiceByUserId ({ commit }, id) {
+  getInactiveServiceByUserId ({ commit }, { id, page }) {
     commit('GET_INACTIVE_SERVICE_BY_USER_ID_REQUEST')
-    Main.getInactiveServiceByUserId(id)
+    Main.getInactiveServiceByUserId(id, page)
       .then(
         inactiveservices => commit('GET_INACTIVE_SERVICE_BY_USER_ID_SUCCESS', inactiveservices),
         error => commit('GET_INACTIVE_SERVICE_BY_USER_ID_FAILURE', error)
       )
   },
-  getAwaitingServiceByUserId ({ commit }, id) {
+  getAwaitingServiceByUserId ({ commit }, { id, page }) {
     commit('GET_AWAITING_SERVICE_BY_USER_ID_REQUEST')
-    Main.getAwaitingServiceByUserId(id)
+    Main.getAwaitingServiceByUserId(id, page)
       .then(
         awaitingservices => commit('GET_AWAITING_SERVICE_BY_USER_ID_SUCCESS', awaitingservices),
         error => commit('GET_AWAITING_SERVICE_BY_USER_ID_FAILURE', error)

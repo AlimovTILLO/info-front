@@ -24,13 +24,13 @@
               <div class="col-lg-8 col-md-7">
                 <div class="service__sliderWrap">
                   <div class="captionWrap">
-                    <h2 class="caption caption--secondCap">{{ service.title.ru }}</h2>
+                    <h2 v-if="service.title" class="caption caption--secondCap">{{ service.title.ru }}</h2>
                   </div>
                   <div class="row">
                     <div class="col-md-9">
                       <div class="swiper-container gallery-top">
                         <div v-for="slide in service.media" v-bind:key="slide.id" class="swiper-wrapper">
-                          <div class="swiper-slide">
+                          <div class="swiper-slide" v-if="slide.id === active">
                               <img :src="slide.thumb_512" alt="">
                           </div>
                         </div>
@@ -40,7 +40,7 @@
                       <div class="swiper-container gallery-thumbs">
                         <div v-for="slide in service.media" v-bind:key="slide.id" class="swiper-wrapper">
                           <div class="swiper-slide">
-                              <img :src="slide.thumb_128" alt="">
+                              <img :src="slide.thumb_128" @click.prevent="makeActive" alt="">
                           </div>
                         </div>
                       </div>
@@ -63,8 +63,8 @@
                   <div class="service__info">
                     <div class="service__infoProfile"><img src="images/service/Mask Group.png" alt=""></div>
                     <div class="service__name">
-                      <p>{{ service.title.ru }}</p>
-                      <p><strong>{{ service.user.full_name }}</strong></p>
+                      <p v-if="service.title">{{ service.title.ru }}</p>
+                      <p v-if="service.user" ><strong>{{ service.user.full_name }}</strong></p>
                       <div class="rating">
                         <ul class="rating">
                           <li class="star"><i class="fas fa-star"></i></li>
@@ -197,7 +197,12 @@ export default {
       service: state => state.services.service.service || ''
     })
   },
-  beforeMount () {
+  data () {
+    return {
+      choice: ''
+    }
+  },
+  created () {
     this.getServiceById(this.$route.params.id)
   },
   watch: {
@@ -209,7 +214,12 @@ export default {
   methods: {
     ...mapActions('services', {
       getServiceById: 'getServiceById'
-    })
+    }),
+    makeActive (val) {
+      // for (slide in this.service.media) {
+      //   this.choice = slide.id
+      // }
+    }
   }
 }
 </script>
