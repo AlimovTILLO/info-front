@@ -2,7 +2,7 @@
   <div>
     <div class="privat contentWrap--atherBgc">
       <div class="container">
-        <div class="request">
+        <div class="privat__statusBlock">
           <h3 class="inner__caption">Запросы на мои услуги ({{ ads.total }})</h3>
           <div v-for="ad in ads.data" v-bind:key="ad.id" class="request__itemWrap">
             <div class="request__item">
@@ -19,9 +19,9 @@
             </div>
           </div>
         </div>
+        <pagination v-if="ads.last_page > 1" :pagination="ads" :offset="5" @paginate="fetchPosts()"/>
       </div>
     </div>
-    <pagination v-if="ads.last_page > 1" :pagination="ads" :offset="5" @paginate="fetchPosts()"/>
   </div>
 </template>
 

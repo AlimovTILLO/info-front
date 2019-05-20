@@ -2,10 +2,10 @@
   <div class="privat contentWrap--atherBgc">
     <div>
         <div class="container">
-          <div class="request">
+          <div class="privat__statusBlock">
             <div class="row">
               <div class="col">
-                <h3 class="inner__caption">Мои услугии</h3>
+                <h3 class="inner__caption">Мои услуги</h3>
               </div>
               <div class="col">
                 <div class="btnWrap"><router-link  to="/add_service" class="btn">Добавить услугу</router-link></div>
@@ -15,7 +15,7 @@
               <div class="col-md-2">
                 <div class="privat__statusBar">
                   <div class="privat__statusBarItem">
-                    <p class="privat__statusItem">Активные услугии</p>
+                    <p class="privat__statusItem">Активные услуги</p>
                     <p class="privat__statusItemCount">{{ activeservices.total }}</p>
                   </div>
                   <div class="privat__statusBarItem">

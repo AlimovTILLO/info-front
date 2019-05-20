@@ -2,7 +2,7 @@
   <div>
     <div class="privat contentWrap--atherBgc">
         <div class="container">
-          <div class="request">
+          <div class="privat__statusBlock">
             <div class="row">
               <div class="col">
                 <h3 class="inner__caption">Мои объявления</h3>
@@ -93,17 +93,17 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="pagination">
-        <div class="container">
-          <div class="pagination__wrap"><a class="pagination__link--prev pagination__link" href="#"><i
-                class="fal fa-angle-left"></i></a> <a class="pagination__link pagination__link--current" href="#">1</a>
-            <a class="pagination__link" href="#">2</a> <a class="pagination__link" href="#">3</a> <a
-              class="pagination__link" href="#">4</a> <a class="pagination__link" href="#">5</a> <a
-              class="pagination__link pagination__link--reduction" href="#"></a> <a class="pagination__link"
-              href="#">13</a> <a class="pagination__link" href="#">14</a> <a
-              class="pagination__link--next pagination__link" href="#"><i class="fal fa-angle-right"></i></a></div>
+          <div class="pagination">
+            <div class="container">
+              <div class="pagination__wrap"><a class="pagination__link--prev pagination__link" href="#"><i
+                      class="fal fa-angle-left"></i></a> <a class="pagination__link pagination__link--current" href="#">1</a>
+                <a class="pagination__link" href="#">2</a> <a class="pagination__link" href="#">3</a> <a
+                        class="pagination__link" href="#">4</a> <a class="pagination__link" href="#">5</a> <a
+                        class="pagination__link pagination__link--reduction" href="#"></a> <a class="pagination__link"
+                                                                                              href="#">13</a> <a class="pagination__link" href="#">14</a> <a
+                        class="pagination__link--next pagination__link" href="#"><i class="fal fa-angle-right"></i></a></div>
+            </div>
+          </div>
         </div>
       </div>
   </div>
