@@ -104,9 +104,6 @@
                 </div>
               </div>
             </div>
-            <div class="col-lg-2 col-md-3">
-              <div class="ad__banner"><img src="images/Mask Group.jpg" alt=""></div>
-            </div>
           </div>
         </div>
         <pagination v-if="services.last_page > 1" :pagination="services" :offset="5" @paginate="fetchService()"/>

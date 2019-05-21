@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="submitForm">
+  <form @submit.prevent="submitForm" class="loginForm">
     <div class="registration__inputWrap">
       <label for="email">E-mail</label>
       <input
@@ -11,7 +11,7 @@
         id="E-mail"
         :class="{ 'is-invalid': submitted && !email }"
       >
-      <div v-show="submitted && !email" class="invalid-feedback">E-mail is required</div>
+      <div v-show="submitted && !email" class="invalid-feedback">E-mail обязателен</div>
     </div>
     <div class="registration__inputWrap">
       <label for="password">Пароль</label>
@@ -24,13 +24,13 @@
         id="pass"
         :class="{ 'is-invalid': submitted && !password }"
       >
-      <div v-show="submitted && !password" class="invalid-feedback">Password is required</div>
+      <div v-show="submitted && !password" class="invalid-feedback">Пароль обязателен</div>
     </div>
     <a href="#" class="forget">Забыли пароль?</a>
     <button class="btn" type="submit">Войти</button>
-    <div class="registration__signIn">
-      <p>Войти через аккаунт в социальных сетях</p>
-    </div>
+    <!--<div class="registration__signIn">-->
+      <!--<p>Войти через аккаунт в социальных сетях</p>-->
+    <!--</div>-->
   </form>
 </template>
 
