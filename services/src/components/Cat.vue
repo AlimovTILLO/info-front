@@ -5,8 +5,10 @@
             <div class="search__result">
               <h2>Услуги в категории {{ services.categoryName}} <span>{{ services.total }}</span></h2>
             </div>
-            <div class="search__input"><input type="text" placeholder="Поиск"> <button><i
-                  class="fal fa-search"></i></button></div>
+            <div class="search__input"><input type="text" placeholder="Поиск">
+            <button>
+              <i class="fal fa-search"></i>
+            </button></div>
           </form>
         </div>
         <div class="container">
@@ -76,7 +78,7 @@
                 <div class="row">
                   <div v-for="service in services.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
                     <div class="ad__items ad__items--indentItem">
-                        <router-link class="ad__img" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">
+                        <router-link class="ad__img" :to="{name: 'service', params: {id: service.id}}">
                         <div class="ad__tagged">
                         <img v-if="service.is_vip === 1" src="../assets/images/bookmark.png" alt="">
                         </div>
@@ -87,7 +89,7 @@
                         </div>
                       </router-link>
                       <div class="ad__desc">
-                        <router-link class="ad__itemCaption" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">{{ service.title.ru }}</router-link>
+                        <router-link class="ad__itemCaption" :to="{name: 'service', params: {id: service.id}}">{{ service.title.ru }}</router-link>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
                           <ul class="rating">
@@ -103,6 +105,9 @@
                   </div>
                 </div>
               </div>
+            </div>
+            <div class="col-lg-2 col-md-3">
+              <div class="ad__banner"><img src="images/Mask Group.jpg" alt=""></div>
             </div>
           </div>
         </div>
@@ -124,11 +129,12 @@ export default {
       services: state => state.services.catservices.categoryServices || []
     })
   },
-  beforeMount () {
+  created () {
     this.getServiceByCatId({ id: this.$route.params.id, page: 1 })
   },
   watch: {
     $route (to, from) {
+      console.log(to.params.id)
       const id = to.params.id
       this.getServiceByCatId({ id: id, page: 1 })
     }

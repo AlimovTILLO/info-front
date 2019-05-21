@@ -31,8 +31,8 @@ export const router = new Router({
     { path: '/add_service', component: addService },
     { path: '/adverts', component: Adverts },
     { path: '/auth/confirm/:email_code', component: ConfirmationEmail },
-    { path: '/cat/:cat_slug', component: Cat, name: 'cat' },
-    { path: '/service/:slug', component: Service, name: 'service' },
+    { path: '/cat/:id', component: Cat, name: 'cat' },
+    { path: '/service/:id', component: Service, name: 'service' },
     { path: '*', component: NotFoundComponent }
   ]
 })

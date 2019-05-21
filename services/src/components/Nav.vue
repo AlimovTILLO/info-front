@@ -55,7 +55,7 @@
             <div class="header__mnu">
               <ul class="header__mnuFirstLvl">
                 <li v-for="category in categories.slice(0, 5)" v-bind:key="category.id">
-                  <router-link :to="{name: 'cat', params: {cat_slug: category.slug, id: category.id}}">{{ category.name.ru }}</router-link>
+                  <router-link :to="{name: 'cat', params: {id: category.id}}">{{ category.name.ru }}</router-link>
                 </li>
                 <li class="arrowTrigger-js" @click="isCatDropdownActive=!isCatDropdownActive" v-on-clickaway="isCatDropdown">
                   <a href="" onclick="return false">Еще</a>
