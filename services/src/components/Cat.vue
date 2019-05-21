@@ -3,7 +3,7 @@
         <div class="container">
           <form action="" class="search">
             <div class="search__result">
-              <h2 v-if="services.categoryServices.data">Услуги в категории {{ services.categoryName}} <span>{{ services.categoryServices.data.length }}</span></h2>
+              <h2>Услуги в категории {{ services.categoryName}} <span v-if="services.categoryServices">{{ services.categoryServices.data.length }}</span></h2>
             </div>
             <div class="search__input"><input type="text" placeholder="Поиск"> <button><i
                   class="fal fa-search"></i></button></div>
@@ -116,12 +116,8 @@ export default {
   name: 'Cat',
   computed: {
     ...mapState({
-      services: state => state.services.catservices.services || [],
-      data: state => state.services.catservices.services.categoryServices.data || []
+      services: state => state.services.catservices.services || []
     })
-    // ...mapGetters('items', {
-    //   services: 'services'
-    // })
   },
   beforeMount () {
     this.getServiceById(this.$route.params.id)

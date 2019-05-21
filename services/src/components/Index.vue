@@ -136,7 +136,7 @@
               <div class="row">
                 <div v-for="service in items.recentServices" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
                   <div class="ad__items ad__items--indentItem">
-                    <a href="#" class="ad__img">
+                    <router-link class="ad__img" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">
                       <div class="ad__tagged">
                         <img src="images/bookmark.png" alt>
                       </div>
@@ -145,9 +145,9 @@
                         <h3>СКИДКА</h3>
                         <p>30%</p>
                       </div> -->
-                    </a>
+                    </router-link>
                     <div class="ad__desc">
-                      <a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
+                      <router-link class="ad__itemCaption" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">{{ service.title.ru }}</router-link>
                       <p class="ad__price">
                         <span></span>{{ service.price }} {{ service.currency }}
                       </p>

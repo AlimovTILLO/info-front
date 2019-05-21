@@ -50,6 +50,7 @@
                       <li><i @click="deleteActiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
+                  <pagination v-if="activeservices.last_page > 1" :pagination="activeservices" :offset="5" @paginate="fetchActiveService()"/>
                 </div>
                 <div v-show="isActiveTab('inactive')">
                   <div v-for="service in inactiveservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
@@ -69,6 +70,7 @@
                       <li><i @click="deleteInactiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
+                  <pagination v-if="inactiveservices.last_page > 1" :pagination="inactiveservices" :offset="5" @paginate="fetchInactiveService()"/>
                 </div>
                 <div v-show="isActiveTab('awaiting')">
                   <div v-for="service in awaitingservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
@@ -87,31 +89,25 @@
                       <li><i @click="deleteAwaitingService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
+                  <pagination v-if="awaitingservices.last_page > 1" :pagination="awaitingservices" :offset="5" @paginate="fetchAwaitingService()"/>
                 </div>
               </div>
             </div>
           </div>
-           <div class="pagination">
-        <div class="container">
-          <div class="pagination__wrap"><a class="pagination__link--prev pagination__link" href="#"><i
-                class="fal fa-angle-left"></i></a> <a class="pagination__link pagination__link--current" href="#">1</a>
-            <a class="pagination__link" href="#">2</a> <a class="pagination__link" href="#">3</a> <a
-              class="pagination__link" href="#">4</a> <a class="pagination__link" href="#">5</a> <a
-              class="pagination__link pagination__link--reduction" href="#"></a> <a class="pagination__link"
-              href="#">13</a> <a class="pagination__link" href="#">14</a> <a
-              class="pagination__link--next pagination__link" href="#"><i class="fal fa-angle-right"></i></a></div>
-        </div>
-      </div>
         </div>
       </div>
   </div>
 </template>
 
 <script>
+import pagination from './Pagination.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Services',
+  components: {
+    pagination
+  },
   data () {
     return {
       choice: 'active'
@@ -126,13 +122,8 @@ export default {
     })
   },
   created () {
-    this.getActiveServiceByUserId(this.account.user.user_id)
+    this.getActiveServiceByUserId({ id: this.account.user.user_id, page: this.activeservices.current_page })
   },
-  // watch: {
-  //   $route (to, from) {
-  //     this.getServiceByUserId(this.account.user.user_id)
-  //   }
-  // },
   methods: {
     ...mapActions('services', {
       getActiveServiceByUserId: 'getActiveServiceByUserId',
@@ -148,15 +139,24 @@ export default {
       this.choice = val
       const id = this.account.user.user_id
       if (val === 'active') {
-        this.getActiveServiceByUserId(id)
+        this.getActiveServiceByUserId({ id: id, page: 1 })
       } else if (val === 'inactive') {
-        this.getInactiveServiceByUserId(id)
+        this.getInactiveServiceByUserId({ id: id, page: 1 })
       } else if (val === 'awaiting') {
-        this.getAwaitingServiceByUserId(id)
+        this.getAwaitingServiceByUserId({ id: id, page: 1 })
       }
     },
     isActiveTab (val) {
       return this.choice === val
+    },
+    fetchActiveService () {
+      this.getActiveServiceByUserId({ id: this.account.user.user_id, page: this.activeservices.current_page })
+    },
+    fetchInactiveService () {
+      this.getInactiveServiceByUserId({ id: this.account.user.user_id, page: this.inactiveservices.current_page })
+    },
+    fetchAwaitingService () {
+      this.getAwaitingServiceByUserId({ id: this.account.user.user_id, page: this.awaitingservices.current_page })
     }
   }
 }
