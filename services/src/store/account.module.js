@@ -27,6 +27,7 @@ const actions = {
         user => {
           commit('LOGIN_SUCCESS', user)
           items.state.isModalVisible = false
+          location.reload()
           // router.push('/')
         },
         error => {
