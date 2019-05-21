@@ -56,9 +56,9 @@ const actions = {
         error => commit('GET_SERVICE_BY_ID_FAILURE', error)
       )
   },
-  getServiceByCatId ({ commit }, id) {
+  getServiceByCatId ({ commit }, { id, page }) {
     commit('GET_SERVICE_BY_CAT_ID_REQUEST')
-    Main.getServiceByCatId(id)
+    Main.getServiceByCatId(id, page)
       .then(
         services => commit('GET_SERVICE_BY_CAT_ID_SUCCESS', services),
         error => commit('GET_SERVICE_BY_CAT_ID_FAILURE', error)
@@ -204,19 +204,19 @@ const mutations = {
     state.catservices = { loading: true }
   },
   [GET_SERVICE_BY_CAT_ID_SUCCESS] (state, services) {
-    state.catservices = { services: services }
+    state.catservices = services
   },
   [GET_SERVICE_BY_CAT_ID_FAILURE] (state, error) {
     state.catservices = { error }
   },
   [GET_SERVICE_BY_ID_REQUEST] (state) {
-    state.catservices = { loading: true }
+    state.service = { loading: true }
   },
   [GET_SERVICE_BY_ID_SUCCESS] (state, service) {
     state.service = { service: service.service }
   },
   [GET_SERVICE_BY_ID_FAILURE] (state, error) {
-    state.catservices = { error }
+    state.service = { error }
   },
   [GET_ACTIVE_SERVICE_BY_USER_ID_REQUEST] (state) {
     state.activeservices = { loading: true }

@@ -35,8 +35,8 @@ export const Main = {
       return response.data
     })
   },
-  getServiceByCatId (id) {
-    return HTTP.get(`/service/${id}/category`).then(response => {
+  getServiceByCatId (id, page) {
+    return HTTP.get(`/service/${id}/category?page=${page}`).then(response => {
       return response.data
     })
   },
@@ -55,23 +55,23 @@ export const Main = {
       return response.data
     })
   },
-  getActiveAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user/active`).then(response => {
+  getActiveAdsByUserId (id, page) {
+    return HTTP.get(`/announcement/${id}/user/active?page=${page}`).then(response => {
       return response.data
     })
   },
-  getAwaitingAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user/awaiting`).then(response => {
+  getAwaitingAdsByUserId (id, page) {
+    return HTTP.get(`/announcement/${id}/user/awaiting?page=${page}`).then(response => {
       return response.data
     })
   },
-  getCloseAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user/closed`).then(response => {
+  getCloseAdsByUserId (id, page) {
+    return HTTP.get(`/announcement/${id}/user/closed?page=${page}`).then(response => {
       return response.data
     })
   },
-  getRejectedAdsByUserId (id) {
-    return HTTP.get(`/announcement/${id}/user/rejected`).then(response => {
+  getRejectedAdsByUserId (id, page) {
+    return HTTP.get(`/announcement/${id}/user/rejected?page=${page}`).then(response => {
       return response.data
     })
   },

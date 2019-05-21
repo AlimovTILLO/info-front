@@ -3,7 +3,7 @@
         <div class="container">
           <form action="" class="search">
             <div class="search__result">
-              <h2>Услуги в категории {{ services.categoryName}} <span v-if="services.categoryServices">{{ services.categoryServices.data.length }}</span></h2>
+              <h2>Услуги в категории {{ services.categoryName}} <span>{{ services.total }}</span></h2>
             </div>
             <div class="search__input"><input type="text" placeholder="Поиск"> <button><i
                   class="fal fa-search"></i></button></div>
@@ -74,7 +74,7 @@
               </div>
               <div class="secondaryAdv">
                 <div class="row">
-                  <div v-for="service in services.categoryServices.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
+                  <div v-for="service in services.data" v-bind:key="service.id" class="col-lg-3 col-md-6 col-6">
                     <div class="ad__items ad__items--indentItem">
                         <router-link class="ad__img" :to="{name: 'service', params: {slug: service.slug, id: service.id}}">
                         <div class="ad__tagged">
@@ -109,33 +109,40 @@
             </div>
           </div>
         </div>
+        <pagination v-if="services.last_page > 1" :pagination="services" :offset="5" @paginate="fetchService()"/>
       </div>
 </template>
 
 <script>
+import pagination from './Pagination.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Cat',
+  components: {
+    pagination
+  },
   computed: {
     ...mapState({
-      services: state => state.services.catservices.services || []
+      services: state => state.services.catservices.categoryServices || []
     })
   },
   beforeMount () {
-    this.getServiceById(this.$route.params.id)
+    this.getServiceByCatId({ id: this.$route.params.id, page: 1 })
   },
   watch: {
     $route (to, from) {
       const id = to.params.id
-      this.getServiceById(id)
+      this.getServiceByCatId({ id: id, page: 1 })
     }
   },
   methods: {
     ...mapActions('services', {
-      getServiceById: 'getServiceByCatId'
-    })
+      getServiceByCatId: 'getServiceByCatId'
+    }),
+    fetchService () {
+      this.getServiceByCatId({ id: this.$route.params.id, page: this.services.current_page })
+    }
   }
 }
-
 </script>

@@ -96,33 +96,33 @@ const actions = {
         error => commit('GET_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getActiveAdsByUserId ({ commit }, id) {
+  getActiveAdsByUserId ({ commit }, { id, page }) {
     commit('GET_ACTIVE_ADS_BY_USER_ID_REQUEST')
-    Main.getActiveAdsByUserId(id)
+    Main.getActiveAdsByUserId(id, page)
       .then(
         activeads => commit('GET_ACTIVE_ADS_BY_USER_ID_SUCCESS', activeads),
         error => commit('GET_ACTIVE_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getAwaitingAdsByUserId ({ commit }, id) {
+  getAwaitingAdsByUserId ({ commit }, { id, page }) {
     commit('GET_AWAITING_ADS_BY_USER_ID_REQUEST')
-    Main.getAwaitingAdsByUserId(id)
+    Main.getAwaitingAdsByUserId(id, page)
       .then(
         awaitingads => commit('GET_AWAITING_ADS_BY_USER_ID_SUCCESS', awaitingads),
         error => commit('GET_AWAITING_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getCloseAdsByUserId ({ commit }, id) {
+  getCloseAdsByUserId ({ commit }, { id, page }) {
     commit('GET_CLOSE_ADS_BY_USER_ID_REQUEST')
-    Main.getCloseAdsByUserId(id)
+    Main.getCloseAdsByUserId(id, page)
       .then(
         closeads => commit('GET_CLOSE_ADS_BY_USER_ID_SUCCESS', closeads),
         error => commit('GET_CLOSE_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  getRejectedAdsByUserId ({ commit }, id) {
+  getRejectedAdsByUserId ({ commit }, { id, page }) {
     commit('GET_REJECTED_ADS_BY_USER_ID_REQUEST')
-    Main.getRejectedAdsByUserId(id)
+    Main.getRejectedAdsByUserId(id, page)
       .then(
         rejectedads => commit('GET_REJECTED_ADS_BY_USER_ID_SUCCESS', rejectedads),
         error => commit('GET_REJECTED_ADS_BY_USER_ID_FAILURE', error)

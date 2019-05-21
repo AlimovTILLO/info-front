@@ -50,6 +50,7 @@
                       <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
+                  <pagination v-if="activeads.last_page > 1" :pagination="activeads" :offset="5" @paginate="fetchActiveAds()"/>
                 </div>
                 <div v-show="isActiveTab('awaiting')">
                   <div v-for="ad in awaitingads.data" v-bind:key="ad.id" class="privat__adInfoWrap">
@@ -63,6 +64,7 @@
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
                   </div>
+                  <pagination v-if="awaitingads.last_page > 1" :pagination="awaitingads" :offset="5" @paginate="fetchAwaitingAds()"/>
                 </div>
                 <div v-show="isActiveTab('close')">
                   <div v-for="ad in closeads.data" v-bind:key="ad.id" class="privat__adInfoWrap">
@@ -76,6 +78,7 @@
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
                   </div>
+                  <pagination v-if="closeads.last_page > 1" :pagination="closeads" :offset="5" @paginate="fetchCloseAds()"/>
                 </div>
                 <div v-show="isActiveTab('rejected')">
                   <div v-for="ad in rejectedads.data" v-bind:key="ad.id" class="privat__adInfoWrap">
@@ -89,19 +92,9 @@
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
                   </div>
+                  <pagination v-if="rejectedads.last_page > 1" :pagination="rejectedads" :offset="5" @paginate="fetchRejectedAds()"/>
                 </div>
               </div>
-            </div>
-          </div>
-          <div class="pagination">
-            <div class="container">
-              <div class="pagination__wrap"><a class="pagination__link--prev pagination__link" href="#"><i
-                      class="fal fa-angle-left"></i></a> <a class="pagination__link pagination__link--current" href="#">1</a>
-                <a class="pagination__link" href="#">2</a> <a class="pagination__link" href="#">3</a> <a
-                        class="pagination__link" href="#">4</a> <a class="pagination__link" href="#">5</a> <a
-                        class="pagination__link pagination__link--reduction" href="#"></a> <a class="pagination__link"
-                                                                                              href="#">13</a> <a class="pagination__link" href="#">14</a> <a
-                        class="pagination__link--next pagination__link" href="#"><i class="fal fa-angle-right"></i></a></div>
             </div>
           </div>
         </div>
@@ -110,10 +103,14 @@
 </template>
 
 <script>
+import pagination from './Pagination.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Adverts',
+  components: {
+    pagination
+  },
   data () {
     return {
       choice: 'active'
@@ -129,13 +126,8 @@ export default {
     })
   },
   created () {
-    this.getActiveAdsByUserId(this.account.user.user_id)
+    this.getActiveAdsByUserId({id: this.account.user.user_id, page: 1})
   },
-  // watch: {
-  //   $route (to, from) {
-  //     this.getActiveAdsByUserId(this.account.user.user_id)
-  //   }
-  // },
   methods: {
     ...mapActions('items', {
       getActiveAdsByUserId: 'getActiveAdsByUserId',
@@ -148,17 +140,29 @@ export default {
       this.choice = val
       const id = this.account.user.user_id
       if (val === 'active') {
-        this.getActiveAdsByUserId(id)
+        this.getActiveAdsByUserId({id: id, page: 1})
       } else if (val === 'awaiting') {
-        this.getAwaitingAdsByUserId(id)
+        this.getAwaitingAdsByUserId({id: id, page: 1})
       } else if (val === 'close') {
-        this.getCloseAdsByUserId(id)
+        this.getCloseAdsByUserId({id: id, page: 1})
       } else if (val === 'rejected') {
-        this.getRejectedAdsByUserId(id)
+        this.getRejectedAdsByUserId({id: id, page: 1})
       }
     },
     isActiveTab (val) {
       return this.choice === val
+    },
+    fetchActiveAds () {
+      this.getActiveAdsByUserId({ id: this.account.user.user_id, page: this.activeads.current_page })
+    },
+    fetchAwaitingAds () {
+      this.getAwaitingAdsByUserId({ id: this.account.user.user_id, page: this.awaitingads.current_page })
+    },
+    fetchCloseAds () {
+      this.getCloseAdsByUserId({ id: this.account.user.user_id, page: this.closeads.current_page })
+    },
+    fetchRejectedAds () {
+      this.getRejectedAdsByUserId({ id: this.account.user.user_id, page: this.rejectedads.current_page })
     }
   }
 }
