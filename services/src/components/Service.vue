@@ -5,9 +5,9 @@
             <div class="breadCrumbs">
               <ul>
                 <li><a href="#">Объявления</a></li>
-                <li><a href="#">Медицина</a></li>
-                <li><a href="#">Стоматология</a></li>
-                <li>Детский стоматолог Иванов И.И.</li>
+                <li v-for="category in service.categories"><a href="#">{{ category.name.ru }}</a></li>
+                <!--<li><a href="#">Стоматология</a></li>-->
+                <li>{{ service.title.ru }}</li>
               </ul>
             </div>
             <div class="share">
@@ -29,18 +29,22 @@
                   <div class="row">
                     <div class="col-md-9">
                       <div class="swiper-container gallery-top">
-                        <div v-for="slide in service.media" v-bind:key="slide.id" class="swiper-wrapper">
-                          <div class="swiper-slide" v-if="slide.id === active">
-                              <img :src="slide.thumb_512" alt="">
+                        <!--v-for="(image, index) in service.media" v-bind:key="image.id"-->
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                              <!--<img  alt="">-->
+                              <img v-if="activeImage === 0" :src="service.media[0].thumb_512" alt="">
+                              <img v-else :src="currentImage" alt="">
                           </div>
                         </div>
                       </div>
                     </div>
                     <div class="col-md-3">
                       <div class="swiper-container gallery-thumbs">
-                        <div v-for="slide in service.media" v-bind:key="slide.id" class="swiper-wrapper">
-                          <div class="swiper-slide">
-                              <img :src="slide.thumb_128" @click.prevent="makeActive" alt="">
+                        <div v-for="(image, index) in service.media" v-bind:key="image.id" class="swiper-wrapper">
+                          <div :key="image.id" class="swiper-slide" :class="['thumbnail-image', (activeImage === index) ? 'active' : '']"
+                               @click="activateImage(image.thumb_512)">
+                              <img :src="image.thumb_128" ref="uniqueName" alt="">
                           </div>
                         </div>
                       </div>
@@ -83,7 +87,7 @@
                         <p class="ad__price ad__price--servicePrice"><span></span> {{ service.price }} {{ service.currency }}</p>
                       </li>
                       <!-- <li><span>Экономия:</span> 25% (200 с.)</li> -->
-                      <li><span>Адрес:</span><br>Г. Бишкек, ул. Московская, 76 б.</li>
+                      <li v-if="service.city "><span>Адрес:</span><br> г. {{ service.city.name.ru }}</li>
                     </ul><button class="favorites"><i class="fas fa-heart"></i> Добавить в избранное</button>
                   </div>
                 </div>
@@ -195,11 +199,15 @@ export default {
   computed: {
     ...mapState({
       service: state => state.services.service.service || ''
-    })
+    }),
+    currentImage () {
+      return this.activeImage
+    }
   },
   data () {
     return {
-      choice: ''
+      choice: '',
+      activeImage: 0
     }
   },
   created () {
@@ -215,10 +223,8 @@ export default {
     ...mapActions('services', {
       getServiceById: 'getServiceById'
     }),
-    makeActive (val) {
-      // for (slide in this.service.media) {
-      //   this.choice = slide.id
-      // }
+    activateImage (imageIndex) {
+      this.activeImage = imageIndex
     }
   }
 }
