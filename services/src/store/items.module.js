@@ -81,7 +81,7 @@ const actions = {
         profile => {
           commit('UPDATE_PROFILE_SUCCESS', profile)
           setTimeout(() => {
-            dispatch('alert/success', 'Update successful', { root: true })
+            dispatch('alert/success', 'Успешно обновлено', { root: true })
           })
         },
         error => {
@@ -268,13 +268,13 @@ const mutations = {
     state.rejectedads = { error }
   },
   [ADD_ITEM_REQUEST] (state) {
-    state.status = {}
+    state.status = { loading: true }
   },
-  [ADD_ITEM_SUCCESS] (state) {
-    state.status = {}
+  [ADD_ITEM_SUCCESS] (state, item) {
+    state.status = { item: item }
   },
-  [ADD_ITEM_FAILURE] (state) {
-    state.status = {}
+  [ADD_ITEM_FAILURE] (state, error) {
+    state.status = {error}
   },
   [DELETE_ITEM_REQUEST] (state, id) {
     state.activeads.userAds.data = state.activeads.userAds.data.map(item =>

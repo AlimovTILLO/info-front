@@ -45,7 +45,7 @@ const actions = {
         user => {
           commit('REGISTER_SUCCESS', user)
           setTimeout(() => {
-            dispatch('alert/success', 'Registration successful', { root: true })
+            dispatch('alert/success', 'Регистрация прошла успешно', { root: true })
           })
         },
         error => {

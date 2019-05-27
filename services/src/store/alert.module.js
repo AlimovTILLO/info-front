@@ -1,38 +1,26 @@
 const state = {
-  type: null,
-  message: null
+  notifications: []
 }
 
 const actions = {
-  success ({
-    commit
-  }, message) {
-    commit('success', message)
-  },
-  error ({
-    commit
-  }, message) {
-    commit('error', message)
-  },
-  clear ({
-    commit
-  }, message) {
-    commit('success', message)
-  }
+  success ({ commit }, message) { commit('success', message) },
+  error ({ commit }, message) { commit('error', message) },
+  remove ({ commit }, message) { commit('remove', message) },
+  clear ({ commit }, message) { commit('success', message) }
 }
 
 const mutations = {
   success (state, message) {
-    state.type = 'alert-success'
-    state.message = message
+    state.notifications.push({type: 'alert-success', message: message, timeout: true})
   },
   error (state, message) {
-    state.type = 'alert-danger'
-    state.message = message
+    state.notifications.push({type: 'alert-danger', message: message, timeout: true})
+  },
+  remove (state, message) {
+    state.notifications = state.notifications.filter(item => item !== message)
   },
   clear (state) {
-    state.type = null
-    state.message = null
+    state.notifications = null
   }
 }
 
