@@ -5,7 +5,7 @@
             <div class="breadCrumbs">
               <ul>
                 <li><a href="#">Объявления</a></li>
-                <li v-for="category in service.categories"><a href="#">{{ category.name.ru }}</a></li>
+                <li v-for="category in service.categories" v-bind:key="category.id"><a href="#">{{ category.name.ru }}</a></li>
                 <!--<li><a href="#">Стоматология</a></li>-->
                 <li>{{ service.title.ru }}</li>
               </ul>
