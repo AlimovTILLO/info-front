@@ -7,6 +7,9 @@ import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
   GET_MAIN_REQUEST,
   GET_MAIN_SUCCESS,
   GET_MAIN_FAILURE,
@@ -66,8 +69,25 @@ const actions = {
     commit('GET_USER_REQUEST')
     User.getUser(id)
       .then(
-        profile => commit('GET_USER_SUCCESS', profile.user),
+        user => commit('GET_USER_SUCCESS', user),
         error => commit('GET_USER_FAILURE', error)
+      )
+  },
+  updateProfile ({ dispatch, commit }, { profile, id }) {
+    commit('UPDATE_PROFILE_REQUEST', profile)
+
+    User.updateProfile(profile, id)
+      .then(
+        profile => {
+          commit('UPDATE_PROFILE_SUCCESS', profile)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно обновлено', { root: true })
+          })
+        },
+        error => {
+          commit('UPDATE_PROFILE_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
   getMain ({ commit }) {
@@ -166,13 +186,22 @@ const mutations = {
   [CONFIRM_EMAIL_FAILURE] (state, error) {
     state.сonfirm = { error }
   },
-  [GET_USER_REQUEST] (state, profile) {
-    state.profile = profile
+  [GET_USER_REQUEST] (state, user) {
+    state.profile = user
   },
-  [GET_USER_SUCCESS] (state, profile) {
-    state.profile = profile
+  [GET_USER_SUCCESS] (state, user) {
+    state.profile = user
   },
   [GET_USER_FAILURE] (state, error) {
+    state.profile = { error }
+  },
+  [UPDATE_PROFILE_REQUEST] (state, profile) {
+    state.profile = profile
+  },
+  [UPDATE_PROFILE_SUCCESS] (state, profile) {
+    state.profile = profile
+  },
+  [UPDATE_PROFILE_FAILURE] (state, error) {
     state.profile = { error }
   },
   [GET_MAIN_REQUEST] (state) {
@@ -239,13 +268,13 @@ const mutations = {
     state.rejectedads = { error }
   },
   [ADD_ITEM_REQUEST] (state) {
-    state.status = {}
+    state.status = { loading: true }
   },
-  [ADD_ITEM_SUCCESS] (state) {
-    state.status = {}
+  [ADD_ITEM_SUCCESS] (state, item) {
+    state.status = { item: item }
   },
-  [ADD_ITEM_FAILURE] (state) {
-    state.status = {}
+  [ADD_ITEM_FAILURE] (state, error) {
+    state.status = {error}
   },
   [DELETE_ITEM_REQUEST] (state, id) {
     state.activeads.userAds.data = state.activeads.userAds.data.map(item =>

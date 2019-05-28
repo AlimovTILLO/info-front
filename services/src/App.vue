@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div>
+    <notifications></notifications>
+    <!-- <div v-if="alert.message" :class="`alert ${alert.type}`">{{alert.message}}</div> -->
     <div class="mmenu-nav"></div>
     <div class="mainWrap">
       <div class="contentWrap <!--contentWrap&#45;&#45;atherBgc-->">
@@ -22,12 +23,14 @@ import { mapState, mapActions } from 'vuex'
 
 import Nav from './components/Nav'
 import Footer from './components/Footer'
+import Notifications from './components/Notifications'
 
 export default {
   name: 'app',
   components: {
     'nav-menu': Nav,
-    'footer-menu': Footer
+    'footer-menu': Footer,
+    'notifications': Notifications
   },
   computed: {
     ...mapState({
@@ -51,4 +54,15 @@ export default {
 @import url(./assets/styles/main.css);
 @import url(./assets/styles/multiselect.css);
 @import url(./assets/styles/vendor.css);
+
+  .notifications {
+    position: fixed;
+    right: 10px;
+    top: 10px;
+    width: 350px;
+    z-index: 1;
+  }
+  .notification p {
+    margin-right: 20px;
+  }
 </style>

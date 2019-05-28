@@ -1,8 +1,9 @@
 import { HTTP } from './common'
 export const User = {
-  async getUser (id) {
-    const response = await HTTP.get(`/user/${id}/profile/`)
-    return response.data
+  getUser (id) {
+    return HTTP.get(`/user/${id}/profile/`).then(response => {
+      return response.data
+    })
   },
   confirmEmail (code) {
     return HTTP.get(`/auth/confirm/${code}`).then(response => {

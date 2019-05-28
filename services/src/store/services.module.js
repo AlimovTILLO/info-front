@@ -112,23 +112,6 @@ const actions = {
         error => commit('GET_AWAITING_ADS_BY_USER_ID_FAILURE', error)
       )
   },
-  addItem ({ dispatch, commit }, item) {
-    commit('ADD_ITEM_REQUEST', item)
-
-    Main.addItem(item)
-      .then(
-        item => {
-          commit('ADD_ITEM_SUCCESS', item)
-          setTimeout(() => {
-            dispatch('alert/success', 'Успешно добавлено', { root: true })
-          })
-        },
-        error => {
-          commit('ADD_ITEM_FAILURE', error)
-          dispatch('alert/error', error, { root: true })
-        }
-      )
-  },
   addService ({ dispatch, commit }, service) {
     commit('ADD_SERVICE_REQUEST', service)
 
@@ -146,12 +129,20 @@ const actions = {
         }
       )
   },
-  deleteActiveService ({ commit }, id) {
+  deleteActiveService ({ dispatch, commit }, id) {
     commit('DELETE_ACTIVE_SERVICE_REQUEST', id)
     Main.deleteService(id)
       .then(
-        activeservice => commit('DELETE_ACTIVE_SERVICE_SUCCESS', id),
-        error => commit('DELETE_ACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+        activeservice => {
+          commit('DELETE_ACTIVE_SERVICE_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно удалено', { root: true })
+          })
+        },
+        error => {
+          commit('DELETE_ACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
   deleteInactiveService ({ commit }, id) {

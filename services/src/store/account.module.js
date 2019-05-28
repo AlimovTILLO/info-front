@@ -5,9 +5,6 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
-  UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
@@ -36,23 +33,6 @@ const actions = {
         }
       )
   },
-  updateProfile ({ dispatch, commit }, { profile, id }) {
-    commit('UPDATE_PROFILE_REQUEST', profile)
-
-    User.updateProfile(profile, id)
-      .then(
-        profile => {
-          commit('UPDATE_PROFILE_SUCCESS', profile)
-          setTimeout(() => {
-            dispatch('alert/success', 'Update successful', { root: true })
-          })
-        },
-        error => {
-          commit('UPDATE_PROFILE_FAILURE', error)
-          dispatch('alert/error', error, { root: true })
-        }
-      )
-  },
   logout ({ commit }) {
     User.logout()
     commit('LOGOUT')
@@ -65,7 +45,7 @@ const actions = {
         user => {
           commit('REGISTER_SUCCESS', user)
           setTimeout(() => {
-            dispatch('alert/success', 'Registration successful', { root: true })
+            dispatch('alert/success', 'Регистрация прошла успешно', { root: true })
           })
         },
         error => {
@@ -92,15 +72,6 @@ const mutations = {
   [LOGOUT] (state) {
     state.status = { loggedIn: false }
     state.user = null
-  },
-  [UPDATE_PROFILE_REQUEST] (state, profile) {
-    state.status = { registering: true }
-  },
-  [UPDATE_PROFILE_SUCCESS] (state, profile) {
-    state.status = {}
-  },
-  [UPDATE_PROFILE_FAILURE] (state, error) {
-    state.status = {}
   },
   [REGISTER_REQUEST] (state, user) {
     state.status = { registering: true }

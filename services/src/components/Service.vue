@@ -5,9 +5,10 @@
             <div class="breadCrumbs">
               <ul>
                 <li><a href="#">Объявления</a></li>
-                <li v-for="category in service.categories" v-bind:key="category.id"><a href="#">{{ category.name.ru }}</a></li>
-                <!--<li><a href="#">Стоматология</a></li>-->
-                <li>{{ service.title.ru }}</li>
+                <li v-for="category in service.categories" :key="category.id">
+                  <a v-if="category.name" href="#">{{ category.name.ru }}</a></li>
+
+                <li v-if="service.title">{{ service.title.ru }}</li>
               </ul>
             </div>
             <div class="share">
@@ -59,7 +60,7 @@
                 <div class="service__profile">
                   <div class="service__join">
                     <ul>
-                      <li><a href="#">Показать телефон +996 701 <span>ХХ ХХ ХХ</span></a></li>
+                      <li><a @click="isShowing ^= true" href="#">Показать телефон {{ service.phone.slice(0, -6) }}<span v-show="!isShowing">ХХХ ХХХ</span><span v-show="isShowing">{{ service.phone.slice(-6, 15) }}</span></a></li>
                       <!-- <li><a href="#">Написать в WhatsApp</a></li>
                       <li><a href="#">Написать в Telegram</a></li> -->
                     </ul>
@@ -207,6 +208,7 @@ export default {
   data () {
     return {
       choice: '',
+      isShowing: false,
       activeImage: 0
     }
   },
