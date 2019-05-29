@@ -6,9 +6,9 @@
               <ul>
                 <li><a href="#">Объявления</a></li>
                 <li v-for="category in service.categories" :key="category.id">
-                  <a href="#">{{ category.name.ru }}</a></li>
-                <!--<li><a href="#">Стоматология</a></li>-->
-                <li>{{ service.title.ru }}</li>
+                  <a v-if="category.name" href="#">{{ category.name.ru }}</a></li>
+
+                <li v-if="service.title">{{ service.title.ru }}</li>
               </ul>
             </div>
             <div class="share">
