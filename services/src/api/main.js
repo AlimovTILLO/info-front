@@ -79,6 +79,11 @@ export const Main = {
       return response.data
     })
   },
+  pauseItem (id) {
+    return HTTP.get(`/announcement/${id}/stop`).then(response => {
+      return response.data
+    })
+  },
   deleteService (id) {
     return HTTP.get(`/service/${id}/delete`).then(response => {
       return response.data

@@ -36,7 +36,10 @@ import {
   ADD_ITEM_FAILURE,
   DELETE_ITEM_REQUEST,
   DELETE_ITEM_SUCCESS,
-  DELETE_ITEM_FAILURE
+  DELETE_ITEM_FAILURE,
+  PAUSE_ITEM_REQUEST,
+  PAUSE_ITEM_SUCCESS,
+  PAUSE_ITEM_FAILURE
 } from './mutation-types.js'
 
 const state = {
@@ -165,13 +168,38 @@ const actions = {
         }
       )
   },
-  deleteItem ({ commit }, id) {
+  pauseItem ({ dispatch, commit }, id) {
+    commit('PAUSE_ITEM_REQUEST', id)
+
+    Main.pauseItem(id)
+      .then(
+        service => {
+          commit('PAUSE_ITEM_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно остановлено', { root: true })
+          })
+        },
+        error => {
+          commit('PAUSE_ITEM_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
+      )
+  },
+  deleteItem ({ dispatch, commit }, id) {
     commit('DELETE_ITEM_REQUEST', id)
 
     Main.deleteItem(id)
       .then(
-        item => commit('DELETE_ITEM_SUCCESS', id),
-        error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
+        item => {
+          commit('DELETE_ITEM_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно удалено', { root: true })
+          })
+        },
+        error => {
+          commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
 }
@@ -287,6 +315,25 @@ const mutations = {
     state.activeads.userAds.data = state.activeads.userAds.data.filter(item => item.id !== id)
   },
   [DELETE_ITEM_FAILURE] (state, { id, error }) {
+    state.activeads.userAds.data = state.activeads.userAds.data.map(item => {
+      if (item.id === id) {
+        const { deleting, ...itemCopy } = item
+        return { ...itemCopy, deleteError: error }
+      }
+      return item
+    })
+  },
+  [PAUSE_ITEM_REQUEST] (state, id) {
+    state.activeads.userAds.data = state.activeads.userAds.data.map(item =>
+      item.id === id
+        ? { ...item, deleting: true }
+        : item
+    )
+  },
+  [PAUSE_ITEM_SUCCESS] (state, id) {
+    state.activeads.userAds.data = state.activeads.userAds.data.filter(item => item.id !== id)
+  },
+  [PAUSE_ITEM_FAILURE] (state, { id, error }) {
     state.activeads.userAds.data = state.activeads.userAds.data.map(item => {
       if (item.id === id) {
         const { deleting, ...itemCopy } = item

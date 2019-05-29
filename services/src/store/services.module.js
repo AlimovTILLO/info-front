@@ -145,47 +145,70 @@ const actions = {
         }
       )
   },
-  deleteInactiveService ({ commit }, id) {
+  deleteInactiveService ({ dispatch, commit }, id) {
     commit('DELETE_INACTIVE_SERVICE_REQUEST', id)
     Main.deleteService(id)
       .then(
-        inactiveservice => commit('DELETE_INACTIVE_SERVICE_SUCCESS', id),
-        error => commit('DELETE_INACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+        inactiveservice => {
+          commit('DELETE_INACTIVE_SERVICE_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно удалено', { root: true })
+          })
+        },
+        error => {
+          commit('DELETE_INACTIVE_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
-  deleteAwaitingService ({ commit }, id) {
+  deleteAwaitingService ({ dispatch, commit }, id) {
     commit('DELETE_AWAITING_SERVICE_REQUEST', id)
     Main.deleteService(id)
       .then(
-        awaitingservice => commit('DELETE_AWAITING_SERVICE_SUCCESS', id),
-        error => commit('DELETE_AWAITING_SERVICE_FAILURE', { id, error: error.toString() })
+        awaitingservice => {
+          commit('DELETE_AWAITING_SERVICE_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно удалено', { root: true })
+          })
+        },
+        error => {
+          commit('DELETE_AWAITING_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
-  deleteItem ({ commit }, id) {
-    commit('DELETE_ITEM_REQUEST', id)
-
-    Main.deleteItem(id)
-      .then(
-        item => commit('DELETE_ITEM_SUCCESS', id),
-        error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
-      )
-  },
-  pauseService ({ commit }, id) {
+  pauseService ({ dispatch, commit }, id) {
     commit('PAUSE_SERVICE_REQUEST', id)
 
     Main.playPauseService(id)
       .then(
-        service => commit('PAUSE_SERVICE_SUCCESS', id),
-        error => commit('PAUSE_SERVICE_FAILURE', { id, error: error.toString() })
+        service => {
+          commit('PAUSE_SERVICE_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно остановлено', { root: true })
+          })
+        },
+        error => {
+          commit('PAUSE_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   },
-  playService ({ commit }, id) {
+  playService ({ dispatch, commit }, id) {
     commit('PLAY_SERVICE_REQUEST', id)
 
     Main.playPauseService(id)
       .then(
-        service => commit('PLAY_SERVICE_SUCCESS', id),
-        error => commit('PLAY_SERVICE_FAILURE', { id, error: error.toString() })
+        service => {
+          commit('PLAY_SERVICE_SUCCESS', id)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно возобновлено', { root: true })
+          })
+        },
+        error => {
+          commit('PLAY_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
       )
   }
 }
