@@ -45,7 +45,7 @@
                       <p class="privat__categoryDesc">{{ ad.desc.ru }}...</p>
                     </div>
                     <ul class="privat__adInfoControlBtns">
-                      <li><i class="fal fa-pause"></i></li>
+                      <li><i @click="pauseItem(ad.id)" class="fal fa-pause"></i></li>
                       <li><i class="fal fa-undo-alt"></i></li>
                       <li><i @click="deleteItem(ad.id)" class="fal fa-times"></i></li>
                     </ul>
@@ -134,7 +134,8 @@ export default {
       getAwaitingAdsByUserId: 'getAwaitingAdsByUserId',
       getCloseAdsByUserId: 'getCloseAdsByUserId',
       getRejectedAdsByUserId: 'getRejectedAdsByUserId',
-      deleteItem: 'deleteItem'
+      deleteItem: 'deleteItem',
+      pauseItem: 'pauseItem'
     }),
     makeActive (val) {
       this.choice = val

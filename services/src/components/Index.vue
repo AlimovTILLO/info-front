@@ -30,11 +30,10 @@
               v-model="textarea"
               v-validate="'required'"
               class="filter__textarea"
-              required
               placeholder="Опишите услугу, например: Нужен сантехник для ремонта водопровода, заменить 2 смесителя, прочистить сливы..."
             ></textarea>
             <i v-show="errors.has('textarea')"></i>
-            <span v-show="errors.has('textarea')" class="help is-danger">{{ errors.first('textarea') }}</span>
+            <span v-show="errors.has('textarea')" class="help is-danger">Поле "Опиания" обязательно для заполнения.</span>
             <div class="filter__selectWrap">
               <div class="row">
                 <div class="col-md-7">
@@ -47,6 +46,8 @@
                     <div v-for="category in categories.slice(0, 4)" v-bind:key="category.id" class="privat__categoryItem privat__categoryItem--popularCategory">
                       <p v-on:click="AddSectionItem(category)">{{ category.name.ru }}</p>
                     </div>
+                    <i v-show="errors.has('category')"></i>
+                    <span v-show="section.length === 0" class="help is-danger">Поле "category" обязательно для заполнения.</span>
                 </div>
                 <div class="col-md-5">
                   <!-- <div class="filter__select filter__select--city">
@@ -54,7 +55,9 @@
                         <option v-for="s in city" v-bind:key="s.id" :selected="city_value === s" placeholder="Выберите город" value="s.name">{{ s.name }}</option>
                     </select>
                   </div> -->
-                  <multiselect v-model="city_value" name="city_value" :options="city" v-validate="'required'" :searchable="false" :show-labels="false" label="name" track-by="id" placeholder="Выберите город" required></multiselect>
+                  <multiselect v-model="city_value" name="city_value" :options="city" v-validate="'required'" :searchable="false" :show-labels="false" label="name" track-by="id" placeholder="Выберите город"></multiselect>
+                  <i v-show="errors.has('city_value')"></i>
+                  <span v-show="errors.has('city_value')" class="help is-danger">Поле "Город" обязательно для заполнения.</span>
                 </div>
               </div>
               <div class="filter__sections" v-bind:style= "isSectionsItemActive ? 'display: block;' : 'display: none;'">
@@ -75,11 +78,10 @@
               type="text"
               class="filter__input phone-js"
               placeholder="Укажите свой номер телефона"
-              required
               autocomplete="off"
             >
             <i v-show="errors.has('phone')"></i>
-            <span v-show="errors.has('phone')" class="help is-danger">{{ errors.first('phone') }}</span>
+            <span v-show="errors.has('phone')" class="help is-danger">Поле телефона обязательно для заполнения.</span>
             <div class="filter__inputFile">
               <div class="uploadbutton">
                 <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div>
@@ -181,12 +183,6 @@ export default {
   },
   data () {
     return {
-      user: {
-        firstName: '',
-        lastName: '',
-        username: '',
-        password: ''
-      },
       isSectionsItemActive: false,
       submitted: false,
       files: [],
@@ -255,7 +251,14 @@ export default {
               formData.append('image[' + i + ']', file)
             }
             this.addItem(formData)
+            this.files = ''
+            this.textarea = ''
+            this.phone = ''
+            this.section = ''
+            this.city_value = ''
+            e.preventDefault()
           }
+          this.errors.clear()
         }
       })
     },
