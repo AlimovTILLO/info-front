@@ -1911,6 +1911,10 @@ button {
   color: #ed8a19
 }
 
+.golden-star {
+    color: #ed8a19;
+}
+
 .search {
   display: -ms-flexbox;
   display: flex;

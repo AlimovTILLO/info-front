@@ -88,5 +88,11 @@ export const Main = {
     return HTTP.get(`/service/${id}/stop`).then(response => {
       return response.data
     })
+  },
+  addRating (serviceId, userId, rating) {
+    alert(123)
+    return HTTP.post(`${serviceId}/service/${userId}/user?rating=${rating}`).then(response => {
+      return response.data
+    })
   }
 }

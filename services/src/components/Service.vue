@@ -72,7 +72,7 @@
                       <p v-if="service.user" ><strong>{{ service.user.full_name }}</strong></p>
                       <div class="rating">
                         <ul class="rating">
-                          <li class="star"><i class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating(service.id,account.user.user_id,1)" class="fas fa-star"></i></li>
                           <li class="star"><i class="fas fa-star"></i></li>
                           <li class="star"><i class="fas fa-star"></i></li>
                           <li class="star"><i class="fas fa-star"></i></li>
@@ -199,7 +199,8 @@ export default {
   name: 'Services',
   computed: {
     ...mapState({
-      service: state => state.services.service.service || ''
+      service: state => state.services.service.service || '',
+      account: state => state.account
     }),
     currentImage () {
       return this.activeImage
@@ -223,7 +224,8 @@ export default {
   },
   methods: {
     ...mapActions('services', {
-      getServiceById: 'getServiceById'
+      getServiceById: 'getServiceById',
+      addRating: 'addRating'
     }),
     activateImage (imageIndex) {
       this.activeImage = imageIndex

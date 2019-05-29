@@ -173,7 +173,7 @@ const actions = {
         item => commit('DELETE_ITEM_SUCCESS', id),
         error => commit('DELETE_ITEM_FAILURE', { id, error: error.toString() })
       )
-  }
+  },
 }
 // Мутации
 const mutations = {

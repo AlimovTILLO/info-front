@@ -83,6 +83,7 @@
                         <img v-if="service.is_vip === 1" src="../assets/images/bookmark.png" alt="">
                         </div>
                         <img v-if="service.main_image" :src="service.main_image.thumb_256" alt=""/>
+                        <img v-else src="../assets/images/no_image_placeholder.jpg" alt="">
                         <div class="ad__discount" v-if="service.discount > 0">
                           <h3>СКИДКА</h3>
                           <p>30%</p>
@@ -92,12 +93,13 @@
                         <router-link class="ad__itemCaption" :to="{name: 'service', params: {id: service.id}}">{{ service.title.ru }}</router-link>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
-                          <ul class="rating">
-                            <li class="star"><i class="fas fa-star"></i></li>
-                            <li class="star"><i class="fas fa-star"></i></li>
-                            <li class="star"><i class="fas fa-star"></i></li>
-                            <li class="star"><i class="fas fa-star"></i></li>
-                            <li class="star"><i class="fas fa-star"></i></li>
+                          <ul>
+                            <!--<p>{{service.rating}}</p>-->
+                            <li :style="service.rating === 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating === 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating === 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating === 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating === 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                           </ul>
                         </div>
                       </div>
