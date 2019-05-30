@@ -95,11 +95,11 @@
                         <div class="rating">
                           <ul>
                             <!--<p>{{service.rating}}</p>-->
-                            <li :style="service.rating === 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating === 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating === 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating === 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating === 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                           </ul>
                         </div>
                       </div>
@@ -136,7 +136,6 @@ export default {
   },
   watch: {
     $route (to, from) {
-      console.log(to.params.id)
       const id = to.params.id
       this.getServiceByCatId({ id: id, page: 1 })
     }

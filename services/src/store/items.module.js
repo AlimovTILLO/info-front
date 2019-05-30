@@ -201,7 +201,7 @@ const actions = {
           dispatch('alert/error', error, { root: true })
         }
       )
-  },
+  }
 }
 // Мутации
 const mutations = {

@@ -6,7 +6,7 @@
               <ul>
                 <li><a href="#">Объявления</a></li>
                 <li v-for="category in service.categories" :key="category.id">
-                  <a v-if="category.name" href="#">{{ category.name.ru }}</a></li>
+                  <router-link v-if="category.name" :to="{name: 'cat', params: {id: category.id}}">{{ category.name.ru }}</router-link></li>
 
                 <li v-if="service.title">{{ service.title.ru }}</li>
               </ul>
@@ -32,11 +32,12 @@
                       <div class="swiper-container gallery-top">
                         <!--v-for="(image, index) in service.media" v-bind:key="image.id"-->
                         <div class="swiper-wrapper">
-                          <div class="swiper-slide">
+                          <div v-if="service.media[0]" class="swiper-slide">
                               <!--<img  alt="">-->
                               <img v-if="activeImage === 0" :src="service.media[0].thumb_512" alt="">
                               <img v-else :src="currentImage" alt="">
                           </div>
+                          <img v-else src="../assets/images/no_image_placeholder.jpg" class="swiper-slide" alt="">
                         </div>
                       </div>
                     </div>
@@ -72,11 +73,11 @@
                       <p v-if="service.user" ><strong>{{ service.user.full_name }}</strong></p>
                       <div class="rating">
                         <ul class="rating">
-                          <li class="star"><i @click="addRating(service.id,account.user.user_id,1)" class="fas fa-star"></i></li>
-                          <li class="star"><i class="fas fa-star"></i></li>
-                          <li class="star"><i class="fas fa-star"></i></li>
-                          <li class="star"><i class="fas fa-star"></i></li>
-                          <li class="star"><i class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:1})" class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:2})" class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:3})" class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:4})" class="fas fa-star"></i></li>
+                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:5})" class="fas fa-star"></i></li>
                         </ul>
                       </div>
                     </div>

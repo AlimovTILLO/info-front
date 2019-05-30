@@ -18,6 +18,9 @@ import {
   ADD_SERVICE_REQUEST,
   ADD_SERVICE_SUCCESS,
   ADD_SERVICE_FAILURE,
+  ADD_RATING_REQUEST,
+  ADD_RATING_SUCCESS,
+  ADD_RATING_FAILURE,
   DELETE_ACTIVE_SERVICE_REQUEST,
   DELETE_ACTIVE_SERVICE_SUCCESS,
   DELETE_ACTIVE_SERVICE_FAILURE,
@@ -125,6 +128,23 @@ const actions = {
         },
         error => {
           commit('ADD_SERVICE_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
+      )
+  },
+  addRating ({ dispatch, commit }, {service, user, rating}) {
+    commit('ADD_RATING_REQUEST', service)
+
+    Main.addRating(service, user, rating)
+      .then(
+        service => {
+          commit('ADD_RATING_SUCCESS', service)
+          setTimeout(() => {
+            dispatch('alert/success', service, { root: true })
+          })
+        },
+        error => {
+          commit('ADD_RATING_FAILURE', error)
           dispatch('alert/error', error, { root: true })
         }
       )
@@ -266,6 +286,15 @@ const mutations = {
     state.status = {}
   },
   [ADD_SERVICE_FAILURE] (state) {
+    state.status = {}
+  },
+  [ADD_RATING_REQUEST] (state) {
+    state.status = {}
+  },
+  [ADD_RATING_SUCCESS] (state) {
+    state.status = {}
+  },
+  [ADD_RATING_FAILURE] (state) {
     state.status = {}
   },
   [DELETE_ACTIVE_SERVICE_REQUEST] (state, id) {

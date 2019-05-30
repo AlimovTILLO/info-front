@@ -95,7 +95,6 @@ export const Main = {
     })
   },
   addRating (serviceId, userId, rating) {
-    alert(123)
     return HTTP.post(`${serviceId}/service/${userId}/user?rating=${rating}`).then(response => {
       return response.data
     })
