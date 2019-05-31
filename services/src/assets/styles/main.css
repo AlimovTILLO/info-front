@@ -4210,7 +4210,13 @@ button {
 }
 
 .service .secondaryAdv .swiper-slide {
-  box-shadow: none
+  box-shadow: none;
+  max-width: 200px
+}
+
+.service .secondaryAdv .swiper-slide img {
+  width: 100%;
+  max-width: 200px
 }
 
 .service .secondaryAdv .swiper-button-next,

@@ -247,7 +247,7 @@ const mutations = {
     state.service = { loading: true }
   },
   [GET_SERVICE_BY_ID_SUCCESS] (state, service) {
-    state.service = { service: service.service }
+    state.service = service
   },
   [GET_SERVICE_BY_ID_FAILURE] (state, error) {
     state.service = { error }
