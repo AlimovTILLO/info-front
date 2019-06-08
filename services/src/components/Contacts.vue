@@ -3,7 +3,7 @@
         <div class="container">
           <div class="breadCrumbs">
             <ul>
-              <li><a href="#">Главная</a></li>
+              <li><router-link to="/">Главная</router-link></li>
               <li>Контакты</li>
             </ul>
           </div>

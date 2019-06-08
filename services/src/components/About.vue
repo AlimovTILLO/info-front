@@ -1,6 +1,7 @@
 <template>
   <div class="about">
-        <div class="about__wrap" style="background-image:url('../assets/images/about/Mask-Group.jpg')">
+        <div class="about__wrap" :style="{'background-image': 'url(' + require('../assets/images/about/about.jpg') + ')'}">
+        <!-- <div class="about__wrap" style="background-image:url('../assets/images/about/about.jpg')"> -->
           <div class="container">
             <div class="about__captionWrap">
               <h2>ishu.info</h2><span>Аукцион объявлений №1 в Кыргызстане</span>

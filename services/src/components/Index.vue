@@ -33,7 +33,7 @@
               placeholder="Опишите услугу, например: Нужен сантехник для ремонта водопровода, заменить 2 смесителя, прочистить сливы..."
             ></textarea>
             <i v-show="errors.has('textarea')"></i>
-            <span v-show="errors.has('textarea')" class="help is-danger">Поле "Опиания" обязательно для заполнения.</span>
+            <span v-show="errors.has('textarea')" class="help is-danger">Поле "Описание" обязательно для заполнения.</span>
             <div class="filter__selectWrap">
               <div class="row">
                 <div class="col-md-7">
@@ -47,7 +47,7 @@
                       <p v-on:click="AddSectionItem(category)">{{ category.name.ru }}</p>
                     </div>
                     <i v-show="errors.has('category')"></i>
-                    <span v-show="section.length === 0" class="help is-danger">Поле "category" обязательно для заполнения.</span>
+                    <span v-show="section.length === 0 && categoryClicked > 0" class="help is-danger">Категории обязательны для заполнения.</span>
                 </div>
                 <div class="col-md-5">
                   <!-- <div class="filter__select filter__select--city">
@@ -81,7 +81,7 @@
               autocomplete="off"
             >
             <i v-show="errors.has('phone')"></i>
-            <span v-show="errors.has('phone')" class="help is-danger">Поле телефона обязательно для заполнения.</span>
+            <span v-show="errors.has('phone')" class="help is-danger">Номер телефона обязателен для заполнения.</span>
             <div class="filter__inputFile">
               <div class="uploadbutton">
                 <div class="input-file-text"><i class="fal fa-paperclip"></i>Прикрепить фото</div>
@@ -94,7 +94,7 @@
             </div>
             <div ref="nav" class="filter__buttonWrap">
               <!-- <button type="submit" class="btn">Предварительный просмотр</button> -->
-              <button class="btn">Оставить заявку</button>
+              <button v-on:click="addCategoryClicked()" class="btn">Оставить заявку</button>
             </div>
           </form>
         </div>
@@ -186,6 +186,7 @@ export default {
       isSectionsItemActive: false,
       submitted: false,
       files: [],
+      categoryClicked: 0,
       section: [],
       city: [
         { name: 'Бишкек', id: '10' },
@@ -258,7 +259,7 @@ export default {
             this.city_value = ''
             e.preventDefault()
           }
-          this.errors.clear()
+          // this.errors.clear()
         }
       })
     },
@@ -270,6 +271,9 @@ export default {
     },
     removeFile (key) {
       this.files.splice(key, 1)
+    },
+    addCategoryClicked () {
+      this.categoryClicked += 1
     }
   }
 }

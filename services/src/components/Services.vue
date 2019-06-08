@@ -67,7 +67,7 @@
                     </div>
                     <ul class="privat__adInfoControlBtns">
                       <li><i @click="playService(service.id)" class="fal fa-play"></i></li>
-                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="showModal" class="fal fa-edit"></i></li>
                       <li><i @click="deleteInactiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
@@ -97,20 +97,24 @@
           </div>
         </div>
       </div>
+      <modal v-show="isModalVisible" @close="closeModal"/>
   </div>
 </template>
 
 <script>
+import UpdateService from './UpdateService.vue'
 import pagination from './Pagination.vue'
 import { mapState, mapActions } from 'vuex'
 
 export default {
   name: 'Services',
   components: {
-    pagination
+    'pagination': pagination,
+    'modal': UpdateService
   },
   data () {
     return {
+      isModalVisible: false,
       choice: 'active'
     }
   },
@@ -159,6 +163,12 @@ export default {
     },
     fetchAwaitingService () {
       this.getAwaitingServiceByUserId({ id: this.account.user.user_id, page: this.awaitingservices.current_page })
+    },
+    showModal () {
+      this.isModalVisible = true
+    },
+    closeModal () {
+      this.isModalVisible = false
     }
   }
 }
