@@ -73,11 +73,21 @@
                       <p v-if="service.user" ><strong>{{ service.user.full_name }}</strong></p>
                       <div class="rating">
                         <ul class="rating">
-                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:1})" class="fas fa-star"></i></li>
-                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:2})" class="fas fa-star"></i></li>
-                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:3})" class="fas fa-star"></i></li>
-                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:4})" class="fas fa-star"></i></li>
-                          <li class="star"><i @click="addRating({service: service.id, user:account.user.user_id, rating:5})" class="fas fa-star"></i></li>
+                          <li class="star">
+                            <i @click="addRating({service: service.id, user:account.user.user_id, rating:1})" class="fas fa-star" title="Ужасно"></i>
+                          </li>
+                          <li class="star">
+                            <i @click="addRating({service: service.id, user:account.user.user_id, rating:2})" class="fas fa-star" title="Плохо"></i>
+                          </li>
+                          <li class="star">
+                            <i @click="addRating({service: service.id, user:account.user.user_id, rating:3})" class="fas fa-star" title="Нормальо"></i>
+                          </li>
+                          <li class="star">
+                            <i @click="addRating({service: service.id, user:account.user.user_id, rating:4})" class="fas fa-star" title="Хорошо"></i>
+                          </li>
+                          <li class="star">
+                            <i @click="addRating({service: service.id, user:account.user.user_id, rating:5})" class="fas fa-star" title="Отлично"></i>
+                          </li>
                         </ul>
                       </div>
                     </div>
@@ -98,8 +108,8 @@
             <div class="secondaryAdv">
               <h2 class="caption caption--secondCap">Похожие объявления</h2>
               <div class="swiper-container serviceSlider-js">
-                <div class="swiper-wrapper">
-                  <div v-for="service in relatedServices" v-bind:key="service.id" class="swiper-slide">
+                <div class="swiper-wrapper" style="" :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')',transition: 'all 1s'}">
+                  <div v-for="service in relatedServices" v-bind:key="service.id" :class="window.width < 575 ? 'swiper-minimal' : ''" class="swiper-slide" :style="{ paddingRight: padding + 'px' }">
                     <div class="ad__items">
                       <a href="#" class="ad__img">
                         <img v-if="service.main_image" :src="service.main_image.thumb_256" alt="">
@@ -109,11 +119,11 @@
                           <p>30%</p>
                         </div> -->
                       </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
+                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }} Width: {{ window.width }}</a>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
-                          <ul>
-                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                          <ul class="rating">
+                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class1="fas fa-star"></i></li>
                             <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
@@ -125,14 +135,13 @@
                   </div>
                 </div>
               </div>
-              <div class="swiper-button-prev"><i class="fal fa-angle-left"></i></div>
-              <div class="swiper-button-next"><i class="fal fa-angle-right"></i></div>
+              <div class="swiper-button-prev" @click="moveCarousel(-1)" :disabled="atHeadOfList"><i class="fal fa-angle-left"></i></div>
+              <div class="swiper-button-next" @click="moveCarousel(1)" :disabled="atEndOfList"><i class="fal fa-angle-right"></i></div>
             </div>
           </div>
         </div>
       </div>
 </template>
-
 <script>
 import { mapState, mapActions } from 'vuex'
 
@@ -146,17 +155,36 @@ export default {
     }),
     currentImage () {
       return this.activeImage
+    },
+    atEndOfList () {
+      return this.currentOffset <= (this.paginationFactor * -1) * (this.relatedServices.length - this.windowSize)
+    },
+    atHeadOfList () {
+      return this.currentOffset === 0
     }
   },
   data () {
     return {
       choice: '',
       isShowing: false,
-      activeImage: 0
+      activeImage: 0,
+      currentOffset: 0,
+      windowSize: 5,
+      paginationFactor: 220,
+      relatedServicesLength: 0,
+      window: {
+        width: 0
+      },
+      padding: 20
     }
   },
   created () {
     this.getServiceById(this.$route.params.id)
+    window.addEventListener('resize', this.handleResize)
+    this.handleResize()
+  },
+  destroyed () {
+    window.removeEventListener('resize', this.handleResize)
   },
   watch: {
     $route (to, from) {
@@ -171,6 +199,22 @@ export default {
     }),
     activateImage (imageIndex) {
       this.activeImage = imageIndex
+    },
+    moveCarousel (direction) {
+      // alert(123)
+      // Find a more elegant way to express the :style. consider using props to make it truly generic
+      if (direction === 1 && !this.atEndOfList) {
+        this.currentOffset -= this.paginationFactor
+      } else if (direction === -1 && !this.atHeadOfList) {
+        this.currentOffset += this.paginationFactor
+      }
+    },
+    handleResize () {
+      this.window.width = window.innerWidth
+      this.padding = 20
+      if (this.window.width < 575) {
+        this.padding = 20
+      }
     }
   }
 }
