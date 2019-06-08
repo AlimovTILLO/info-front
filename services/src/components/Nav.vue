@@ -36,7 +36,9 @@
                   </div>
                 </div>
                 <a v-if="status.loggedIn === true" href="#" class="autorization__profile registration-js">
+                  <img v-if="user.main_image" :src="user.main_image.thumb_256" alt="">
                   <svg
+                  v-if="!user.main_image"
                   xmlns="http://www.w3.org/2000/svg"
                   width="30"
                   height="37"
@@ -86,6 +88,7 @@ export default {
   computed: {
     ...mapState({
       status: state => state.account.status,
+      user: state => state.account.user || [],
       account: state => state.account,
       items: state => state.items,
       categories: state => state.items.all.categories || []

@@ -5,6 +5,9 @@ import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
   LOGIN_FAILURE,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_FAILURE,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
   REGISTER_FAILURE,
@@ -29,6 +32,23 @@ const actions = {
         },
         error => {
           commit('LOGIN_FAILURE', error)
+          dispatch('alert/error', error, { root: true })
+        }
+      )
+  },
+  updateProfile ({ dispatch, commit }, { user, id }) {
+    commit('UPDATE_PROFILE_REQUEST', user)
+
+    User.updateProfile(user, id)
+      .then(
+        user => {
+          commit('UPDATE_PROFILE_SUCCESS', user.data)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно обновлено', { root: true })
+          })
+        },
+        error => {
+          commit('UPDATE_PROFILE_FAILURE', error)
           dispatch('alert/error', error, { root: true })
         }
       )
@@ -68,6 +88,17 @@ const mutations = {
   [LOGIN_FAILURE] (state) {
     state.status = { loggedIn: false }
     state.user = null
+  },
+  [UPDATE_PROFILE_REQUEST] (state, user) {
+    state.user = user
+  },
+  [UPDATE_PROFILE_SUCCESS] (state, user) {
+    state.user = user
+    localStorage.removeItem('user')
+    localStorage.setItem('user', JSON.stringify(user))
+  },
+  [UPDATE_PROFILE_FAILURE] (state, error) {
+    state.status = { error }
   },
   [LOGOUT] (state) {
     state.status = { loggedIn: false }

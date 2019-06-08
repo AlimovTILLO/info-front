@@ -16,7 +16,8 @@ export const User = {
       .then(handleResponse)
       .then(response => {
         if (response.data.api_token) {
-          localStorage.setItem('user', JSON.stringify(response.data))
+          let data = {'user_id': response.data.user_id, 'full_name': response.data.full_name, 'main_image': response.data.main_image, 'api_token': response.data.api_token, 'email': response.data.email, 'phone': response.data.phone}
+          localStorage.setItem('user', JSON.stringify(data))
         }
         return response.data
       })
@@ -31,9 +32,10 @@ export const User = {
     })
   },
   register (config) {
-    return HTTP.post('/auth/register/', config).then(response => {
-      return response.data
-    })
+    return HTTP.post('/auth/register/', config)
+      .then(response => {
+        return response.data
+      })
   }
 }
 

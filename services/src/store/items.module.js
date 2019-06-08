@@ -4,12 +4,6 @@ import {
   CONFIRM_EMAIL_REQUEST,
   CONFIRM_EMAIL_SUCCESS,
   CONFIRM_EMAIL_FAILURE,
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  GET_USER_FAILURE,
-  UPDATE_PROFILE_REQUEST,
-  UPDATE_PROFILE_SUCCESS,
-  UPDATE_PROFILE_FAILURE,
   GET_MAIN_REQUEST,
   GET_MAIN_SUCCESS,
   GET_MAIN_FAILURE,
@@ -44,7 +38,6 @@ import {
 
 const state = {
   сonfirm: '',
-  profile: [],
   main: {},
   all: {},
   ads: {},
@@ -66,31 +59,6 @@ const actions = {
       .then(
         сonfirm => commit('CONFIRM_EMAIL_SUCCESS', сonfirm),
         error => commit('CONFIRM_EMAIL_FAILURE', error)
-      )
-  },
-  getUser ({ commit }, id) {
-    commit('GET_USER_REQUEST')
-    User.getUser(id)
-      .then(
-        user => commit('GET_USER_SUCCESS', user),
-        error => commit('GET_USER_FAILURE', error)
-      )
-  },
-  updateProfile ({ dispatch, commit }, { profile, id }) {
-    commit('UPDATE_PROFILE_REQUEST', profile)
-
-    User.updateProfile(profile, id)
-      .then(
-        profile => {
-          commit('UPDATE_PROFILE_SUCCESS', profile)
-          setTimeout(() => {
-            dispatch('alert/success', 'Успешно обновлено', { root: true })
-          })
-        },
-        error => {
-          commit('UPDATE_PROFILE_FAILURE', error)
-          dispatch('alert/error', error, { root: true })
-        }
       )
   },
   getMain ({ commit }) {
@@ -213,24 +181,6 @@ const mutations = {
   },
   [CONFIRM_EMAIL_FAILURE] (state, error) {
     state.сonfirm = { error }
-  },
-  [GET_USER_REQUEST] (state, user) {
-    state.profile = user
-  },
-  [GET_USER_SUCCESS] (state, user) {
-    state.profile = user
-  },
-  [GET_USER_FAILURE] (state, error) {
-    state.profile = { error }
-  },
-  [UPDATE_PROFILE_REQUEST] (state, profile) {
-    state.profile = profile
-  },
-  [UPDATE_PROFILE_SUCCESS] (state, profile) {
-    state.profile = profile
-  },
-  [UPDATE_PROFILE_FAILURE] (state, error) {
-    state.profile = { error }
   },
   [GET_MAIN_REQUEST] (state) {
     state.main = { loading: true }

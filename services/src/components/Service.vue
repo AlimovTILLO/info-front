@@ -112,7 +112,7 @@
                       <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
-                          <ul class="rating">
+                          <ul>
                             <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
