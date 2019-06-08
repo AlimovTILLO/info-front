@@ -1,4 +1,4 @@
-// import { authHeader } from '../helpers'
+import { authHeader } from '../helpers'
 import { HTTP } from './common'
 export const Main = {
   getMain () {
@@ -25,7 +25,10 @@ export const Main = {
     })
   },
   getServiceById (id) {
-    return HTTP.get(`/service/${id}/`).then(response => {
+    let config = {
+      headers: authHeader()
+    }
+    return HTTP.get(`/service/${id}/`, config).then(response => {
       return response.data
     })
   },
@@ -91,6 +94,11 @@ export const Main = {
   },
   playPauseService (id) {
     return HTTP.get(`/service/${id}/stop`).then(response => {
+      return response.data
+    })
+  },
+  upService (id) {
+    return HTTP.get(`/service/${id}/up`).then(response => {
       return response.data
     })
   },

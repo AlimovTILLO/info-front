@@ -35,7 +35,7 @@
                 <div v-show="isActiveTab('active')">
                   <div v-for="service in activeservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
                     <div class="privat__adInfo">
-                      <p class="privat__adInfoDate">{{ service.created_at }}</p>
+                      <p class="privat__adInfoDate">Дата создании: {{ service.created_at }}<br><span v-show="service.up"> Дата обнавлении: {{ service.up }}</span></p>
                       <div class="privat__category">
                         <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
                           <p>{{ category.name.ru}}</p>
@@ -45,6 +45,7 @@
                       <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                     </div>
                     <ul class="privat__adInfoControlBtns">
+                      <li><i @click="upService(service.id)" class="fal fa-undo-alt"></i></li>
                       <li><i @click="pauseService(service.id)" class="fal fa-pause"></i></li>
                       <li><i class="fal fa-edit"></i></li>
                       <li><i @click="deleteActiveService(service.id)" class="fal fa-times"></i></li>
@@ -133,7 +134,8 @@ export default {
       deleteInactiveService: 'deleteInactiveService',
       deleteAwaitingService: 'deleteAwaitingService',
       pauseService: 'pauseService',
-      playService: 'playService'
+      playService: 'playService',
+      upService: 'upService'
     }),
     makeActive (val) {
       this.choice = val

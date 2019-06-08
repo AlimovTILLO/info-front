@@ -33,6 +33,9 @@ import {
   PAUSE_SERVICE_REQUEST,
   PAUSE_SERVICE_SUCCESS,
   PAUSE_SERVICE_FAILURE,
+  UP_SERVICE_REQUEST,
+  UP_SERVICE_SUCCESS,
+  UP_SERVICE_FAILURE,
   PLAY_SERVICE_REQUEST,
   PLAY_SERVICE_SUCCESS,
   PLAY_SERVICE_FAILURE
@@ -230,6 +233,23 @@ const actions = {
           dispatch('alert/error', error, { root: true })
         }
       )
+  },
+  upService ({ dispatch, commit }, id) {
+    commit('UP_SERVICE_REQUEST', id)
+
+    Main.upService(id)
+      .then(
+        service => {
+          commit('UP_SERVICE_SUCCESS', service)
+          setTimeout(() => {
+            dispatch('alert/success', 'Успешно поднято', { root: true })
+          })
+        },
+        error => {
+          commit('UP_SERVICE_FAILURE', { id, error: error.toString() })
+          dispatch('alert/error', error, { root: true })
+        }
+      )
   }
 }
 // Мутации
@@ -371,6 +391,25 @@ const mutations = {
         return { ...serviceCopy, deleteError: error }
       }
       return service
+    })
+  },
+  [UP_SERVICE_REQUEST] (state, id) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice =>
+      activeservice.id === id
+        ? { ...activeservice, deleting: true }
+        : activeservice
+    )
+  },
+  [UP_SERVICE_SUCCESS] (state, service) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.filter(activeservice => activeservice === service)
+  },
+  [UP_SERVICE_FAILURE] (state, { id, error }) {
+    state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice => {
+      if (activeservice.id === id) {
+        const { deleting, ...serviceCopy } = activeservice
+        return { ...serviceCopy, deleteError: error }
+      }
+      return activeservice
     })
   },
   [PLAY_SERVICE_REQUEST] (state, id) {

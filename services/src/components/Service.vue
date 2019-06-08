@@ -72,7 +72,7 @@
                       <p v-if="service.title">{{ service.title.ru }}</p>
                       <p v-if="service.user" ><strong>{{ service.user.full_name }}</strong></p>
                       <div class="rating">
-                        <ul class="rating">
+                        <ul v-if="service.voted === false" class="rating">
                           <li class="star">
                             <i @click="addRating({service: service.id, user:account.user.user_id, rating:1})" class="fas fa-star" title="Ужасно"></i>
                           </li>
@@ -89,6 +89,13 @@
                             <i @click="addRating({service: service.id, user:account.user.user_id, rating:5})" class="fas fa-star" title="Отлично"></i>
                           </li>
                         </ul>
+                        <ul v-if="service.voted === true">
+                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            <li :style="service.rating >= 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                          </ul>
                       </div>
                     </div>
                   </div>
@@ -119,11 +126,11 @@
                           <p>30%</p>
                         </div> -->
                       </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }} Width: {{ window.width }}</a>
+                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
                         <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
                         <div class="rating">
                           <ul class="rating">
-                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class1="fas fa-star"></i></li>
+                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
                             <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
