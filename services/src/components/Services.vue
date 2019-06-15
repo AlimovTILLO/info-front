@@ -47,7 +47,7 @@
                     <ul class="privat__adInfoControlBtns">
                       <li><i @click="upService(service.id)" class="fal fa-undo-alt"></i></li>
                       <li><i @click="pauseService(service.id)" class="fal fa-pause"></i></li>
-                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="showModal(service.id)" class="fal fa-edit"></i></li>
                       <li><i @click="deleteActiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
@@ -67,7 +67,7 @@
                     </div>
                     <ul class="privat__adInfoControlBtns">
                       <li><i @click="playService(service.id)" class="fal fa-play"></i></li>
-                      <li><i @click="showModal" class="fal fa-edit"></i></li>
+                      <li><i @click="showModal(service.id)" class="fal fa-edit"></i></li>
                       <li><i @click="deleteInactiveService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
@@ -86,7 +86,7 @@
                       <img v-if="service.main_image" :src="service.main_image.thumb_128" alt="" width="55" style="margin-top:7px">
                     </div>
                     <ul class="privat__adInfoControlBtns">
-                      <li><i class="fal fa-edit"></i></li>
+                      <li><i @click="showModal(service.id)" class="fal fa-edit"></i></li>
                       <li><i @click="deleteAwaitingService(service.id)" class="fal fa-times"></i></li>
                     </ul>
                   </div>
@@ -97,7 +97,7 @@
           </div>
         </div>
       </div>
-      <modal v-show="isModalVisible" @close="closeModal"/>
+      <modal v-show="isModalVisible" :id="id" @close="closeModal"/>
   </div>
 </template>
 
@@ -115,6 +115,7 @@ export default {
   data () {
     return {
       isModalVisible: false,
+      id: null,
       choice: 'active'
     }
   },
@@ -164,8 +165,9 @@ export default {
     fetchAwaitingService () {
       this.getAwaitingServiceByUserId({ id: this.account.user.user_id, page: this.awaitingservices.current_page })
     },
-    showModal () {
+    showModal (id) {
       this.isModalVisible = true
+      this.id = id
     },
     closeModal () {
       this.isModalVisible = false

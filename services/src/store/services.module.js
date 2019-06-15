@@ -400,9 +400,9 @@ const mutations = {
         : activeservice
     )
   },
-  [UP_SERVICE_SUCCESS] (state, { id, service }) {
+  [UP_SERVICE_SUCCESS] (state, service) {
     state.activeservices.userServices.data = state.activeservices.userServices.data.map(activeservice => {
-      if (activeservice.id === id) {
+      if (activeservice.id === service.id) {
         activeservice = service
       }
       return activeservice
