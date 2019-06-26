@@ -35,7 +35,7 @@
                 <div v-show="isActiveTab('active')">
                   <div v-for="service in activeservices.data" v-bind:key="service.id" class="privat__adInfoWrap">
                     <div class="privat__adInfo">
-                      <p class="privat__adInfoDate">Дата создании: {{ service.created_at }}<br><span v-show="service.up"> Дата обнавлении: {{ service.up }}</span></p>
+                      <p class="privat__adInfoDate">Дата создания: {{ service.created_at }}<br><span v-show="service.up"> Дата обновления: {{ service.up }}</span></p>
                       <div class="privat__category">
                         <div v-for="category in service.categories" v-bind:key="category.id" class="privat__categoryItem">
                           <p>{{ category.name.ru}}</p>

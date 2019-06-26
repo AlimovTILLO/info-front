@@ -8,7 +8,7 @@
         <form @submit.prevent="handleSubmit">
           <input
             type="text"
-            v-model="service.title"
+            v-model="service.title.ru"
             name="title"
             class="filter__input"
             placeholder="Название услуги. Например: Пилю дрова"
@@ -19,7 +19,7 @@
           <textarea
             name="textarea"
             rows="2"
-            v-model="service.textarea"
+            v-model="service.desc.ru"
             v-validate="'required'"
             class="filter__textarea"
             required
@@ -153,6 +153,7 @@
             <br>
           </div>
           <p>{{id}}</p>
+          <p>{{service.title.ru}}</p>
           <div class="filter__buttonWrap">
             <!-- <button type="submit" class="btn">Предварительный просмотр</button> -->
             <button class="btn">Обновить услугу</button>
@@ -185,6 +186,7 @@ export default {
     return {
       isSectionsItemActive: false,
       title: null,
+      // titlee: this.service,
       textarea: null,
       phone: null,
       section: [],

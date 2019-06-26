@@ -143,6 +143,7 @@
                         <img src="images/bookmark.png" alt>
                       </div>
                       <img v-if="service.main_image" :src="service.main_image.thumb_256" alt>
+                      <img v-else src="../assets/images/no_image_placeholder.jpg" alt>
                       <!-- <div class="ad__discount">
                         <h3>СКИДКА</h3>
                         <p>30%</p>

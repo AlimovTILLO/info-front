@@ -30,7 +30,7 @@ export default {
       ? this.notification.timeout
       : true
     if (timeout) {
-      let delay = this.notification.delay || 3000
+      let delay = this.notification.delay || 4000
       this.timer = setTimeout(
         function () {
           this.triggerClose(this.notification)

@@ -2673,7 +2673,7 @@ button {
 .autorization__profile {
   max-width: 40px;
   width: 100%;
-  min-height: 40px;
+  height: 40px;
   background-color: #333;
   border-radius: 100%;
   overflow: hidden;

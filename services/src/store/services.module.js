@@ -87,6 +87,7 @@ const actions = {
       )
   },
   getAwaitingServiceByUserId ({ commit }, { id, page }) {
+    // alert(page)
     commit('GET_AWAITING_SERVICE_BY_USER_ID_REQUEST')
     Main.getAwaitingServiceByUserId(id, page)
       .then(
@@ -143,7 +144,10 @@ const actions = {
         service => {
           commit('ADD_RATING_SUCCESS', service)
           setTimeout(() => {
-            dispatch('alert/success', service, { root: true })
+            dispatch('alert/success', service[0].original.message, { root: true })
+            console.log(service)
+            console.log(state.service)
+            console.log(service[0].original.message)
           })
         },
         error => {

@@ -118,27 +118,32 @@
                 <div class="swiper-wrapper" style="" :style="{ transform: 'translateX' + '(' + currentOffset + 'px' + ')',transition: 'all 1s'}">
                   <div v-for="service in relatedServices" v-bind:key="service.id" :class="window.width < 575 ? 'swiper-minimal' : ''" class="swiper-slide" :style="{ paddingRight: padding + 'px' }">
                     <div class="ad__items">
-                      <a href="#" class="ad__img">
-                        <img v-if="service.main_image" :src="service.main_image.thumb_256" alt="">
-                        <img v-else src="../assets/images/no_image_placeholder.jpg" alt="">
-                        <!-- <div class="ad__discount">
-                          <h3>СКИДКА</h3>
-                          <p>30%</p>
-                        </div> -->
-                      </a>
-                      <div class="ad__desc"><a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
-                        <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
-                        <div class="rating">
-                          <ul class="rating">
-                            <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                            <li :style="service.rating >= 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
-                          </ul>
+                        <router-link class="ad__img" :to="{name: 'service', params: {id: service.id}}">
+<!--                          <a href="#" class="ad__img">-->
+                            <img v-if="service.main_image" :src="service.main_image.thumb_256" alt="">
+                            <img v-else src="../assets/images/no_image_placeholder.jpg" alt="">
+                          <!-- <div class="ad__discount">
+                            <h3>СКИДКА</h3>
+                            <p>30%</p>
+                          </div> -->
+<!--                          </a>-->
+                        </router-link>
+                        <div class="ad__desc">
+                          <router-link class="ad__img" :to="{name: 'service', params: {id: service.id}}">
+                          <a href="#" class="ad__itemCaption">{{ service.title.ru }}</a>
+                          </router-link>
+                          <p class="ad__price"><span></span>{{ service.price }} {{ service.currency }}</p>
+                          <div class="rating">
+                            <ul class="rating">
+                              <li :style="service.rating >= 1 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                              <li :style="service.rating >= 2 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                              <li :style="service.rating >= 3 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                              <li :style="service.rating >= 4 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                              <li :style="service.rating >= 5 ? 'color: #ed8a19' : 'color: #c4c4c4'" class="star"><i class="fas fa-star"></i></li>
+                            </ul>
+                          </div>
                         </div>
                       </div>
-                    </div>
                   </div>
                 </div>
               </div>
